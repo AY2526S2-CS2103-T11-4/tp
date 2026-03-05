@@ -17,23 +17,17 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](https://github.com/iamqz)]
 
-* Role: Developer, Project Advisor
-* Responsibilities: Overall Project Coordination
+* Role: Team Lead, Scheduling & Deliverables
+* Responsibilities: Overall project coordination, defining, allocating and tracking tasks, ensuring tasks are done on time and in the right format
 
 ### Nguyen Huy Dat (Andrew)
 
 <img src="images/andrew250402.png" width="200px">
 
-[[github](http://github.com/andrew250402)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/andrew250402)]
 
-### Sherman Liam
-
-<img src="images/siimen111.png" width="200px">
-
-[[github](http://github.com/Siimen111)]
-
-* Role: Developer
-* Responsibilities: Data
+* Role: Documentation, Code Quality
+* Responsibilities: Quality of various project documents, ensuring adherence to coding standards and code quality
 
 ### Ronald Pang
 
@@ -41,5 +35,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/frrostyboi)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Role: Code Quality, Integration
+* Responsibilities: Versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole
+
+### Sherman Liam
+
+<img src="images/siimen111.png" width="200px">
+
+[[github](http://github.com/Siimen111)]
+
+* Role: Testing
+* Responsibilities: Ensuring the various features and components of the project work as intended
