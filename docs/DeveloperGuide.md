@@ -352,11 +352,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  The GUI shall function correctly on screen resolutions **1920x1080 and above at 100% and 125% scaling** and remain usuable on screen resolutions **1280x720 and above at 150% scaling**, although the user experience may not be optimal. 
+5.  All application data shall be stored locally in human-editable text files.
+6.  The system shall not use a DBMS for data storage.
+7.  The system shall primarily follow the object-oriented programming paradigm.
+8.  The system shall evolve from the provided existing codebase, with changes implemented incrementally while maintaining a working system.
+9. The application shall be packaged into a single executable JAR file.
+10. The final packaged application shall not exceed 100MB in size.
+11.  The system shall function without depending on a remote server
+12. The application shall not requre users to install additional software dependencies
+13. The User Guide and Developer Guide shall be PDF-friendly and avoid interactive elements such as expandable panels or embedded videos.
 
 *{More to be added}*
 
 ### Glossary
 
+* **GUI**: A visual interface that allows users to interact with the application using graphical elements such as windows, buttons, icons, and menus instead of typing commands.
+* **JAR file**: A packaged file format used to distribute Java applications. It bundles compiled Java classes and resources into a single executable file.
+* **Object-Oriented Programming**: A programming paradigm based on organizing code into objects that contain data and behavior.
 * **Resident**: A person whose record is managed by the application.
 * **Resident Assistants (RAs)**: The primary target user of the application, responsible for resident welfare and administrative follow-up.
 * **Command**: A text instruction entered by the user to perform an action in the app.
