@@ -1,8 +1,8 @@
 {
   "baseUrl": "",
   "titlePrefix": "QuickLookup",
-  "titleSuffix": "AddressBook Level-3",
-  "faviconPath": "images/SeEduLogo.png",
+  "titleSuffix": "QuickLookup",
+  "faviconPath": "images/QuickLookupIcon.png",
   "style": {
     "codeTheme": "light"
   },
@@ -25,5 +25,6 @@
   "deploy": {
     "message": "Site Update."
   },
-  "timeZone": "Asia/Singapore"
+  "timeZone": "Asia/Singapore",
+  "locale": "en-SG"
 }
