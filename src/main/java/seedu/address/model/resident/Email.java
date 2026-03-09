@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.resident;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
