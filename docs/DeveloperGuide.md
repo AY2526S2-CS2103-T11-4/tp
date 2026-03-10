@@ -320,30 +320,100 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the System is the QuickLookup and the Actor is the user, unless specified otherwise)
 
-**Use case: Delete a resident**
+Use case: UC1 - Start the Application
 
-**MSS**
+Precondition: User has downloaded the JAR file and has java 17 configured locally
 
-1.  User requests to list residents
-2.  AddressBook shows a list of residents
-3.  User requests to delete a specific resident in the list
-4.  AddressBook deletes the resident
+MSS
+
+1.  User runs the jar file.
+2.  System converts a list of Residents from a text file.
+3.  System displays the list of Residents.
 
     Use case ends.
 
-**Extensions**
+Extensions
 
-* 2a. The list is empty.
+* 2a. No text file found.
+    * 2a1. System creates a new text file.
 
-  Use case ends.
+      Use case resumes at step 3.
 
 * 3a. The given index is invalid.
 
     * 3a1. AddressBook shows an error message.
 
       Use case resumes at step 2.
+
+<br>
+
+Use case: UC2 - List all the Residents
+
+Precondition: User has started the application
+
+MSS
+
+1.  User requests for the list of Residents.
+2.  System displays the list of Residents.
+
+    Use case ends.
+
+Extensions
+
+* 2a. System has no Residents to display.
+    * 2a1. System prompt User with a message to indicate that the list of Residents is empty.
+
+      Use case ends.
+
+<br>
+
+Use Case: UC3 - Add a new Resident
+
+Precondition: User has started the application
+
+MSS
+
+1. User adds the information via the command line for the new Resident.
+2. System creates the new Resident (new Resident object).
+3. System adds the new Resident.
+4. System displays the list of Residents.
+
+   Use case ends.
+
+Extensions
+
+* 1a. System detects invalid or missing inputs.
+    * 1a1. System prompts User with a message of the error.
+    * 1a2. User reenters the information and resubmits via the command line.
+
+      Steps 1a1-1a2 are repeated until the information entered is correct.
+
+      Use case resumes from step 2.
+
+<br>
+
+Use Case: UC4 - Delete a new Resident
+
+Precondition: User has started the application and the Resident to be deleted is in the list of Residents
+
+MSS
+1. User requests for the list of Residents (UC2)
+2. User requests for the deletion of a Resident.
+3. System deletes the specified Resident from the list and the storage (text file)
+4. System displays the new list of Residents.
+
+   Use case ends.
+
+Extensions
+* 2a. System detects invalid or missing input.
+    * 2a1. System prompts User with a message of the error.
+    * 2a2. User reenters the command with the index and resubmits via command line.
+
+      Steps 2a1-2a2 are repeated until the command inputted is valid.
+
+      Use case resumes from step 3.
 
 *{More to be added}*
 
