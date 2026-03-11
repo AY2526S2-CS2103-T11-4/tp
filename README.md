@@ -2,15 +2,77 @@
 
 ![Ui](docs/images/Ui.png)
 
-* This is **a sample project for Software Engineering (SE) students**.<br>
-  Example usages:
-  * as a starting point of a course project (as opposed to writing everything from scratch)
-  * as a case study
-* The project simulates an ongoing software project for a desktop application (called _AddressBook_) used for managing contact details.
-  * It is **written in OOP fashion**. It provides a **reasonably well-written** code base **bigger** (around 6 KLoC) than what students usually write in beginner-level SE modules, without being overwhelmingly big.
-  * It comes with a **reasonable level of user and developer documentation**.
-* It is named `AddressBook Level 3` (`AB3` for short) because it was initially created as a part of a series of `AddressBook` projects (`Level 1`, `Level 2`, `Level 3` ...).
-* For the detailed documentation of this project, see the **[Address Book Product Website](https://se-education.org/addressbook-level3)**.
+# QuickLookup
+
+**QuickLookup** is a desktop application for managing a list of residents, optimized for users who prefer fast keyboard input via a **Command Line Interface (CLI)** while still providing a **Graphical User Interface (GUI)** for visual feedback.
+
+It allows users to quickly **add, remove, and view residents** in a locally stored list.
+
+---
+
+## Target Users
+
+QuickLookup is designed for users who:
+
+- Need to quickly look up residents in a list
+- Prefer typing commands instead of navigating through menus
+- Want a lightweight desktop application for managing simple resident records
+- Do not require multi-user functionality or cloud-based storage
+
+---
+
+## Features
+
+### View All Residents
+Users can view the full list of currently registered residents.
+
+### Add Residents
+Users can add new residents to the list using a command.
+
+### Delete Residents
+Users can remove residents from the list if they are no longer relevant or were added incorrectly.
+
+### Persistent Storage
+Resident data is automatically stored in a **local text file**, allowing the list to persist between application runs.
+
+---
+
+## How It Works
+
+When the application starts:
+
+1. The system loads resident data from a **text file**.
+2. If the file does not exist, the system automatically creates a new one.
+3. The current list of residents is displayed in the GUI.
+
+Users can then interact with the application by typing commands into the command box.
+
+---
+
+## Requirements
+
+- **Java 17**
+- Any modern operating system:
+  - Windows
+  - macOS
+  - Linux
+
+No installation is required. Simply download and run the JAR file.
+
+---
+
+## Storage
+
+QuickLookup stores all resident data in a **human-editable text file**.  
+Advanced users may modify this file directly if necessary.
+
+---
+
+## Project Status
+
+This project is currently under active development as part of a **software engineering course project**. Features will be added incrementally throughout the development process.
+
+---
 
 **Acknowledgements**
 
