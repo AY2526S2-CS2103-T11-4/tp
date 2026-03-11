@@ -17,7 +17,6 @@ QuickLookup is designed for users who:
 - Need to quickly look up residents in a list
 - Prefer typing commands instead of navigating through menus
 - Want a lightweight desktop application for managing simple resident records
-- Do not require multi-user functionality or cloud-based storage
 
 ---
 
@@ -33,7 +32,7 @@ Users can add new residents to the list using a command.
 Users can remove residents from the list if they are no longer relevant or were added incorrectly.
 
 ### Persistent Storage
-Resident data is automatically stored in a **local text file**, allowing the list to persist between application runs.
+Resident data is automatically stored, allowing the list to persist between application runs.
 
 ---
 
@@ -41,8 +40,8 @@ Resident data is automatically stored in a **local text file**, allowing the lis
 
 When the application starts:
 
-1. The system loads resident data from a **text file**.
-2. If the file does not exist, the system automatically creates a new one.
+1. The system loads resident data from the storage system.
+2. If the storage system does not exist, the system automatically creates a new one.
 3. The current list of residents is displayed in the GUI.
 
 Users can then interact with the application by typing commands into the command box.
@@ -63,8 +62,8 @@ No installation is required. Simply download and run the JAR file.
 
 ## Storage
 
-QuickLookup stores all resident data in a **human-editable text file**.  
-Advanced users may modify this file directly if necessary.
+QuickLookup stores all resident data in a storage system.  
+Advanced users may modify the storage directly if necessary.
 
 ---
 
