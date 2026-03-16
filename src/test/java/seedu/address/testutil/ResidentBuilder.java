@@ -1,15 +1,9 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import seedu.address.model.resident.Address;
-import seedu.address.model.resident.Email;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
+import seedu.address.model.resident.UnitNumber;
 
 /**
  * A utility class to help with building Person objects.
@@ -18,39 +12,32 @@ public class ResidentBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_ADDRESS = "28/3/E";
 
     private Name name;
     private Phone phone;
-    private Email email;
-    private Address address;
-    private Set<Tag> tags;
+    private UnitNumber unitNumber;
 
     /**
-     * Creates a {@code PersonBuilder} with the default details.
+     * Creates a {@code ResidentBuilder} with the default details.
      */
     public ResidentBuilder() {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
-        email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
+        unitNumber = new UnitNumber(DEFAULT_ADDRESS);
     }
 
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the ResidentBuilder with the data of {@code residentToCopy}.
      */
     public ResidentBuilder(Resident residentToCopy) {
         name = residentToCopy.getName();
         phone = residentToCopy.getPhone();
-        email = residentToCopy.getEmail();
-        address = residentToCopy.getAddress();
-        tags = new HashSet<>(residentToCopy.getTags());
+        unitNumber = residentToCopy.getUnitNumber();
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code Name} of the {@code Resident} that we are building.
      */
     public ResidentBuilder withName(String name) {
         this.name = new Name(name);
@@ -58,39 +45,24 @@ public class ResidentBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Sets the {@code UnitNumber} of the {@code Resident} that we are building.
      */
-    public ResidentBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public ResidentBuilder withUnitNumber(String address) {
+        this.unitNumber = new UnitNumber(address);
         return this;
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
-     */
-    public ResidentBuilder withAddress(String address) {
-        this.address = new Address(address);
-        return this;
-    }
-
-    /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Phone} of the {@code Resident} that we are building.
      */
     public ResidentBuilder withPhone(String phone) {
         this.phone = new Phone(phone);
         return this;
     }
 
-    /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
-     */
-    public ResidentBuilder withEmail(String email) {
-        this.email = new Email(email);
-        return this;
-    }
 
     public Resident build() {
-        return new Resident(name, phone, email, address, tags);
+        return new Resident(name, phone, unitNumber);
     }
 
 }

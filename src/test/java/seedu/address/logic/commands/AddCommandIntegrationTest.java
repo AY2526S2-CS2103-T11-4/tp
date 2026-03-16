@@ -31,7 +31,7 @@ public class AddCommandIntegrationTest {
         Resident validResident = new ResidentBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addPerson(validResident);
+        expectedModel.addResident(validResident);
 
         assertCommandSuccess(new AddCommand(validResident), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validResident)),

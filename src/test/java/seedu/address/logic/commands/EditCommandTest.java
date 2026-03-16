@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
@@ -45,29 +44,28 @@ public class EditCommandTest {
                 Messages.format(editedResident));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedResident);
+        expectedModel.setResident(model.getFilteredResidentList().get(0), editedResident);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
-        Resident lastResident = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
+        Index indexLastPerson = Index.fromOneBased(model.getFilteredResidentList().size());
+        Resident lastResident = model.getFilteredResidentList().get(indexLastPerson.getZeroBased());
 
         ResidentBuilder personInList = new ResidentBuilder(lastResident);
-        Resident editedResident = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
+        Resident editedResident = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).build();
 
         EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
+                .withPhone(VALID_PHONE_BOB).build();
         EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
                 Messages.format(editedResident));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(lastResident, editedResident);
+        expectedModel.setResident(lastResident, editedResident);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -75,7 +73,7 @@ public class EditCommandTest {
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, new EditResidentDescriptor());
-        Resident editedResident = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Resident editedResident = model.getFilteredResidentList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
                 Messages.format(editedResident));
@@ -89,7 +87,7 @@ public class EditCommandTest {
     public void execute_filteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Resident residentInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Resident residentInFilteredList = model.getFilteredResidentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Resident editedResident = new ResidentBuilder(residentInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditResidentDescriptorBuilder().withName(VALID_NAME_BOB).build());
@@ -98,14 +96,14 @@ public class EditCommandTest {
                 Messages.format(editedResident));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedResident);
+        expectedModel.setResident(model.getFilteredResidentList().get(0), editedResident);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicatePersonUnfilteredList_failure() {
-        Resident firstResident = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Resident firstResident = model.getFilteredResidentList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder(firstResident).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
@@ -126,11 +124,11 @@ public class EditCommandTest {
 
     @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredResidentList().size() + 1);
         EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_RESIDENT_DISPLAYED_INDEX);
     }
 
     /**
@@ -147,7 +145,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
                 new EditResidentDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_RESIDENT_DISPLAYED_INDEX);
     }
 
     @Test

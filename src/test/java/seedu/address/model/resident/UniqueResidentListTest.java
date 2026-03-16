@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalResidents.ALICE;
 import static seedu.address.testutil.TypicalResidents.BOB;
@@ -42,8 +41,7 @@ public class UniqueResidentListTest {
     @Test
     public void contains_personWithSameIdentityFieldsInList_returnsTrue() {
         uniqueResidentList.add(ALICE);
-        Resident editedAlice = new ResidentBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .build();
+        Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
         assertTrue(uniqueResidentList.contains(editedAlice));
     }
 
@@ -74,7 +72,7 @@ public class UniqueResidentListTest {
     }
 
     @Test
-    public void setPerson_editedPersonIsSamePerson_success() {
+    public void setPerson_editedPersonIsSameResident_success() {
         uniqueResidentList.add(ALICE);
         uniqueResidentList.setPerson(ALICE, ALICE);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
@@ -85,8 +83,7 @@ public class UniqueResidentListTest {
     @Test
     public void setPerson_editedPersonHasSameIdentity_success() {
         uniqueResidentList.add(ALICE);
-        Resident editedAlice = new ResidentBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .build();
+        Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
         uniqueResidentList.setPerson(ALICE, editedAlice);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(editedAlice);

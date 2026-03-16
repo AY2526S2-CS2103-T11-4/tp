@@ -14,8 +14,8 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_INVALID_RESIDENT_DISPLAYED_INDEX = "The resident index provided is invalid";
+    public static final String MESSAGE_RESIDENTS_LISTED_OVERVIEW = "%1$d residents listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
@@ -32,19 +32,15 @@ public class Messages {
     }
 
     /**
-     * Formats the {@code person} for display to the user.
+     * Formats the {@code resident} for display to the user.
      */
     public static String format(Resident resident) {
         final StringBuilder builder = new StringBuilder();
         builder.append(resident.getName())
                 .append("; Phone: ")
                 .append(resident.getPhone())
-                .append("; Email: ")
-                .append(resident.getEmail())
-                .append("; Address: ")
-                .append(resident.getAddress())
-                .append("; Tags: ");
-        resident.getTags().forEach(builder::append);
+                .append("; UnitNumber: ")
+                .append(resident.getUnitNumber());
         return builder.toString();
     }
 

@@ -13,14 +13,14 @@ import seedu.address.model.resident.exceptions.ResidentNotFoundException;
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not allow nulls.
- * A person is considered unique by comparing using {@code Person#isSamePerson(Person)}. As such, adding and updating of
- * persons uses Person#isSamePerson(Person) for equality so as to ensure that the person being added or updated is
+ * A person is considered unique by comparing using {@code Person#isSameResident(Person)}. As such, adding and updating
+ * of persons uses Person#isSameResident(Person) for equality so as to ensure that the person being added or updated is
  * unique in terms of identity in the UniquePersonList. However, the removal of a person uses Person#equals(Object) so
  * as to ensure that the person with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
- * @see Resident#isSamePerson(Resident)
+ * @see Resident#isSameResident(Resident)
  */
 public class UniqueResidentList implements Iterable<Resident> {
 
@@ -33,7 +33,7 @@ public class UniqueResidentList implements Iterable<Resident> {
      */
     public boolean contains(Resident toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSamePerson);
+        return internalList.stream().anyMatch(toCheck::isSameResident);
     }
 
     /**
@@ -61,7 +61,7 @@ public class UniqueResidentList implements Iterable<Resident> {
             throw new ResidentNotFoundException();
         }
 
-        if (!target.isSamePerson(editedResident) && contains(editedResident)) {
+        if (!target.isSameResident(editedResident) && contains(editedResident)) {
             throw new DuplicateResidentException();
         }
 
@@ -140,7 +140,7 @@ public class UniqueResidentList implements Iterable<Resident> {
     private boolean personsAreUnique(List<Resident> residents) {
         for (int i = 0; i < residents.size() - 1; i++) {
             for (int j = i + 1; j < residents.size(); j++) {
-                if (residents.get(i).isSamePerson(residents.get(j))) {
+                if (residents.get(i).isSameResident(residents.get(j))) {
                     return false;
                 }
             }

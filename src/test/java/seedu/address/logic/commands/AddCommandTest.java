@@ -119,7 +119,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addPerson(Resident resident) {
+        public void addResident(Resident resident) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -134,22 +134,22 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Resident resident) {
+        public boolean hasResident(Resident resident) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deletePerson(Resident target) {
+        public void deleteResident(Resident target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setPerson(Resident target, Resident editedResident) {
+        public void setResident(Resident target, Resident editedResident) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Resident> getFilteredPersonList() {
+        public ObservableList<Resident> getFilteredResidentList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -176,9 +176,9 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Resident resident) {
+        public boolean hasResident(Resident resident) {
             requireNonNull(resident);
-            return this.resident.isSamePerson(resident);
+            return this.resident.isSameResident(resident);
         }
     }
 
@@ -189,13 +189,13 @@ public class AddCommandTest {
         final ArrayList<Resident> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPerson(Resident resident) {
+        public boolean hasResident(Resident resident) {
             requireNonNull(resident);
-            return personsAdded.stream().anyMatch(resident::isSamePerson);
+            return personsAdded.stream().anyMatch(resident::isSameResident);
         }
 
         @Override
-        public void addPerson(Resident resident) {
+        public void addResident(Resident resident) {
             requireNonNull(resident);
             personsAdded.add(resident);
         }

@@ -1,17 +1,11 @@
 package seedu.address.testutil;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditResidentDescriptor;
-import seedu.address.model.resident.Address;
-import seedu.address.model.resident.Email;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.resident.UnitNumber;
 
 /**
  * A utility class to help with building EditPersonDescriptor objects.
@@ -29,15 +23,13 @@ public class EditResidentDescriptorBuilder {
     }
 
     /**
-     * Returns an {@code EditPersonDescriptor} with fields containing {@code person}'s details
+     * Returns an {@code EditResidentDescriptor} with fields containing {@code resident}'s details
      */
     public EditResidentDescriptorBuilder(Resident resident) {
         descriptor = new EditResidentDescriptor();
         descriptor.setName(resident.getName());
         descriptor.setPhone(resident.getPhone());
-        descriptor.setEmail(resident.getEmail());
-        descriptor.setAddress(resident.getAddress());
-        descriptor.setTags(resident.getTags());
+        descriptor.setUnitNumber(resident.getUnitNumber());
     }
 
     /**
@@ -57,30 +49,13 @@ public class EditResidentDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditResidentDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(new Email(email));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code UnitNumber} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditResidentDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(new Address(address));
+        descriptor.setUnitNumber(new UnitNumber(address));
         return this;
     }
 
-    /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
-     * that we are building.
-     */
-    public EditResidentDescriptorBuilder withTags(String... tags) {
-        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
-        descriptor.setTags(tagSet);
-        return this;
-    }
 
     public EditCommand.EditResidentDescriptor build() {
         return descriptor;
