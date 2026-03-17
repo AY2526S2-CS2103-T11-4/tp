@@ -43,16 +43,11 @@ public class SortCommand extends Command {
     }
 
     private Comparator<Resident> getComparator() {
-        switch (sortField) {
-        case NAME:
-            return Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
-        case PHONE:
-            return Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
-        case UNIT_NO:
-            return Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
-        default:
-            throw new AssertionError("Unknown sort field: " + sortField);
-        }
+        return switch (sortField) {
+        case NAME -> Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
+        case PHONE -> Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
+        case UNIT_NO -> Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
+        };
     }
 
     @Override

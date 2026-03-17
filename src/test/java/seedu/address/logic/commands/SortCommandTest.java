@@ -114,4 +114,11 @@ public class SortCommandTest {
     private void assertResidentOrder(List<Resident> actualResidents, Resident... expectedResidents) {
         assertEquals(Arrays.asList(expectedResidents), actualResidents);
     }
+
+    @Test
+    public void toStringMethod() {
+        SortCommand sortCommand = new SortCommand(NAME);
+        String expected = SortCommand.class.getCanonicalName() + "{sortField=" + NAME + "}";
+        assertEquals(expected, sortCommand.toString());
+    }
 }
