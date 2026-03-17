@@ -19,6 +19,7 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredResidentsList(PREDICATE_SHOW_ALL_RESIDENTS);
+        model.resetSortedResidentsList();
 
         if (!model.hasListEntries()) {
             return new CommandResult(MESSAGE_EMPTY);

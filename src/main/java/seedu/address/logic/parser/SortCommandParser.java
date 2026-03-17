@@ -26,8 +26,8 @@ public class SortCommandParser implements Parser<SortCommand> {
             return new SortCommand(SortCommand.SortField.NAME);
         case "phone":
             return new SortCommand(SortCommand.SortField.PHONE);
-        case "block":
-            return new SortCommand(SortCommand.SortField.BLOCK);
+        case "unit":
+            return new SortCommand(SortCommand.SortField.UNIT_NO);
         default:
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE)

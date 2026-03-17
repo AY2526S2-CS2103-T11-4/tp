@@ -2,8 +2,11 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Comparator;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.Model;
+import seedu.address.model.resident.Resident;
 
 /**
  * Sorts the displayed list of residents by the specified field.
@@ -14,11 +17,10 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Sorted all residents";
     public static final String MESSAGE_EMPTY = "No residents found; to add, use the ‘add’ command";
-    public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Sort command not implemented yet";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts the displayed list of residents by the specified "
             + "field.\n"
-            + "Parameters: FIELD (must be one of: name, phone, block)\n"
+            + "Parameters: FIELD (must be one of: name, phone, unit)\n"
             + "Example: " + COMMAND_WORD + " name";
     private final SortField sortField;
     /**
@@ -32,7 +34,25 @@ public class SortCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET);
+        if (!model.hasListEntries()) {
+            return new CommandResult(MESSAGE_EMPTY);
+        }
+
+        model.updateSortedResidentsList(getComparator());
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    private Comparator<Resident> getComparator() {
+        switch (sortField) {
+        case NAME:
+            return Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
+        case PHONE:
+            return Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
+        case UNIT_NO:
+            return Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
+        default:
+            throw new AssertionError("Unknown sort field: " + sortField);
+        }
     }
 
     @Override
@@ -62,6 +82,6 @@ public class SortCommand extends Command {
     public enum SortField {
         NAME,
         PHONE,
-        BLOCK
+        UNIT_NO
     }
 }
