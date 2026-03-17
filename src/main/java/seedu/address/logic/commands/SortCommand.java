@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.model.Model;
 
 /**
- * Lists all residents in the address book to the user.
+ * Sorts the displayed list of residents by the specified field.
  */
 public class SortCommand extends Command {
 
