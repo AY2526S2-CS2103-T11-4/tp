@@ -3,9 +3,9 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.SortCommand.SortField.BLOCK;
 import static seedu.address.logic.commands.SortCommand.SortField.NAME;
 import static seedu.address.logic.commands.SortCommand.SortField.PHONE;
+import static seedu.address.logic.commands.SortCommand.SortField.UNIT_NO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +82,7 @@ public class SortCommandTest {
 
     @Test
     public void execute_sortByBlock_showsResidentsInBlockOrder() throws CommandException {
-        SortCommand sortCommand = new SortCommand(BLOCK);
+        SortCommand sortCommand = new SortCommand(UNIT_NO);
 
         CommandResult commandResult = sortCommand.execute(model);
 
