@@ -11,26 +11,27 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.resident.Resident;
 
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of residents.
  */
 public class ResidentListPanel extends UiPart<Region> {
-    private static final String FXML = "PersonListPanel.fxml";
+
+    private static final String FXML = "ResidentListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(ResidentListPanel.class);
 
     @FXML
-    private ListView<Resident> personListView;
+    private ListView<Resident> residentListView;
 
     /**
-     * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
+     * Creates a {@code ResidentListPanel} with the given {@code ObservableList}.
      */
     public ResidentListPanel(ObservableList<Resident> residentList) {
         super(FXML);
-        personListView.setItems(residentList);
-        personListView.setCellFactory(listView -> new ResidentListViewCell());
+        residentListView.setItems(residentList);
+        residentListView.setCellFactory(listView -> new ResidentListViewCell());
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code Resident} using a {@code ResidentCard}.
      */
     class ResidentListViewCell extends ListCell<Resident> {
         @Override
