@@ -44,7 +44,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane residentListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -112,8 +112,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        residentListPanel = new ResidentListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(residentListPanel.getRoot());
+        residentListPanel = new ResidentListPanel(logic.getFilteredResidentList());
+        residentListPanelPlaceholder.getChildren().add(residentListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

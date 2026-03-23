@@ -12,6 +12,7 @@ import static seedu.address.testutil.TypicalResidents.AMY;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
@@ -77,6 +79,47 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void execute_sortCommand_sortsDisplayedResidentList() throws Exception {
+        //Keeping these test residents local until we need more hardening of sort command logic
+        Resident zed = new ResidentBuilder().withName("Zed Tan").withPhone("300").withUnitNumber("Gamma Block").build();
+        Resident amy = new ResidentBuilder().withName("Amy Lim").withPhone("200").withUnitNumber("Alpha Block").build();
+        Resident mike = new ResidentBuilder().withName("Mike Goh").withPhone("100").withUnitNumber("Beta Block")
+                .build();
+        model.addResident(zed);
+        model.addResident(amy);
+        model.addResident(mike);
+
+        CommandResult result = logic.execute(SortCommand.COMMAND_WORD + " name");
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+        assertEquals(Arrays.asList(amy, mike, zed), logic.getFilteredResidentList());
+    }
+
+    @Test
+    public void execute_sortCommandWithoutField_throwsParseException() {
+        assertParseException(SortCommand.COMMAND_WORD,
+                String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void execute_listAfterSort_resetsDisplayedResidentOrder() throws Exception {
+        Resident zed = new ResidentBuilder().withName("Zed Tan").withPhone("300").withUnitNumber("Gamma Block").build();
+        Resident amy = new ResidentBuilder().withName("Amy Lim").withPhone("1000")
+                .withUnitNumber("Alpha Block").build();
+        Resident mike = new ResidentBuilder().withName("Mike Goh").withPhone("200").withUnitNumber("Beta Block")
+                .build();
+        model.addResident(zed);
+        model.addResident(amy);
+        model.addResident(mike);
+
+        logic.execute(SortCommand.COMMAND_WORD + " name");
+        CommandResult result = logic.execute(ListCommand.COMMAND_WORD);
+
+        assertEquals(ListCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+        assertEquals(Arrays.asList(zed, amy, mike), logic.getFilteredResidentList());
+    }
+
+    @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
@@ -89,8 +132,8 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    public void getFilteredResidentList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredResidentList().remove(0));
     }
 
     /**

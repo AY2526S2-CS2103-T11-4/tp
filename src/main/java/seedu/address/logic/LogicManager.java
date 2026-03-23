@@ -67,7 +67,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<Resident> getFilteredPersonList() {
+    public ObservableList<Resident> getFilteredResidentList() {
         return model.getFilteredResidentList();
     }
 

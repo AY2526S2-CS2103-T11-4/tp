@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalResidents.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -162,6 +163,16 @@ public class AddCommandTest {
         public void updateFilteredResidentsList(Predicate<Resident> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void updateSortedResidentsList(Comparator<Resident> comparator) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetSortedResidentsList() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -180,6 +191,8 @@ public class AddCommandTest {
             requireNonNull(resident);
             return this.resident.isSameResident(resident);
         }
+
+
     }
 
     /**

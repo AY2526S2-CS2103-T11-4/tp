@@ -16,19 +16,24 @@ public class HelpWindow extends UiPart<Stage> {
 Available commands:
 
 add: Adds a resident to the address book.
-Format: add n/NAME p/PHONE_NUMBER u/UNIT_NO [t/TAG]...
-Example: add n/John Doe p/98765432 u/02-25 t/friends
+Format: add n/NAME p/PHONE_NUMBER u/UNIT_NO
+Example: add n/John Doe p/98765432 u/02-25
 
-list: Shows all residents.
+list: Shows all residents and resets any active sort.
 Format: list
 
 edit: Edits an existing resident by index.
-Format: edit INDEX [n/NAME] [p/PHONE] [u/UNIT_NO] [t/TAG]...
+Format: edit INDEX [n/NAME] [p/PHONE] [u/UNIT_NO]
 Example: edit 1 p/91234567 u/03-14
 
 find: Finds residents whose names match the given keywords.
 Format: find KEYWORD [MORE_KEYWORDS]...
 Example: find alex david
+
+sort: Sorts the displayed list of residents by the specified field.
+Format: sort FIELD
+Fields: name, phone, unit
+Example: sort name
 
 delete: Deletes a resident by index.
 Format: delete INDEX

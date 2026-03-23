@@ -30,6 +30,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
    Some example commands you can try:
 
    * `list` : Lists all contacts.
+   * `sort name` : Sorts the displayed list of residents by name.
 
    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
@@ -94,8 +95,24 @@ Examples:
 ### Listing all residents : `list`
 
 Shows a list of all residents in the address book.
+This also resets any active sort and returns the displayed list to its default order.
 
 Format: `list`
+
+### Sorting the displayed resident list : `sort`
+
+Sorts the displayed list of residents by the specified field.
+
+Format: `sort FIELD`
+
+* `FIELD` must be one of `name`, `phone`, or `unit`.
+* Sorting affects the currently displayed list of residents.
+* `list` resets the displayed order back to the default order.
+
+Examples:
+* `sort name`
+* `sort phone`
+* `sort unit`
 
 ### Editing a resident : `edit`
 
@@ -189,7 +206,6 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -204,3 +220,4 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
+**Sort**   | `sort FIELD`<br> e.g., `sort name`

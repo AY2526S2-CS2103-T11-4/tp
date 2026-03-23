@@ -11,11 +11,13 @@ import static seedu.address.testutil.TypicalResidents.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.resident.NameContainsKeywordsPredicate;
+import seedu.address.model.resident.Resident;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -128,5 +130,21 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
+    }
+
+    @Test
+    public void equals_resetSortedResidentsList_restoresEquality() {
+        AddressBook addressBook = new AddressBookBuilder().withPerson(BENSON).withPerson(ALICE).build();
+        UserPrefs userPrefs = new UserPrefs();
+
+        modelManager = new ModelManager(addressBook, userPrefs);
+        ModelManager modelManagerCopy = new ModelManager(addressBook, userPrefs);
+
+        modelManager.updateSortedResidentsList(Comparator
+                .comparing((Resident resident) -> resident.getName().fullName));
+        assertFalse(modelManager.equals(modelManagerCopy));
+
+        modelManager.resetSortedResidentsList();
+        assertTrue(modelManager.equals(modelManagerCopy));
     }
 }

@@ -1,18 +1,18 @@
 package seedu.address.ui;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.resident.Resident;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays information of a {@code Resident}.
  */
 public class ResidentCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml";
+    private static final String FXML = "ResidentListCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -31,19 +31,26 @@ public class ResidentCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
+    private ImageView phoneIcon;
+    @FXML
     private Label phone;
+    @FXML
+    private ImageView unitNumberIcon;
     @FXML
     private Label unitNumber;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code ResidentCard} with the given {@code Resident} and index to display.
      */
     public ResidentCard(Resident resident, int displayedIndex) {
         super(FXML);
         this.resident = resident;
+
         id.setText(displayedIndex + ". ");
         name.setText(resident.getName().fullName);
+        phoneIcon.setImage(IconManager.getIcon(Icons.PHONE));
         phone.setText(resident.getPhone().value);
+        unitNumberIcon.setImage(IconManager.getIcon(Icons.UNIT_NUMBER));
         unitNumber.setText(resident.getUnitNumber().value);
     }
 }

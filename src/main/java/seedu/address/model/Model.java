@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -58,8 +59,8 @@ public interface Model {
     boolean hasResident(Resident resident);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Deletes the given resident.
+     * The resident must exist in the address book.
      */
     void deleteResident(Resident target);
 
@@ -70,13 +71,14 @@ public interface Model {
     void addResident(Resident resident);
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
+     * Replaces the given resident {@code target} with {@code editedResident}.
      * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * The resident identity of {@code editedResident}
+     * must not be the same as another existing resident in the address book.
      */
     void setResident(Resident target, Resident editedResident);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /** Returns an unmodifiable view of the filtered resident list */
     ObservableList<Resident> getFilteredResidentList();
 
     /**
@@ -90,4 +92,15 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredResidentsList(Predicate<Resident> predicate);
+
+    /**
+     * Updates the sort order of the displayed residents list using the given {@code comparator}.
+     * @throws NullPointerException if {@code comparator} is null.
+     */
+    void updateSortedResidentsList(Comparator<Resident> comparator);
+
+    /**
+     * Resets the sort order of the displayed residents list.
+     */
+    void resetSortedResidentsList();
 }
