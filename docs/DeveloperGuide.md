@@ -423,7 +423,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 * 1a. User has applied a search filter using find command.
     * 1a1. System copies only the residents matching the search results to the device's clipboard.
-    * 1a2. Use case resumes from step 4.
+    
+      Use case resumes from step 4.
 
 *{More to be added}*
 
