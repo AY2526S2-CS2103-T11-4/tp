@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -12,24 +13,26 @@ import seedu.address.model.Model;
 import seedu.address.model.resident.Resident;
 
 /**
- * Adds a resident to the address book.
+ * Adds a resident to the list.
  */
 public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a resident to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a resident to the list. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
-            + PREFIX_UNIT_NUMBER + "UNIT_NUMBER \n"
+            + PREFIX_UNIT_NUMBER + "UNIT_NUMBER "
+            + "[" + PREFIX_ROLE + "ROLE]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
-            + PREFIX_UNIT_NUMBER + "26/1/Q ";
+            + PREFIX_UNIT_NUMBER + "26/1/A "
+            + PREFIX_ROLE + "HA";
 
     public static final String MESSAGE_SUCCESS = "New resident added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This resident already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_RESIDENT = "This resident already exists in the list";
 
     private final Resident toAdd;
 
@@ -46,7 +49,7 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         if (model.hasResident(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            throw new CommandException(MESSAGE_DUPLICATE_RESIDENT);
         }
 
         model.addResident(toAdd);

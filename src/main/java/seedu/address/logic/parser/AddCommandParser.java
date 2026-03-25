@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
 
 import java.util.stream.Stream;
@@ -12,6 +13,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 /**
@@ -26,9 +28,10 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER, PREFIX_ROLE);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_UNIT_NUMBER, PREFIX_PHONE)
+        // Check mandatory fields (name, phone, unitNumber); role is optional field
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
@@ -38,7 +41,18 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         UnitNumber unitNumber = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_UNIT_NUMBER).get());
 
-        Resident resident = new Resident(name, phone, unitNumber);
+        Resident resident;
+        // IF there is a role is given (including NONE)
+        if (argMultimap.getValue(PREFIX_ROLE).isPresent()) {
+            String roleValue = argMultimap.getValue(PREFIX_ROLE).get();
+            if (!Role.isValidRole(roleValue)) {
+                throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+            }
+            Role role = Role.valueOf(roleValue.toUpperCase());
+            resident = new Resident(name, phone, unitNumber, role);
+        } else {
+            resident = new Resident(name, phone, unitNumber);
+        }
 
         return new AddCommand(resident);
     }
