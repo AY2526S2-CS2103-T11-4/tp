@@ -45,4 +45,22 @@ public class FindCommandParserTest {
         assertParseFailure(parser, "9876 n/Bob", MESSAGE_MIXED_FIND_SYNTAX);
     }
 
+    @Test
+    public void parse_emptyNameField_throwsParseException() {
+        assertParseFailure(parser, "n/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_emptyPhoneField_throwsParseException() {
+        assertParseFailure(parser, "p/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_emptyUnitField_throwsParseException() {
+        assertParseFailure(parser, "u/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
 }

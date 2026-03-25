@@ -55,10 +55,6 @@ public class FindCommandParser implements Parser<FindCommand> {
         List<String> phoneKeywords = parseFieldKeywords(argMultimap.getAllValues(PREFIX_PHONE));
         List<String> unitKeywords = parseFieldKeywords(argMultimap.getAllValues(PREFIX_UNIT_NUMBER));
 
-        if (nameKeywords.isEmpty() && phoneKeywords.isEmpty() && unitKeywords.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-        }
-
         return new FindCommand(new ResidentMatchesFindPredicate(nameKeywords, phoneKeywords, unitKeywords));
     }
 
