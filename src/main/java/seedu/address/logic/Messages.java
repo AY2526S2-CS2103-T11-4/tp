@@ -18,6 +18,9 @@ public class Messages {
     public static final String MESSAGE_RESIDENTS_LISTED_OVERVIEW = "%1$d residents listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_MIXED_FIND_SYNTAX =
+            "Find command cannot mix prefixed and unprefixed search terms. "
+                    + "Use either unprefixed name keywords only, or prefix every search term with n/, p/, or u/.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

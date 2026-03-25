@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.logic.Messages.MESSAGE_MIXED_FIND_SYNTAX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
@@ -33,10 +34,6 @@ import seedu.address.testutil.ResidentBuilder;
  * users should be able to search by name, phone fragment, and unit fragment using prefixes.</p>
  */
 public class FieldedFindCommandTest {
-    private static final String MESSAGE_MIXED_FIND_SYNTAX =
-            "Find command cannot mix prefixed and unprefixed search terms. "
-            + "Use either unprefixed name keywords only, or prefix every search term with n/, p/, or u/.";
-
     @TempDir
     public Path temporaryFolder;
 
@@ -118,8 +115,8 @@ public class FieldedFindCommandTest {
 
         List<Resident> expectedResidents = new ArrayList<>(logic.getFilteredResidentList());
 
-        assertThrows(ParseException.class, MESSAGE_MIXED_FIND_SYNTAX,
-                () -> logic.execute(FindCommand.COMMAND_WORD + " 9876 " + PREFIX_NAME + "Bob"));
+        assertThrows(ParseException.class, MESSAGE_MIXED_FIND_SYNTAX, () ->
+                logic.execute(FindCommand.COMMAND_WORD + " 9876 " + PREFIX_NAME + "Bob"));
         assertEquals(expectedResidents, logic.getFilteredResidentList());
     }
 

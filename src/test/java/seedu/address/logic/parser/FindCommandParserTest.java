@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_MIXED_FIND_SYNTAX;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -10,12 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.resident.NameContainsKeywordsPredicate;
+import seedu.address.model.resident.ResidentMatchesFindPredicate;
 
 public class FindCommandParserTest {
-    private static final String MESSAGE_MIXED_FIND_SYNTAX =
-            "Find command cannot mix prefixed and unprefixed search terms. "
-            + "Use either unprefixed name keywords only, or prefix every search term with n/, p/, or u/.";
-
     private FindCommandParser parser = new FindCommandParser();
 
     @Test
@@ -32,6 +30,14 @@ public class FindCommandParserTest {
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validFieldedArgs_returnsFindCommand() {
+        FindCommand expectedFindCommand = new FindCommand(new ResidentMatchesFindPredicate(
+                Arrays.asList("Alice", "Bob"), Arrays.asList("9876"), Arrays.asList("02-25")));
+
+        assertParseSuccess(parser, "n/Alice Bob p/9876 u/02-25", expectedFindCommand);
     }
 
     @Test

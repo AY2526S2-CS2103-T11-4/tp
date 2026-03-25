@@ -2,10 +2,13 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Predicate;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
+import seedu.address.logic.parser.CliSyntax;
 import seedu.address.model.Model;
-import seedu.address.model.resident.NameContainsKeywordsPredicate;
+import seedu.address.model.resident.Resident;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
@@ -16,13 +19,18 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+            + "the specified keywords or matches the specified fielded criteria and displays them as a list "
+            + "with index numbers.\n"
+            + "Parameters: KEYWORD [MORE_KEYWORDS]... or "
+            + "[" + CliSyntax.PREFIX_NAME + "NAME_KEYWORDS]... "
+            + "[" + CliSyntax.PREFIX_PHONE + "PHONE_FRAGMENT]... "
+            + "[" + CliSyntax.PREFIX_UNIT_NUMBER + "UNIT_FRAGMENT]...\n"
+            + "Examples: " + COMMAND_WORD + " alice bob charlie\n"
+            + "          " + COMMAND_WORD + " n/alice bob p/9876 u/02-25";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final Predicate<Resident> predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(Predicate<Resident> predicate) {
         this.predicate = predicate;
     }
 
