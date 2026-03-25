@@ -54,7 +54,7 @@ public interface Model {
     ReadOnlyAddressBook getAddressBook();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a resident with the same identity as {@code resident} exists in the address book.
      */
     boolean hasResident(Resident resident);
 
@@ -65,8 +65,8 @@ public interface Model {
     void deleteResident(Resident target);
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
+     * Adds the given resident.
+     * {@code resident} must not already exist in the address book.
      */
     void addResident(Resident resident);
 

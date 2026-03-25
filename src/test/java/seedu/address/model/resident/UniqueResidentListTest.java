@@ -23,101 +23,101 @@ public class UniqueResidentListTest {
     private final UniqueResidentList uniqueResidentList = new UniqueResidentList();
 
     @Test
-    public void contains_nullPerson_throwsNullPointerException() {
+    public void contains_nullResident_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueResidentList.contains(null));
     }
 
     @Test
-    public void contains_personNotInList_returnsFalse() {
+    public void contains_residentNotInList_returnsFalse() {
         assertFalse(uniqueResidentList.contains(ALICE));
     }
 
     @Test
-    public void contains_personInList_returnsTrue() {
+    public void contains_residentInList_returnsTrue() {
         uniqueResidentList.add(ALICE);
         assertTrue(uniqueResidentList.contains(ALICE));
     }
 
     @Test
-    public void contains_personWithSameIdentityFieldsInList_returnsTrue() {
+    public void contains_residentWithSameIdentityFieldsInList_returnsTrue() {
         uniqueResidentList.add(ALICE);
         Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
         assertTrue(uniqueResidentList.contains(editedAlice));
     }
 
     @Test
-    public void add_nullPerson_throwsNullPointerException() {
+    public void add_nullResident_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueResidentList.add(null));
     }
 
     @Test
-    public void add_duplicatePerson_throwsDuplicatePersonException() {
+    public void add_duplicateResident_throwsDuplicateResidentException() {
         uniqueResidentList.add(ALICE);
         assertThrows(DuplicateResidentException.class, () -> uniqueResidentList.add(ALICE));
     }
 
     @Test
-    public void setPerson_nullTargetPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueResidentList.setPerson(null, ALICE));
+    public void setResident_nullTargetResident_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueResidentList.setResident(null, ALICE));
     }
 
     @Test
-    public void setPerson_nullEditedPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueResidentList.setPerson(ALICE, null));
+    public void setResident_nullEditedResident_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueResidentList.setResident(ALICE, null));
     }
 
     @Test
-    public void setPerson_targetPersonNotInList_throwsPersonNotFoundException() {
-        assertThrows(ResidentNotFoundException.class, () -> uniqueResidentList.setPerson(ALICE, ALICE));
+    public void setResident_targetResidentNotInList_throwsResidentNotFoundException() {
+        assertThrows(ResidentNotFoundException.class, () -> uniqueResidentList.setResident(ALICE, ALICE));
     }
 
     @Test
-    public void setPerson_editedPersonIsSameResident_success() {
+    public void setResident_editedResidentIsSameResident_success() {
         uniqueResidentList.add(ALICE);
-        uniqueResidentList.setPerson(ALICE, ALICE);
+        uniqueResidentList.setResident(ALICE, ALICE);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(ALICE);
         assertEquals(expectedUniqueResidentList, uniqueResidentList);
     }
 
     @Test
-    public void setPerson_editedPersonHasSameIdentity_success() {
+    public void setResident_editedResidentHasSameIdentity_success() {
         uniqueResidentList.add(ALICE);
         Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
-        uniqueResidentList.setPerson(ALICE, editedAlice);
+        uniqueResidentList.setResident(ALICE, editedAlice);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(editedAlice);
         assertEquals(expectedUniqueResidentList, uniqueResidentList);
     }
 
     @Test
-    public void setPerson_editedPersonHasDifferentIdentity_success() {
+    public void setResident_editedResidentHasDifferentIdentity_success() {
         uniqueResidentList.add(ALICE);
-        uniqueResidentList.setPerson(ALICE, BOB);
+        uniqueResidentList.setResident(ALICE, BOB);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(BOB);
         assertEquals(expectedUniqueResidentList, uniqueResidentList);
     }
 
     @Test
-    public void setPerson_editedPersonHasNonUniqueIdentity_throwsDuplicatePersonException() {
+    public void setResident_editedResidentHasNonUniqueIdentity_throwsDuplicateResidentException() {
         uniqueResidentList.add(ALICE);
         uniqueResidentList.add(BOB);
-        assertThrows(DuplicateResidentException.class, () -> uniqueResidentList.setPerson(ALICE, BOB));
+        assertThrows(DuplicateResidentException.class, () -> uniqueResidentList.setResident(ALICE, BOB));
     }
 
     @Test
-    public void remove_nullPerson_throwsNullPointerException() {
+    public void remove_nullResident_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniqueResidentList.remove(null));
     }
 
     @Test
-    public void remove_personDoesNotExist_throwsPersonNotFoundException() {
+    public void remove_residentDoesNotExist_throwsResidentNotFoundException() {
         assertThrows(ResidentNotFoundException.class, () -> uniqueResidentList.remove(ALICE));
     }
 
     @Test
-    public void remove_existingPerson_removesPerson() {
+    public void remove_existingResident_removesResident() {
         uniqueResidentList.add(ALICE);
         uniqueResidentList.remove(ALICE);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
@@ -125,38 +125,39 @@ public class UniqueResidentListTest {
     }
 
     @Test
-    public void setPersons_nullUniquePersonList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueResidentList.setPersons((UniqueResidentList) null));
+    public void setResidents_nullUniqueResidentList_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueResidentList.setResidents((UniqueResidentList) null));
     }
 
     @Test
-    public void setPersons_uniquePersonList_replacesOwnListWithProvidedUniquePersonList() {
+    public void setResidents_uniqueResidentList_replacesOwnListWithProvidedUniqueResidentList() {
         uniqueResidentList.add(ALICE);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(BOB);
-        uniqueResidentList.setPersons(expectedUniqueResidentList);
+        uniqueResidentList.setResidents(expectedUniqueResidentList);
         assertEquals(expectedUniqueResidentList, uniqueResidentList);
     }
 
     @Test
-    public void setPersons_nullList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueResidentList.setPersons((List<Resident>) null));
+    public void setResidents_nullList_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueResidentList.setResidents((List<Resident>) null));
     }
 
     @Test
-    public void setPersons_list_replacesOwnListWithProvidedList() {
+    public void setResidents_list_replacesOwnListWithProvidedList() {
         uniqueResidentList.add(ALICE);
         List<Resident> residentList = Collections.singletonList(BOB);
-        uniqueResidentList.setPersons(residentList);
+        uniqueResidentList.setResidents(residentList);
         UniqueResidentList expectedUniqueResidentList = new UniqueResidentList();
         expectedUniqueResidentList.add(BOB);
         assertEquals(expectedUniqueResidentList, uniqueResidentList);
     }
 
     @Test
-    public void setPersons_listWithDuplicatePersons_throwsDuplicatePersonException() {
+    public void setResidents_listWithDuplicateResidents_throwsDuplicateResidentException() {
         List<Resident> listWithDuplicateResidents = Arrays.asList(ALICE, ALICE);
-        assertThrows(DuplicateResidentException.class, () -> uniqueResidentList.setPersons(listWithDuplicateResidents));
+        assertThrows(DuplicateResidentException.class, () ->
+                uniqueResidentList.setResidents(listWithDuplicateResidents));
     }
 
     @Test

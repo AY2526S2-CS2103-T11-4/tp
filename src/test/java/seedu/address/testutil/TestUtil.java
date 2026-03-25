@@ -47,9 +47,9 @@ public class TestUtil {
     }
 
     /**
-     * Returns the person in the {@code model}'s person list at {@code index}.
+     * Returns the resident in the {@code model}'s resident list at {@code index}.
      */
-    public static Resident getPerson(Model model, Index index) {
+    public static Resident getResident(Model model, Index index) {
         return model.getFilteredResidentList().get(index.getZeroBased());
     }
 }

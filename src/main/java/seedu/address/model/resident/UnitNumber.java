@@ -22,12 +22,12 @@ public class UnitNumber {
     /**
      * Constructs an {@code UnitNumber}.
      *
-     * @param address A valid unit number.
+     * @param unitNumber A valid unit number.
      */
-    public UnitNumber(String address) {
-        requireNonNull(address);
-        checkArgument(isValidUnitNumber(address), MESSAGE_CONSTRAINTS);
-        value = address;
+    public UnitNumber(String unitNumber) {
+        requireNonNull(unitNumber);
+        checkArgument(isValidUnitNumber(unitNumber), MESSAGE_CONSTRAINTS);
+        value = unitNumber;
     }
 
     /**

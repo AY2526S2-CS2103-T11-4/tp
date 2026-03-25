@@ -1,7 +1,7 @@
 {
-  "persons": [ {
+  "residents": [ {
     "name": "Hans Muster",
-    "phone": "9482424",
+    "phone": "invalid-phone",
     "email": "invalid@email!3e",
     "address": "4th street"
   } ]

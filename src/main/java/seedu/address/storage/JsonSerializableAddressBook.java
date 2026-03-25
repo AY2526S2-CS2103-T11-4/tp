@@ -19,16 +19,20 @@ import seedu.address.model.resident.Resident;
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
 
-    public static final String MESSAGE_DUPLICATE_RESIDENT = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_RESIDENT = "Residents list contains duplicate resident(s).";
 
-    private final List<JsonAdaptedResident> persons = new ArrayList<>();
+    private final List<JsonAdaptedResident> residents = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+     * Constructs a {@code JsonSerializableAddressBook} with the given residents.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedResident> persons) {
-        this.persons.addAll(persons);
+    public JsonSerializableAddressBook(@JsonProperty("residents") List<JsonAdaptedResident> residents,
+            @JsonProperty("persons") List<JsonAdaptedResident> legacyResidents) {
+        List<JsonAdaptedResident> residentsToLoad = residents != null ? residents : legacyResidents;
+        if (residentsToLoad != null) {
+            this.residents.addAll(residentsToLoad);
+        }
     }
 
     /**
@@ -37,7 +41,7 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedResident::new).collect(Collectors.toList()));
+        residents.addAll(source.getResidentList().stream().map(JsonAdaptedResident::new).collect(Collectors.toList()));
     }
 
     /**
@@ -47,12 +51,12 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedResident jsonAdaptedResident : persons) {
+        for (JsonAdaptedResident jsonAdaptedResident : residents) {
             Resident resident = jsonAdaptedResident.toModelType();
-            if (addressBook.hasPerson(resident)) {
+            if (addressBook.hasResident(resident)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_RESIDENT);
             }
-            addressBook.addPerson(resident);
+            addressBook.addResident(resident);
         }
         return addressBook;
     }

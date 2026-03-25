@@ -33,7 +33,7 @@ public class EditResidentDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Name} of the {@code EditResidentDescriptor} that we are building.
      */
     public EditResidentDescriptorBuilder withName(String name) {
         descriptor.setName(new Name(name));
@@ -41,7 +41,7 @@ public class EditResidentDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Phone} of the {@code EditResidentDescriptor} that we are building.
      */
     public EditResidentDescriptorBuilder withPhone(String phone) {
         descriptor.setPhone(new Phone(phone));
@@ -49,7 +49,7 @@ public class EditResidentDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code UnitNumber} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code UnitNumber} of the {@code EditResidentDescriptor} that we are building.
      */
     public EditResidentDescriptorBuilder withAddress(String address) {
         descriptor.setUnitNumber(new UnitNumber(address));

@@ -3,7 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_RESIDENT;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +15,13 @@ import seedu.address.model.resident.UnitNumber;
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
+    private static final String INVALID_UNIT_NUMBER = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
-    private static final String VALID_ADDRESS = "123 Main Street #0505";
+    private static final String VALID_UNIT_NUMBER = "02-25";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
@@ -42,10 +42,10 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_validInput_success() throws Exception {
         // No whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("1"));
+        assertEquals(INDEX_FIRST_RESIDENT, ParserUtil.parseIndex("1"));
 
         // Leading and trailing whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+        assertEquals(INDEX_FIRST_RESIDENT, ParserUtil.parseIndex("  1  "));
     }
 
     @Test
@@ -100,21 +100,21 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseAddress_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseUnitNumber(INVALID_ADDRESS));
+    public void parseUnitNumber_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseUnitNumber(INVALID_UNIT_NUMBER));
     }
 
     @Test
-    public void parseAddress_validValueWithoutWhitespace_returnsUnitNumber() throws Exception {
-        UnitNumber expectedUnitNumber = new UnitNumber(VALID_ADDRESS);
-        assertEquals(expectedUnitNumber, ParserUtil.parseUnitNumber(VALID_ADDRESS));
+    public void parseUnitNumber_validValueWithoutWhitespace_returnsUnitNumber() throws Exception {
+        UnitNumber expectedUnitNumber = new UnitNumber(VALID_UNIT_NUMBER);
+        assertEquals(expectedUnitNumber, ParserUtil.parseUnitNumber(VALID_UNIT_NUMBER));
     }
 
     @Test
-    public void parseAddress_validValueWithWhitespace_returnsTrimmedUnitNumber() throws Exception {
-        String addressWithWhitespace = WHITESPACE + VALID_ADDRESS + WHITESPACE;
-        UnitNumber expectedUnitNumber = new UnitNumber(VALID_ADDRESS);
-        assertEquals(expectedUnitNumber, ParserUtil.parseUnitNumber(addressWithWhitespace));
+    public void parseUnitNumber_validValueWithWhitespace_returnsTrimmedUnitNumber() throws Exception {
+        String unitNumberWithWhitespace = WHITESPACE + VALID_UNIT_NUMBER + WHITESPACE;
+        UnitNumber expectedUnitNumber = new UnitNumber(VALID_UNIT_NUMBER);
+        assertEquals(expectedUnitNumber, ParserUtil.parseUnitNumber(unitNumberWithWhitespace));
     }
 
 }

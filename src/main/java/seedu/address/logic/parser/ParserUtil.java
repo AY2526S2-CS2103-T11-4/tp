@@ -67,10 +67,10 @@ public class ParserUtil {
      */
     public static UnitNumber parseUnitNumber(String unitNumber) throws ParseException {
         requireNonNull(unitNumber);
-        String trimmedAddress = unitNumber.trim();
-        if (!UnitNumber.isValidUnitNumber(trimmedAddress)) {
+        String trimmedUnitNumber = unitNumber.trim();
+        if (!UnitNumber.isValidUnitNumber(trimmedUnitNumber)) {
             throw new ParseException(UnitNumber.MESSAGE_CONSTRAINTS);
         }
-        return new UnitNumber(trimmedAddress);
+        return new UnitNumber(trimmedUnitNumber);
     }
 }

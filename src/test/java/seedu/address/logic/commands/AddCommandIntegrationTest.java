@@ -27,7 +27,7 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newPerson_success() {
+    public void execute_newResident_success() {
         Resident validResident = new ResidentBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -39,10 +39,10 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Resident residentInList = model.getAddressBook().getPersonList().get(0);
+    public void execute_duplicateResident_throwsCommandException() {
+        Resident residentInList = model.getAddressBook().getResidentList().get(0);
         assertCommandFailure(new AddCommand(residentInList), model,
-                AddCommand.MESSAGE_DUPLICATE_PERSON);
+                AddCommand.MESSAGE_DUPLICATE_RESIDENT);
     }
 
 }

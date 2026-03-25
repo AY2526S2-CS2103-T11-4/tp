@@ -39,9 +39,9 @@ public class SortCommandTest {
         mike = new ResidentBuilder().withName("Mike Goh").withPhone("200").withUnitNumber("Beta Block").build();
 
         AddressBook addressBook = new AddressBookBuilder()
-                .withPerson(zed)
-                .withPerson(amy)
-                .withPerson(mike)
+                .withResident(zed)
+                .withResident(amy)
+                .withResident(mike)
                 .build();
 
         model = new ModelManager(addressBook, new UserPrefs());

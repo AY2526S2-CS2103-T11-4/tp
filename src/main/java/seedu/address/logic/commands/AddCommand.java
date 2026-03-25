@@ -29,12 +29,12 @@ public class AddCommand extends Command {
             + PREFIX_UNIT_NUMBER + "26/1/Q ";
 
     public static final String MESSAGE_SUCCESS = "New resident added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This resident already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_RESIDENT = "This resident already exists in the address book";
 
     private final Resident toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an AddCommand to add the specified {@code Resident}
      */
     public AddCommand(Resident resident) {
         requireNonNull(resident);
@@ -46,7 +46,7 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         if (model.hasResident(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            throw new CommandException(MESSAGE_DUPLICATE_RESIDENT);
         }
 
         model.addResident(toAdd);

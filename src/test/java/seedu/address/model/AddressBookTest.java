@@ -27,7 +27,7 @@ public class AddressBookTest {
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), addressBook.getPersonList());
+        assertEquals(Collections.emptyList(), addressBook.getResidentList());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AddressBookTest {
     }
 
     @Test
-    public void resetData_withDuplicatePersons_throwsDuplicatePersonException() {
+    public void resetData_withDuplicateResidents_throwsDuplicateResidentException() {
         // Two persons with the same identity fields
         Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
         List<Resident> newResidents = Arrays.asList(ALICE, editedAlice);
@@ -53,41 +53,41 @@ public class AddressBookTest {
     }
 
     @Test
-    public void hasPerson_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> addressBook.hasPerson(null));
+    public void hasResident_nullResident_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasResident(null));
     }
 
     @Test
-    public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasPerson(ALICE));
+    public void hasResident_residentNotInAddressBook_returnsFalse() {
+        assertFalse(addressBook.hasResident(ALICE));
     }
 
     @Test
-    public void hasPerson_personInAddressBook_returnsTrue() {
-        addressBook.addPerson(ALICE);
-        assertTrue(addressBook.hasPerson(ALICE));
+    public void hasResident_residentInAddressBook_returnsTrue() {
+        addressBook.addResident(ALICE);
+        assertTrue(addressBook.hasResident(ALICE));
     }
 
     @Test
-    public void hasPerson_personWithSameIdentityFieldsInAddressBook_returnsTrue() {
-        addressBook.addPerson(ALICE);
+    public void hasResident_residentWithSameIdentityFieldsInAddressBook_returnsTrue() {
+        addressBook.addResident(ALICE);
         Resident editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
-        assertTrue(addressBook.hasPerson(editedAlice));
+        assertTrue(addressBook.hasResident(editedAlice));
     }
 
     @Test
-    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
+    public void getResidentList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getResidentList().remove(0));
     }
 
     @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{residents=" + addressBook.getPersonList() + "}";
+        String expected = AddressBook.class.getCanonicalName() + "{residents=" + addressBook.getResidentList() + "}";
         assertEquals(expected, addressBook.toString());
     }
 
     /**
-     * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
+     * A stub ReadOnlyAddressBook whose residents list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Resident> residents = FXCollections.observableArrayList();
@@ -97,7 +97,7 @@ public class AddressBookTest {
         }
 
         @Override
-        public ObservableList<Resident> getPersonList() {
+        public ObservableList<Resident> getResidentList() {
             return residents;
         }
     }

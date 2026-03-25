@@ -15,7 +15,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.resident.Resident;
 
 /**
- * A utility class containing a list of {@code Person} objects to be used in tests.
+ * A utility class containing a list of {@code Resident} objects to be used in tests.
  */
 public class TypicalResidents {
 
@@ -40,7 +40,7 @@ public class TypicalResidents {
     public static final Resident IDA = new ResidentBuilder().withName("Ida Mueller").withPhone("8482131")
             .withUnitNumber("chicago ave").build();
 
-    // Manually added - Person's details found in {@code CommandTestUtil}
+    // Manually added - Resident's details found in {@code CommandTestUtil}
     public static final Resident AMY = new ResidentBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
             .withUnitNumber(VALID_ADDRESS_AMY).build();
     public static final Resident BOB = new ResidentBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
@@ -51,17 +51,17 @@ public class TypicalResidents {
     private TypicalResidents() {} // prevents instantiation
 
     /**
-     * Returns an {@code AddressBook} with all the typical persons.
+     * Returns an {@code AddressBook} with all the typical residents.
      */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
-        for (Resident resident : getTypicalPersons()) {
-            ab.addPerson(resident);
+        for (Resident resident : getTypicalResidents()) {
+            ab.addResident(resident);
         }
         return ab;
     }
 
-    public static List<Resident> getTypicalPersons() {
+    public static List<Resident> getTypicalResidents() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
 }

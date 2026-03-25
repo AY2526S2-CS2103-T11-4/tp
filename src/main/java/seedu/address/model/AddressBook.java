@@ -31,7 +31,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons in the {@code toBeCopied}
+     * Creates an AddressBook using the Residents in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -41,11 +41,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the person list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
+     * Replaces the contents of the resident list with {@code residents}.
+     * {@code residents} must not contain duplicate residents.
      */
     public void setResidents(List<Resident> residents) {
-        this.residents.setPersons(residents);
+        this.residents.setResidents(residents);
     }
 
     /**
@@ -54,36 +54,37 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
-        setResidents(newData.getPersonList());
+        setResidents(newData.getResidentList());
     }
 
-    //// person-level operations
+    //// resident-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a resident with the same identity as {@code resident} exists in the address book.
      */
-    public boolean hasPerson(Resident resident) {
+    public boolean hasResident(Resident resident) {
         requireNonNull(resident);
         return residents.contains(resident);
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a resident to the address book.
+     * The resident must not already exist in the address book.
      */
-    public void addPerson(Resident p) {
+    public void addResident(Resident p) {
         residents.add(p);
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * Replaces the given resident {@code target} in the list with {@code editedResident}.
      * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * The resident identity of {@code editedResident} must not be the same
+     * as another existing resident in the address book.
      */
-    public void setPerson(Resident target, Resident editedResident) {
+    public void setResident(Resident target, Resident editedResident) {
         requireNonNull(editedResident);
 
-        residents.setPerson(target, editedResident);
+        residents.setResident(target, editedResident);
     }
 
     /**
@@ -104,7 +105,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableList<Resident> getPersonList() {
+    public ObservableList<Resident> getResidentList() {
         return residents.asUnmodifiableObservableList();
     }
 

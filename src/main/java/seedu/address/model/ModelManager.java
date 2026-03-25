@@ -36,7 +36,7 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredResidents = new FilteredList<>(this.addressBook.getPersonList());
+        filteredResidents = new FilteredList<>(this.addressBook.getResidentList());
         sortedResidents = new SortedList<>(filteredResidents);
     }
 
@@ -94,7 +94,7 @@ public class ModelManager implements Model {
     @Override
     public boolean hasResident(Resident resident) {
         requireNonNull(resident);
-        return addressBook.hasPerson(resident);
+        return addressBook.hasResident(resident);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ModelManager implements Model {
 
     @Override
     public void addResident(Resident resident) {
-        addressBook.addPerson(resident);
+        addressBook.addResident(resident);
         updateFilteredResidentsList(PREDICATE_SHOW_ALL_RESIDENTS);
     }
 
@@ -112,13 +112,13 @@ public class ModelManager implements Model {
     public void setResident(Resident target, Resident editedResident) {
         requireAllNonNull(target, editedResident);
 
-        addressBook.setPerson(target, editedResident);
+        addressBook.setResident(target, editedResident);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Filtered Resident List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Resident} backed by the internal list of
      * {@code versionedAddressBook}
      */
     @Override

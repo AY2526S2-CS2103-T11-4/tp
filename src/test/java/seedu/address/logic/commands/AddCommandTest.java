@@ -29,12 +29,12 @@ import seedu.address.testutil.ResidentBuilder;
 public class AddCommandTest {
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullResident_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_residentAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingResidentAdded modelStub = new ModelStubAcceptingResidentAdded();
         Resident validResident = new ResidentBuilder().build();
 
@@ -42,16 +42,17 @@ public class AddCommandTest {
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validResident)),
                 commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validResident), modelStub.personsAdded);
+        assertEquals(Arrays.asList(validResident), modelStub.residentsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
+    public void execute_duplicateResident_throwsCommandException() {
         Resident validResident = new ResidentBuilder().build();
         AddCommand addCommand = new AddCommand(validResident);
         ModelStub modelStub = new ModelStubWithResident(validResident);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_DUPLICATE_RESIDENT, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -199,18 +200,18 @@ public class AddCommandTest {
      * A Model stub that always accept the resident being added.
      */
     private class ModelStubAcceptingResidentAdded extends ModelStub {
-        final ArrayList<Resident> personsAdded = new ArrayList<>();
+        final ArrayList<Resident> residentsAdded = new ArrayList<>();
 
         @Override
         public boolean hasResident(Resident resident) {
             requireNonNull(resident);
-            return personsAdded.stream().anyMatch(resident::isSameResident);
+            return residentsAdded.stream().anyMatch(resident::isSameResident);
         }
 
         @Override
         public void addResident(Resident resident) {
             requireNonNull(resident);
-            personsAdded.add(resident);
+            residentsAdded.add(resident);
         }
 
         @Override

@@ -1,6 +1,6 @@
 {
-  "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
-  "residents" : [ {
+  "_comment": "Legacy AddressBook save file using the old top-level persons key.",
+  "persons" : [ {
     "name" : "Alice Pauline",
     "phone" : "94351253",
     "unitNumber" : "123, Jurong West Ave 6, #08-111"

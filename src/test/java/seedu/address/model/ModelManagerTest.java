@@ -75,17 +75,17 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPerson_nullResident_throwsNullPointerException() {
+    public void hasResident_nullResident_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.hasResident(null));
     }
 
     @Test
-    public void hasPerson_residentNotInAddressBook_returnsFalse() {
+    public void hasResident_residentNotInAddressBook_returnsFalse() {
         assertFalse(modelManager.hasResident(ALICE));
     }
 
     @Test
-    public void hasPerson_residentInAddressBook_returnsTrue() {
+    public void hasResident_residentInAddressBook_returnsTrue() {
         modelManager.addResident(ALICE);
         assertTrue(modelManager.hasResident(ALICE));
     }
@@ -97,7 +97,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        AddressBook addressBook = new AddressBookBuilder().withResident(ALICE).withResident(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -134,7 +134,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals_resetSortedResidentsList_restoresEquality() {
-        AddressBook addressBook = new AddressBookBuilder().withPerson(BENSON).withPerson(ALICE).build();
+        AddressBook addressBook = new AddressBookBuilder().withResident(BENSON).withResident(ALICE).build();
         UserPrefs userPrefs = new UserPrefs();
 
         modelManager = new ModelManager(addressBook, userPrefs);

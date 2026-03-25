@@ -51,13 +51,25 @@ public class JsonAddressBookStorageTest {
     }
 
     @Test
-    public void readAddressBook_invalidPersonAddressBook_throwDataLoadingException() {
+    public void readAddressBook_invalidResidentAddressBook_throwDataLoadingException() {
         assertThrows(DataLoadingException.class, () -> readAddressBook("invalidPersonAddressBook.json"));
     }
 
     @Test
-    public void readAddressBook_invalidAndValidPersonAddressBook_throwDataLoadingException() {
+    public void readAddressBook_invalidAndValidResidentAddressBook_throwDataLoadingException() {
         assertThrows(DataLoadingException.class, () -> readAddressBook("invalidAndValidPersonAddressBook.json"));
+    }
+
+    @Test
+    public void readAddressBook_legacyPersonsFile_success() throws Exception {
+        ReadOnlyAddressBook readBack = readAddressBook("legacyPersonsAddressBook.json").get();
+        assertEquals(getTypicalAddressBook(), new AddressBook(readBack));
+    }
+
+    @Test
+    public void readAddressBook_legacyAddressFieldFile_success() throws Exception {
+        ReadOnlyAddressBook readBack = readAddressBook("legacyAddressFieldAddressBook.json").get();
+        assertEquals(getTypicalAddressBook(), new AddressBook(readBack));
     }
 
     @Test
@@ -72,14 +84,14 @@ public class JsonAddressBookStorageTest {
         assertEquals(original, new AddressBook(readBack));
 
         // Modify data, overwrite exiting file, and read back
-        original.addPerson(HOON);
+        original.addResident(HOON);
         original.removeResident(ALICE);
         jsonAddressBookStorage.saveAddressBook(original, filePath);
         readBack = jsonAddressBookStorage.readAddressBook(filePath).get();
         assertEquals(original, new AddressBook(readBack));
 
         // Save and read without specifying file path
-        original.addPerson(IDA);
+        original.addResident(IDA);
         jsonAddressBookStorage.saveAddressBook(original); // file path not specified
         readBack = jsonAddressBookStorage.readAddressBook().get(); // file path not specified
         assertEquals(original, new AddressBook(readBack));
