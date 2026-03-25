@@ -131,23 +131,40 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st resident to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd resident to be `Betsy Crower` and clears all existing tags.
 
-### Locating residents by name: `find`
+### Locating residents: `find`
 
-Finds residents whose names contain any of the given keywords.
+Finds residents using either name keywords or fielded search criteria.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format:
+* Name-only search: `find KEYWORD [MORE_KEYWORDS]...`
+* Fielded search: `find [n/NAME_KEYWORDS]... [p/PHONE_FRAGMENT]... [u/UNIT_FRAGMENT]...`
 
+Legacy name search:
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Only full words will be matched. e.g. `Han` will not match `Hans`
+* Residents matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+Fielded search:
+* If any prefix is used, all search terms must be prefixed.
+* `n/` matches resident names as case-insensitive full words.
+* `p/` matches phone numbers by substring.
+* `u/` matches unit numbers by case-insensitive substring.
+* Multiple search terms within the same field are combined using `OR`.
+* Different fields are combined using `AND`.
+* Mixed syntax is invalid.
+  e.g. `find 9876 n/Bob` is not allowed
 
 Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find p/9876` returns residents whose phone numbers contain `9876`
+* `find u/02-25` returns residents whose unit numbers contain `02-25`
+* `find n/Alex p/9876 u/02-25` returns residents matching all three field criteria
+* `find n/alex david` or `find n/alex n/david` returns `Alex Yeoh`, `David Li`
 
 ### Deleting a resident : `delete`
 
@@ -217,7 +234,7 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | `find KEYWORD [MORE_KEYWORDS]...` or `find [n/NAME_KEYWORDS]... [p/PHONE_FRAGMENT]... [u/UNIT_FRAGMENT]...`<br> e.g., `find James Jake`, `find n/James p/2222 u/02-25`
 **List**   | `list`
 **Help**   | `help`
 **Sort**   | `sort FIELD`<br> e.g., `sort name`
