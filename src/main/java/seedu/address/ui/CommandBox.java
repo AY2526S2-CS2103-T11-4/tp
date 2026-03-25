@@ -3,7 +3,9 @@ package seedu.address.ui;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
+import seedu.address.logic.InputHistoryManager;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -14,8 +16,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class CommandBox extends UiPart<Region> {
 
     public static final String ERROR_STYLE_CLASS = "error";
+    public static final String IN_HISTORY_STYLE_CLASS = "in-history";
     private static final String FXML = "CommandBox.fxml";
 
+    private final InputHistoryManager inputHistoryManager;
     private final CommandExecutor commandExecutor;
 
     @FXML
@@ -24,9 +28,11 @@ public class CommandBox extends UiPart<Region> {
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor}.
      */
-    public CommandBox(CommandExecutor commandExecutor) {
+    public CommandBox(InputHistoryManager inputHistoryManager, CommandExecutor commandExecutor) {
         super(FXML);
+        this.inputHistoryManager = inputHistoryManager;
         this.commandExecutor = commandExecutor;
+
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
     }
@@ -50,23 +56,87 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * Handles the key pressed event.
+     */
+    @FXML
+    private void handleKeyPressed(KeyEvent event) {
+        switch (event.getCode()) {
+        case UP:
+            onUpArrowPressed();
+            break;
+        case DOWN:
+            onDownArrowPressed();
+            break;
+        default:
+            // Do nothing
+        }
+    }
+
+    /**
+     * Handles event passing for the up arrow key pressed event.
+     */
+    private void onUpArrowPressed() {
+        commandTextField.setText(inputHistoryManager.retrieveEarlierPastInput());
+        formatInHistoryInputField();
+    }
+
+    /**
+     * Handles event passing for the down arrow key pressed event.
+     */
+    private void onDownArrowPressed() {
+        String input = inputHistoryManager.retrieveLaterPastInput();
+        commandTextField.setText(input);
+        if (input == null) {
+            setStyleToDefault();
+        } else {
+            formatInHistoryInputField();
+        }
+    }
+
+    /**
+     * Applies common formats for the input field when the user is navigating through input history.
+     */
+    private void formatInHistoryInputField() {
+        setStyleToDefault();
+        setStyleToIndicateInHistory();
+        commandTextField.positionCaret(commandTextField.getLength());
+    }
+
+    /**
      * Sets the command box style to use the default style.
      */
     private void setStyleToDefault() {
-        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+        ObservableList<String> styleClasses = commandTextField.getStyleClass();
+
+        styleClasses.remove(ERROR_STYLE_CLASS);
+        styleClasses.remove(IN_HISTORY_STYLE_CLASS);
     }
 
     /**
      * Sets the command box style to indicate a failed command.
      */
     private void setStyleToIndicateCommandFailure() {
-        ObservableList<String> styleClass = commandTextField.getStyleClass();
+        setStyleClass(ERROR_STYLE_CLASS);
+    }
 
-        if (styleClass.contains(ERROR_STYLE_CLASS)) {
+    /**
+     * Sets the command box style to indicate user is navigating through input history
+     */
+    private void setStyleToIndicateInHistory() {
+        setStyleClass(IN_HISTORY_STYLE_CLASS);
+    }
+
+    /**
+     * Toggles the given style class to be enabled on the command field component.
+     *
+     * @param styleClass The style class to toggle on.
+     */
+    private void setStyleClass(String styleClass) {
+        ObservableList<String> styleClasses = commandTextField.getStyleClass();
+        if (styleClasses.contains(styleClass)) {
             return;
         }
-
-        styleClass.add(ERROR_STYLE_CLASS);
+        styleClasses.add(styleClass);
     }
 
     /**
