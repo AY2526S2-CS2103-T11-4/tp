@@ -61,6 +61,7 @@
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
         "deleting-a-resident": "Deleting a resident",
+        "copying-resident-information": "Copying resident information",
         "saving-data": "Saving data"
       },
       "headingKeywords": {}
@@ -115,6 +116,7 @@
         "editing-a-resident-edit": "Editing a resident : edit",
         "locating-residents-by-name-find": "Locating residents by name: find",
         "deleting-a-resident-delete": "Deleting a resident : delete",
+        "copying-resident-information-copy": "Copying resident information : copy",
         "clearing-all-entries-clear": "Clearing all entries : clear",
         "exiting-the-program-exit": "Exiting the program : exit",
         "saving-the-data": "Saving the data",
