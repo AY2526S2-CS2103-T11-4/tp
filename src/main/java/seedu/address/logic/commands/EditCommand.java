@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RESIDENTS;
 
@@ -19,6 +20,7 @@ import seedu.address.model.Model;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 /**
@@ -34,7 +36,8 @@ public class EditCommand extends Command {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_UNIT_NUMBER + "ADDRESS] \n"
+            + "[" + PREFIX_UNIT_NUMBER + "ADDRESS] "
+            + "[" + PREFIX_ROLE + "ROLE]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567";
 
@@ -88,8 +91,9 @@ public class EditCommand extends Command {
         Name updatedName = editResidentDescriptor.getName().orElse(residentToEdit.getName());
         Phone updatedPhone = editResidentDescriptor.getPhone().orElse(residentToEdit.getPhone());
         UnitNumber updatedUnitNumber = editResidentDescriptor.getUnitNumber().orElse(residentToEdit.getUnitNumber());
+        Role updatedRole = editResidentDescriptor.getRole().orElse(residentToEdit.getRole());
 
-        return new Resident(updatedName, updatedPhone, updatedUnitNumber);
+        return new Resident(updatedName, updatedPhone, updatedUnitNumber, updatedRole);
     }
 
     @Override
@@ -124,6 +128,7 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private UnitNumber unitNumber;
+        private Role role;
 
         public EditResidentDescriptor() {}
 
@@ -135,13 +140,14 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setUnitNumber(toCopy.unitNumber);
+            setRole(toCopy.role);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, unitNumber);
+            return CollectionUtil.isAnyNonNull(name, phone, unitNumber, role);
         }
 
         public void setName(Name name) {
@@ -168,6 +174,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(unitNumber);
         }
 
+        public void setRole(Role role) {
+            this.role = role;
+        }
+
+        public Optional<Role> getRole() {
+            return Optional.ofNullable(role);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -182,7 +196,8 @@ public class EditCommand extends Command {
             EditResidentDescriptor otherEditResidentDescriptor = (EditResidentDescriptor) other;
             return Objects.equals(name, otherEditResidentDescriptor.name)
                     && Objects.equals(phone, otherEditResidentDescriptor.phone)
-                    && Objects.equals(unitNumber, otherEditResidentDescriptor.unitNumber);
+                    && Objects.equals(unitNumber, otherEditResidentDescriptor.unitNumber)
+                    && Objects.equals(role, otherEditResidentDescriptor.role);
         }
 
         @Override
@@ -191,6 +206,7 @@ public class EditCommand extends Command {
                     .add("name", name)
                     .add("phone", phone)
                     .add("unitNumber", unitNumber)
+                    .add("role", role)
                     .toString();
         }
     }

@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 
 /**
  * Container for user visible messages.
@@ -44,6 +45,11 @@ public class Messages {
                 .append(resident.getPhone())
                 .append("; UnitNumber: ")
                 .append(resident.getUnitNumber());
+
+        // Add Role (except when Role is NONE)
+        if (resident.getRole() != Role.NONE) {
+            builder.append("; Role: ").append(resident.getRole());
+        }
         return builder.toString();
     }
 

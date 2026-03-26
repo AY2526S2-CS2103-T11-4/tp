@@ -5,6 +5,7 @@ import seedu.address.logic.commands.EditCommand.EditResidentDescriptor;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 /**
@@ -30,6 +31,7 @@ public class EditResidentDescriptorBuilder {
         descriptor.setName(resident.getName());
         descriptor.setPhone(resident.getPhone());
         descriptor.setUnitNumber(resident.getUnitNumber());
+        descriptor.setRole(resident.getRole());
     }
 
     /**
@@ -53,6 +55,14 @@ public class EditResidentDescriptorBuilder {
      */
     public EditResidentDescriptorBuilder withAddress(String address) {
         descriptor.setUnitNumber(new UnitNumber(address));
+        return this;
+    }
+
+    /**
+     * Sets the {@code role} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditResidentDescriptorBuilder withRole(String role) {
+        descriptor.setRole(Role.valueOf(role));
         return this;
     }
 

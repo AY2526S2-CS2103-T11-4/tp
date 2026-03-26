@@ -55,7 +55,8 @@ public class EditResidentDescriptorTest {
         String expected = EditResidentDescriptor.class.getCanonicalName() + "{name="
                 + editResidentDescriptor.getName().orElse(null) + ", phone="
                 + editResidentDescriptor.getPhone().orElse(null) + ", unitNumber="
-                + editResidentDescriptor.getUnitNumber().orElse(null) + "}";
+                + editResidentDescriptor.getUnitNumber().orElse(null) + ", role="
+                + editResidentDescriptor.getRole().orElse(null) + "}";
         assertEquals(expected, editResidentDescriptor.toString());
     }
 }

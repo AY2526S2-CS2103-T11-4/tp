@@ -7,6 +7,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 /**
@@ -72,5 +73,20 @@ public class ParserUtil {
             throw new ParseException(UnitNumber.MESSAGE_CONSTRAINTS);
         }
         return new UnitNumber(trimmedAddress);
+    }
+
+    /**
+     * Parses a {@code String role} into an {@code Role}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code role} is invalid.
+     */
+    public static Role parseRole(String role) throws ParseException {
+        requireNonNull(role);
+        String modifiedRole = role.trim().toUpperCase();
+        if (!Role.isValidRole(modifiedRole)) {
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+        }
+        return Role.valueOf(modifiedRole);
     }
 }

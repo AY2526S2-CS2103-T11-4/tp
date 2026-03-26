@@ -27,6 +27,11 @@
           </minWidth>
         </Label>
         <Label fx:id="name" styleClass="cell_big_label" text="\$name" />
+        <Label fx:id="role" styleClass="cell_small_label"
+                 style="-fx-background-color: #3e7b91;
+               -fx-padding: 1 8 1 8;
+               -fx-border-radius: 100;
+               -fx-background-radius: 50;" />
       </HBox>
          <HBox alignment="CENTER_LEFT" spacing="0.5">
             <children>

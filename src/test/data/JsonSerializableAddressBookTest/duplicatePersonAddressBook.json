@@ -2,10 +2,12 @@
   "persons": [ {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "unitNumber": "123, Jurong West Ave 6, #08-111"
+    "unitNumber": "123, Jurong West Ave 6, #08-111",
+    "role": "HA"
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "unitNumber": "4th street"
+    "unitNumber": "4th street",
+    "role": "FH"
   } ]
 }

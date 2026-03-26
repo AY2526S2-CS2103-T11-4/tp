@@ -15,18 +15,33 @@ public class Resident {
     // Identity fields
     private final Name name;
     private final Phone phone;
+    private final UnitNumber unitNumber;
 
     // Data fields
-    private final UnitNumber unitNumber;
+    private final Role role;
 
     /**
      * Every field must be present and not null.
+     * This constructor is used when a resident has a specific (additional) role.
+     */
+    public Resident(Name name, Phone phone, UnitNumber unitNumber, Role role) {
+        requireAllNonNull(name, phone, unitNumber, role);
+        this.name = name;
+        this.phone = phone;
+        this.unitNumber = unitNumber;
+        this.role = role;
+    }
+
+    /**
+     * Every field must be present and not null.
+     * This constructor is used for resident without a specific role.
      */
     public Resident(Name name, Phone phone, UnitNumber unitNumber) {
         requireAllNonNull(name, phone, unitNumber);
         this.name = name;
         this.phone = phone;
         this.unitNumber = unitNumber;
+        this.role = Role.NONE; // default as Role.NONE
     }
 
     public Name getName() {
@@ -39,6 +54,10 @@ public class Resident {
 
     public UnitNumber getUnitNumber() {
         return unitNumber;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     /**
@@ -72,13 +91,14 @@ public class Resident {
         Resident otherResident = (Resident) other;
         return name.equals(otherResident.name)
                 && phone.equals(otherResident.phone)
-                && unitNumber.equals(otherResident.unitNumber);
+                && unitNumber.equals(otherResident.unitNumber)
+                && role == otherResident.role; // instead of equals
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, unitNumber);
+        return Objects.hash(name, phone, unitNumber, role);
     }
 
     @Override
@@ -87,6 +107,7 @@ public class Resident {
                 .add("name", name)
                 .add("phone", phone)
                 .add("unitNumber", unitNumber)
+                .add("role", role)
                 .toString();
     }
 

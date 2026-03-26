@@ -10,16 +10,19 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 public class JsonAdaptedResidentTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
+    private static final String INVALID_ROLE = "INVALID ROLE";
 
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
     private static final String VALID_ADDRESS = BENSON.getUnitNumber().toString();
+    private static final String VALID_ROLE = BENSON.getRole().role;
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
@@ -30,14 +33,14 @@ public class JsonAdaptedResidentTest {
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedResident person =
-                new JsonAdaptedResident(INVALID_NAME, VALID_PHONE, VALID_ADDRESS);
+                new JsonAdaptedResident(INVALID_NAME, VALID_PHONE, VALID_ADDRESS, VALID_ROLE);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedResident person = new JsonAdaptedResident(null, VALID_PHONE, VALID_ADDRESS);
+        JsonAdaptedResident person = new JsonAdaptedResident(null, VALID_PHONE, VALID_ADDRESS, VALID_ROLE);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -45,14 +48,14 @@ public class JsonAdaptedResidentTest {
     @Test
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedResident person =
-                new JsonAdaptedResident(VALID_NAME, INVALID_PHONE, VALID_ADDRESS);
+                new JsonAdaptedResident(VALID_NAME, INVALID_PHONE, VALID_ADDRESS, VALID_ROLE);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
     @Test
     public void toModelType_nullPhone_throwsIllegalValueException() {
-        JsonAdaptedResident person = new JsonAdaptedResident(VALID_NAME, null, VALID_ADDRESS);
+        JsonAdaptedResident person = new JsonAdaptedResident(VALID_NAME, null, VALID_ADDRESS, VALID_ROLE);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -60,16 +63,23 @@ public class JsonAdaptedResidentTest {
     @Test
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedResident person =
-                new JsonAdaptedResident(VALID_NAME, VALID_PHONE, INVALID_ADDRESS);
+                new JsonAdaptedResident(VALID_NAME, VALID_PHONE, INVALID_ADDRESS, VALID_ROLE);
         String expectedMessage = UnitNumber.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
-        JsonAdaptedResident person = new JsonAdaptedResident(VALID_NAME, VALID_PHONE, null);
+        JsonAdaptedResident person = new JsonAdaptedResident(VALID_NAME, VALID_PHONE, null, VALID_ROLE);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, UnitNumber.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidRole_throwsIllegalValueException() {
+        JsonAdaptedResident resident = new JsonAdaptedResident(VALID_NAME, VALID_PHONE, VALID_ADDRESS, INVALID_ROLE);
+        String expectedMessage = Role.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, resident::toModelType);
     }
 
 }

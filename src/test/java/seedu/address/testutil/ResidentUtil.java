@@ -2,6 +2,7 @@ package seedu.address.testutil;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
 
 import seedu.address.logic.commands.AddCommand;
@@ -25,9 +26,10 @@ public class ResidentUtil {
      */
     public static String getPersonDetails(Resident resident) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + resident.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + resident.getPhone().value + " ");
-        sb.append(PREFIX_UNIT_NUMBER + resident.getUnitNumber().value + " ");
+        sb.append(PREFIX_NAME).append(resident.getName().fullName).append(" ");
+        sb.append(PREFIX_PHONE).append(resident.getPhone().value).append(" ");
+        sb.append(PREFIX_UNIT_NUMBER).append(resident.getUnitNumber().value).append(" ");
+        sb.append(PREFIX_ROLE).append(resident.getRole().name());
         return sb.toString();
     }
 
@@ -40,6 +42,7 @@ public class ResidentUtil {
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
         descriptor.getUnitNumber().ifPresent(address -> sb.append(PREFIX_UNIT_NUMBER).append(address.value)
                 .append(" "));
+        descriptor.getRole().ifPresent(role -> sb.append(PREFIX_ROLE).append(role.name()).append(" "));
         return sb.toString();
     }
 }

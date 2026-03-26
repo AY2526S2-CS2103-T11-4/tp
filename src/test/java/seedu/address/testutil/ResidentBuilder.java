@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
 /**
@@ -13,10 +14,12 @@ public class ResidentBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_ADDRESS = "28/3/E";
+    public static final Role DEFAULT_ROLE = Role.HA;
 
     private Name name;
     private Phone phone;
     private UnitNumber unitNumber;
+    private Role role;
 
     /**
      * Creates a {@code ResidentBuilder} with the default details.
@@ -25,6 +28,7 @@ public class ResidentBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         unitNumber = new UnitNumber(DEFAULT_ADDRESS);
+        role = DEFAULT_ROLE;
     }
 
     /**
@@ -34,6 +38,7 @@ public class ResidentBuilder {
         name = residentToCopy.getName();
         phone = residentToCopy.getPhone();
         unitNumber = residentToCopy.getUnitNumber();
+        role = residentToCopy.getRole();
     }
 
     /**
@@ -60,9 +65,17 @@ public class ResidentBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Role} of the {@code Resident} that we are building.
+     */
+    public ResidentBuilder withRole(String role) {
+        this.role = Role.valueOf(role.toUpperCase());
+        return this;
+    }
+
 
     public Resident build() {
-        return new Resident(name, phone, unitNumber);
+        return new Resident(name, phone, unitNumber, role);
     }
 
 }
