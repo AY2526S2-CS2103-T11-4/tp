@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.Role;
 
 /**
  * An UI component that displays information of a {@code Resident}.
@@ -38,6 +39,8 @@ public class ResidentCard extends UiPart<Region> {
     private ImageView unitNumberIcon;
     @FXML
     private Label unitNumber;
+    @FXML
+    private Label role;
 
     /**
      * Creates a {@code ResidentCard} with the given {@code Resident} and index to display.
@@ -52,5 +55,13 @@ public class ResidentCard extends UiPart<Region> {
         phone.setText(resident.getPhone().value);
         unitNumberIcon.setImage(IconManager.getIcon(Icons.UNIT_NUMBER));
         unitNumber.setText(resident.getUnitNumber().value);
+        if (resident.getRole() == Role.NONE) {
+            role.setVisible(false);
+            role.setManaged(false);
+        } else {
+            role.setVisible(true);
+            role.setManaged(true);
+            role.setText(resident.getRole().name());
+        }
     }
 }

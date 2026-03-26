@@ -48,6 +48,8 @@ public class CommandTestUtil {
     // empty string not allowed for addresses
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_UNIT_NUMBER;
 
+    public static final String INVALID_ROLE_DESC = " " + PREFIX_ROLE + "INVALID-ROLE";
+
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
