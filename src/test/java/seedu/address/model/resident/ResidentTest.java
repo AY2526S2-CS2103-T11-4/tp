@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.testutil.TypicalResidents.ALICE;
 import static seedu.address.testutil.TypicalResidents.BOB;
 
@@ -40,6 +41,10 @@ public class ResidentTest {
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new ResidentBuilder(BOB).withName(nameWithTrailingSpaces).build();
         assertFalse(BOB.isSameResident(editedBob));
+
+        // same ALICE, but different role -> should returns true (same resident)
+        Resident editedAlice1 = new ResidentBuilder(ALICE).withRole(VALID_ROLE_BOB).build();
+        assertTrue(ALICE.isSameResident(editedAlice1));
     }
 
     @Test
@@ -70,6 +75,10 @@ public class ResidentTest {
 
         // different address -> returns false
         editedAlice = new ResidentBuilder(ALICE).withUnitNumber(VALID_ADDRESS_BOB).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different role -> returns false
+        editedAlice = new ResidentBuilder(ALICE).withRole(VALID_ROLE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
     }
