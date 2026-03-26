@@ -426,6 +426,45 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     
       Use case resumes from step 4.
 
+<br>
+
+**Use Case: UC6 - Retrieve Previous Input**
+
+**Precondition: User has started the application and has previously executed at least one input**
+
+**MSS**
+1. User presses the up arrow key while the input field is focused.
+2. System displays the most recent input.
+3. User presses the up arrow key again.
+4. System displays the second recent input.
+5. User presses the down arrow key.
+6. System displays the most recent input.
+7. User presses the down arrow key again.
+8. System clears the input field.
+
+   Use case ends.
+
+**Extensions**
+* 1a. Input history is empty.
+    * 1a1. Nothing changes.
+
+      Use case ends.
+
+* 3a. User is already at the earliest input and presses the up arrow key.
+    * 3a1. Nothing changes. System keeps displaying the earliest input.
+
+      Use case resumes from step 5.
+
+* 5a. User is already at the most recent input and presses the down arrow key.
+    * 5a1. System clears the input field.
+
+      Use case ends.
+
+* 7a. User is already at the present input state (i.e. no longer navigating input history).
+    * 7a1. Nothing changes. System keeps the input field cleared.
+
+      Use case ends.
+
 *{More to be added}*
 
 ### Non-Functional Requirements

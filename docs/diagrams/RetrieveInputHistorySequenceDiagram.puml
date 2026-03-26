@@ -1,0 +1,50 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Ui UI_COLOR_T1
+participant ":CommandBox" as CommandBox UI_COLOR
+participant ":TextField" as TextField UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":InputHistoryManager" as InputHistoryManager LOGIC_COLOR
+end box
+
+[-> CommandBox : onUpArrowPressed()
+activate CommandBox
+
+CommandBox -> InputHistoryManager : retrieveEarlierInput()
+activate InputHistoryManager
+InputHistoryManager --> CommandBox : input
+deactivate InputHistoryManager
+
+CommandBox -> TextField : setText(input)
+activate TextField
+TextField --> CommandBox
+deactivate TextField
+
+CommandBox -> CommandBox : formatInHistoryInputField()
+activate CommandBox
+
+CommandBox -> CommandBox : setStyleToDefault()
+activate CommandBox
+CommandBox --> CommandBox
+deactivate CommandBox
+
+CommandBox -> CommandBox : setStyleToIndicateInHistory()
+activate CommandBox
+CommandBox --> CommandBox
+deactivate CommandBox
+
+CommandBox -> TextField : positionCaret()
+activate TextField
+CommandBox <-- TextField
+deactivate TextField
+
+CommandBox --> CommandBox
+deactivate CommandBox
+
+[<-- CommandBox
+deactivate CommandBox
+@enduml
