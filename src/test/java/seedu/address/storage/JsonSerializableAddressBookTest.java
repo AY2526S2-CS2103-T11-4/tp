@@ -64,4 +64,10 @@ public class JsonSerializableAddressBookTest {
                 dataFromFile::toModelType);
     }
 
+    @Test
+    public void toModelType_nullResidentsAndLegacyResidents_returnsEmptyAddressBook() throws Exception {
+        JsonSerializableAddressBook dataFromFile = new JsonSerializableAddressBook(null, null);
+        assertEquals(new AddressBook(), dataFromFile.toModelType());
+    }
+
 }

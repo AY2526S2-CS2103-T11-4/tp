@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.resident.Name;
 import seedu.address.model.resident.Phone;
+import seedu.address.model.resident.Resident;
 import seedu.address.model.resident.Role;
 import seedu.address.model.resident.UnitNumber;
 
@@ -28,6 +29,13 @@ public class JsonAdaptedResidentTest {
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
         JsonAdaptedResident resident = new JsonAdaptedResident(BENSON);
         assertEquals(BENSON, resident.toModelType());
+    }
+
+    @Test
+    public void toModelType_validResidentDetailsWithoutRole_returnsResidentWithDefaultRole() throws Exception {
+        JsonAdaptedResident resident = new JsonAdaptedResident(VALID_NAME, VALID_PHONE, VALID_UNIT_NUMBER);
+        Resident expectedResident = new Resident(BENSON.getName(), BENSON.getPhone(), BENSON.getUnitNumber());
+        assertEquals(expectedResident, resident.toModelType());
     }
 
     @Test
