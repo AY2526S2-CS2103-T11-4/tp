@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.math.BigInteger;
 import java.util.Comparator;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -44,10 +45,96 @@ public class SortCommand extends Command {
 
     private Comparator<Resident> getComparator() {
         return switch (sortField) {
-        case NAME -> Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
-        case PHONE -> Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
-        case UNIT_NO -> Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
+        case NAME -> Comparator.comparing(resident -> resident.getName().fullName, String.CASE_INSENSITIVE_ORDER);
+        case PHONE -> Comparator.comparing((Resident resident) -> new BigInteger(resident.getPhone().value))
+                .thenComparing(resident -> resident.getPhone().value);
+        case UNIT_NO -> (left, right) -> compareNaturally(
+                left.getUnitNumber().value,
+                right.getUnitNumber().value
+        );
         };
+    }
+
+    /**
+     * Compares strings using case-insensitive natural ordering so digit runs are sorted numerically.
+     */
+    private static int compareNaturally(String left, String right) {
+        int leftIndex = 0;
+        int rightIndex = 0;
+
+        while (leftIndex < left.length() && rightIndex < right.length()) {
+            char leftChar = left.charAt(leftIndex);
+            char rightChar = right.charAt(rightIndex);
+
+            if (Character.isDigit(leftChar) && Character.isDigit(rightChar)) {
+                int leftDigitEnd = findDigitRunEnd(left, leftIndex);
+                int rightDigitEnd = findDigitRunEnd(right, rightIndex);
+
+                String leftDigits = left.substring(leftIndex, leftDigitEnd);
+                String rightDigits = right.substring(rightIndex, rightDigitEnd);
+
+                int digitComparison = compareDigitRuns(leftDigits, rightDigits);
+                if (digitComparison != 0) {
+                    return digitComparison;
+                }
+
+                leftIndex = leftDigitEnd;
+                rightIndex = rightDigitEnd;
+                continue;
+            }
+
+            int charComparison = Character.compare(
+                    Character.toLowerCase(leftChar),
+                    Character.toLowerCase(rightChar)
+            );
+            if (charComparison != 0) {
+                return charComparison;
+            }
+
+            leftIndex++;
+            rightIndex++;
+        }
+
+        if (leftIndex < left.length()) {
+            return 1;
+        }
+        if (rightIndex < right.length()) {
+            return -1;
+        }
+        return left.compareToIgnoreCase(right);
+    }
+
+    private static int findDigitRunEnd(String value, int startIndex) {
+        int index = startIndex;
+        while (index < value.length() && Character.isDigit(value.charAt(index))) {
+            index++;
+        }
+        return index;
+    }
+
+    private static int compareDigitRuns(String leftDigits, String rightDigits) {
+        String normalizedLeft = stripLeadingZeros(leftDigits);
+        String normalizedRight = stripLeadingZeros(rightDigits);
+
+        int lengthComparison = Integer.compare(normalizedLeft.length(), normalizedRight.length());
+        if (lengthComparison != 0) {
+            return lengthComparison;
+        }
+
+        int valueComparison = normalizedLeft.compareTo(normalizedRight);
+        if (valueComparison != 0) {
+            return valueComparison;
+        }
+
+        return Integer.compare(leftDigits.length(), rightDigits.length());
+    }
+
+    private static String stripLeadingZeros(String digits) {
+        int index = 0;
+        while (index < digits.length() - 1 && digits.charAt(index) == '0') {
+            index++;
+        }
+        return digits.substring(index);
     }
 
     @Override

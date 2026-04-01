@@ -81,6 +81,30 @@ public class SortCommandTest {
     }
 
     @Test
+    public void execute_sortByPhone_withLargePhoneNumbers_showsResidentsInNumericOrder() throws CommandException {
+        Resident largePhoneResident = new ResidentBuilder().withName("Large Phone")
+                .withPhone("999999999999999999999999").withUnitNumber("Gamma Block").build();
+        Resident smallPhoneResident = new ResidentBuilder().withName("Small Phone")
+                .withPhone("123").withUnitNumber("Alpha Block").build();
+        Resident mediumPhoneResident = new ResidentBuilder().withName("Medium Phone")
+                .withPhone("12345678901234567890").withUnitNumber("Beta Block").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(largePhoneResident)
+                .withResident(smallPhoneResident)
+                .withResident(mediumPhoneResident)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(PHONE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(), smallPhoneResident, mediumPhoneResident, largePhoneResident);
+    }
+
+    @Test
     public void execute_sortByBlock_showsResidentsInBlockOrder() throws CommandException {
         SortCommand sortCommand = new SortCommand(UNIT_NO);
 
@@ -88,6 +112,30 @@ public class SortCommandTest {
 
         assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
         assertResidentOrder(model.getFilteredResidentList(), amy, mike, zed);
+    }
+
+    @Test
+    public void execute_sortByUnitNumber_naturalOrder_showsResidentsInNaturalOrder() throws CommandException {
+        Resident unitTwoResident = new ResidentBuilder().withName("Unit Two")
+                .withPhone("100").withUnitNumber("Block 2").build();
+        Resident unitTenResident = new ResidentBuilder().withName("Unit Ten")
+                .withPhone("200").withUnitNumber("Block 10").build();
+        Resident unitElevenResident = new ResidentBuilder().withName("Unit Eleven")
+                .withPhone("300").withUnitNumber("Block 11").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(unitTenResident)
+                .withResident(unitElevenResident)
+                .withResident(unitTwoResident)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(UNIT_NO);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(), unitTwoResident, unitTenResident, unitElevenResident);
     }
 
     @Test
