@@ -109,7 +109,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortByPhone_numericTie_breaksTieWithOriginalPhoneValue() throws CommandException {
+    public void execute_sortByPhone_breaksTieWithOriginalPhoneValue() throws CommandException {
         Resident zeroPaddedPhoneResident = new ResidentBuilder().withName("Zero Padded")
                 .withPhone("00123").withUnitNumber("Gamma Block").build();
         Resident plainPhoneResident = new ResidentBuilder().withName("Plain")
@@ -233,7 +233,9 @@ public class SortCommandTest {
 
     private int invokeCompareNaturally(String left, String right) {
         try {
-            Method compareNaturally = SortCommand.class.getDeclaredMethod("compareNaturally", String.class, String.class);
+            Method compareNaturally = SortCommand
+                    .class
+                    .getDeclaredMethod("compareNaturally", String.class, String.class);
             compareNaturally.setAccessible(true);
             return (int) compareNaturally.invoke(null, left, right);
         } catch (ReflectiveOperationException e) {
