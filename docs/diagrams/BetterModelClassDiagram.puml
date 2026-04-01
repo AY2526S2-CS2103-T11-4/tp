@@ -16,6 +16,6 @@ Resident -up-> "*" Tag
 
 Resident *--> Name
 Resident *--> Phone
-Resident *--> Email
-Resident *--> Address
+Resident *--> UnitNumber
+Resident *--> Role
 @enduml

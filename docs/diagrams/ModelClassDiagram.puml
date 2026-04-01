@@ -14,11 +14,10 @@ Class UserPrefs
 
 Class UniqueResidentList
 Class Resident
-Class Address
-Class Email
 Class Name
 Class Phone
-Class Tag
+Class UnitNumber
+Class Role
 
 Class I #FFFFFF
 }
@@ -39,16 +38,11 @@ AddressBook *--> "1" UniqueResidentList
 UniqueResidentList --> "~* all" Resident
 Resident *--> Name
 Resident *--> Phone
-Resident *--> Email
-Resident *--> Address
-Resident *--> "*" Tag
+Resident *--> UnitNumber
+Resident *--> Role
 
 Resident -[hidden]up--> I
 UniqueResidentList -[hidden]right-> I
-
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
 
 ModelManager --> "~* filtered" Resident
 @enduml
