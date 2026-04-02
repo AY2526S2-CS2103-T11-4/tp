@@ -17,7 +17,15 @@ Class Resident
 Class Name
 Class Phone
 Class UnitNumber
-Class Role <<enumeration>>
+
+enum Role <<enumeration>> {
+  NONE
+  HA
+  FH
+  RA
+}
+
+show Role members
 
 Class I #FFFFFF
 }

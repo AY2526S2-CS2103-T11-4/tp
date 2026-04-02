@@ -18,4 +18,6 @@ Resident *--> "1" Name
 Resident *--> "1" Phone
 Resident *--> "1" UnitNumber
 Resident *--> "1" Role
+
+
 @enduml
