@@ -61,7 +61,7 @@ public class Resident {
     }
 
     /**
-     * Returns true if both residents have the same name.
+     * Returns true if both residents have the same name, same phone, same unitNumber.
      * This defines a weaker notion of equality between two residents.
      */
     public boolean isSameResident(Resident otherResident) {
@@ -70,7 +70,9 @@ public class Resident {
         }
 
         return otherResident != null
-                && otherResident.getName().equals(getName());
+                && otherResident.getName().equals(getName())
+                && otherResident.getPhone().equals(getPhone())
+                && otherResident.getUnitNumber().equals(getUnitNumber());
     }
 
     /**

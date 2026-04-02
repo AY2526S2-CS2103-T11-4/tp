@@ -33,6 +33,8 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New resident added: %1$s";
     public static final String MESSAGE_DUPLICATE_RESIDENT = "This resident already exists in the list";
+    public static final String MESSAGE_DUPLICATE_PHONE = "This phone already exists in the list";
+    public static final String MESSAGE_DUPLICATE_UNITNUMBER = "This unit number already exists in the list";
 
     private final Resident toAdd;
 
@@ -48,8 +50,17 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        // same name, same phone, same unitNumber (Role is not checked here)
         if (model.hasResident(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_RESIDENT);
+        }
+
+        if (model.hasPhone(toAdd.getPhone())) {
+            throw new CommandException(MESSAGE_DUPLICATE_PHONE);
+        }
+
+        if (model.hasUnitNumber(toAdd.getUnitNumber())) {
+            throw new CommandException(MESSAGE_DUPLICATE_UNITNUMBER);
         }
 
         model.addResident(toAdd);

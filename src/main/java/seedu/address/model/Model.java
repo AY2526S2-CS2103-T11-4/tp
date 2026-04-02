@@ -6,7 +6,9 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.UnitNumber;
 
 /**
  * The API of the Model component.
@@ -82,8 +84,8 @@ public interface Model {
     ObservableList<Resident> getFilteredResidentList();
 
     /**
-     * Returns true if the current list has entries
-     * @return True if the current list has entries
+     * Returns true if the current list has entries.
+     * @return True if the current list has entries.
      */
     boolean hasListEntries();
 
@@ -103,4 +105,18 @@ public interface Model {
      * Resets the sort order of the displayed residents list.
      */
     void resetSortedResidentsList();
+
+    /**
+     * Returns true if the current list has resident with the {@code phone}.
+     * @param phone
+     * @return True if the current list has resident with the {@code phone}.
+     */
+    boolean hasPhone(Phone phone);
+
+    /**
+     * Returns true if the current list has resident with the {@code unitNumber}.
+     * @param unitNumber
+     * @return True if the current list has resident with the {@code unitNumber}.
+     */
+    boolean hasUnitNumber(UnitNumber unitNumber);
 }

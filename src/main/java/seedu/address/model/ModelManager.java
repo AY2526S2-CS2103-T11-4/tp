@@ -13,7 +13,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.UnitNumber;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -146,6 +148,19 @@ public class ModelManager implements Model {
     @Override
     public void resetSortedResidentsList() {
         sortedResidents.setComparator(null);
+    }
+
+    @Override
+    public boolean hasPhone(Phone phone) {
+        requireNonNull(phone);
+        return addressBook.getResidentList().stream().anyMatch(resident -> resident.getPhone().equals(phone));
+    }
+
+    @Override
+    public boolean hasUnitNumber(UnitNumber unitNumber) {
+        requireNonNull(unitNumber);
+        return addressBook.getResidentList().stream()
+                .anyMatch(resident -> resident.getUnitNumber().equals(unitNumber));
     }
 
     @Override

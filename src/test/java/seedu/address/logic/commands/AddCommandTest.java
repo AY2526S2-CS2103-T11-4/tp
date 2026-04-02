@@ -23,7 +23,9 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.resident.Phone;
 import seedu.address.model.resident.Resident;
+import seedu.address.model.resident.UnitNumber;
 import seedu.address.testutil.ResidentBuilder;
 
 public class AddCommandTest {
@@ -174,6 +176,16 @@ public class AddCommandTest {
         public void resetSortedResidentsList() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean hasPhone(Phone phone) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasUnitNumber(UnitNumber unitNumber) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -218,6 +230,18 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
+
+        @Override
+        public boolean hasPhone(Phone phone) {
+            return false;
+        }
+
+        @Override
+        public boolean hasUnitNumber(UnitNumber unitNumber) {
+            return false;
+        }
     }
+
+
 
 }
