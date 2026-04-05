@@ -21,7 +21,7 @@ public class SortCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts the displayed list of residents by the specified "
             + "field.\n"
-            + "Parameters: FIELD (must be one of: name, phone, unit)\n"
+            + "Parameters: FIELD (must be one of: name, phone, unit, role)\n"
             + "Example: " + COMMAND_WORD + " name";
     private final SortField sortField;
     /**
@@ -52,6 +52,8 @@ public class SortCommand extends Command {
                 left.getUnitNumber().value,
                 right.getUnitNumber().value
         );
+        case ROLE -> Comparator.comparingInt((Resident resident) -> resident.getRole().getSortRank())
+                .thenComparing(resident -> resident.getName().fullName, String.CASE_INSENSITIVE_ORDER);
         };
     }
 
@@ -164,6 +166,7 @@ public class SortCommand extends Command {
     public enum SortField {
         NAME,
         PHONE,
-        UNIT_NO
+        UNIT_NO,
+        ROLE
     }
 }

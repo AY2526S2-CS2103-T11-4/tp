@@ -28,6 +28,8 @@ public class SortCommandParser implements Parser<SortCommand> {
             return new SortCommand(SortCommand.SortField.PHONE);
         case "unit":
             return new SortCommand(SortCommand.SortField.UNIT_NO);
+        case "role":
+            return new SortCommand(SortCommand.SortField.ROLE);
         default:
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE)

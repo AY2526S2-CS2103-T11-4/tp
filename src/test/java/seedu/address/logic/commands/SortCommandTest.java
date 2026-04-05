@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.SortCommand.SortField.NAME;
 import static seedu.address.logic.commands.SortCommand.SortField.PHONE;
+import static seedu.address.logic.commands.SortCommand.SortField.ROLE;
 import static seedu.address.logic.commands.SortCommand.SortField.UNIT_NO;
 
 import java.lang.reflect.Method;
@@ -167,6 +168,65 @@ public class SortCommandTest {
 
         assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
         assertResidentOrder(model.getFilteredResidentList(), unitTwoResident, unitTenResident, unitElevenResident);
+    }
+
+    @Test
+    public void execute_sortByRole_showsResidentsWithAssignedRolesBeforeResidentsWithoutRoles()
+            throws CommandException {
+        Resident houseAssistant = new ResidentBuilder().withName("House Assistant")
+                .withPhone("200").withUnitNumber("Block 2").withRole("HA").build();
+        Resident floorHead = new ResidentBuilder().withName("Floor Head")
+                .withPhone("300").withUnitNumber("Block 3").withRole("FH").build();
+        Resident residentAssistant = new ResidentBuilder().withName("Resident Assistant")
+                .withPhone("400").withUnitNumber("Block 4").withRole("RA").build();
+        Resident residentWithoutRole = new ResidentBuilder().withName("No Role")
+                .withPhone("100").withUnitNumber("Block 1").withRole("NONE").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(residentWithoutRole)
+                .withResident(residentAssistant)
+                .withResident(houseAssistant)
+                .withResident(floorHead)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(ROLE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                houseAssistant,
+                floorHead,
+                residentAssistant,
+                residentWithoutRole);
+    }
+
+    @Test
+    public void execute_sortByRole_breaksTieWithNameIgnoringCase() throws CommandException {
+        Resident amyHouseAssistant = new ResidentBuilder().withName("amy")
+                .withPhone("200").withUnitNumber("Block 2").withRole("HA").build();
+        Resident zedHouseAssistant = new ResidentBuilder().withName("Zed")
+                .withPhone("100").withUnitNumber("Block 1").withRole("HA").build();
+        Resident noRoleResident = new ResidentBuilder().withName("No Role")
+                .withPhone("300").withUnitNumber("Block 3").withRole("NONE").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(zedHouseAssistant)
+                .withResident(noRoleResident)
+                .withResident(amyHouseAssistant)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(ROLE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                amyHouseAssistant,
+                zedHouseAssistant,
+                noRoleResident);
     }
 
     @Test
