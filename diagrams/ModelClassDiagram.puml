@@ -17,7 +17,15 @@ Class Resident
 Class Name
 Class Phone
 Class UnitNumber
-Class Role
+
+enum Role <<enumeration>> {
+  NONE
+  HA
+  FH
+  RA
+}
+
+show Role members
 
 Class I #FFFFFF
 }
@@ -36,10 +44,10 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniqueResidentList
 UniqueResidentList --> "~* all" Resident
-Resident *--> Name
-Resident *--> Phone
-Resident *--> UnitNumber
-Resident *--> Role
+Resident *--> "1" Name
+Resident *--> "1" Phone
+Resident *--> "1" UnitNumber
+Resident *--> "1" Role
 
 Resident -[hidden]up--> I
 UniqueResidentList -[hidden]right-> I
