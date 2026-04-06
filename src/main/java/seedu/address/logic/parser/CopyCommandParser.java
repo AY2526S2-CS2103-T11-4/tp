@@ -16,7 +16,7 @@ public class CopyCommandParser implements Parser<CopyCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public CopyCommand parse(String args) throws ParseException {
-        if (!args.trim().isEmpty()) {
+        if (!args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CopyCommand.MESSAGE_USAGE));
         }
         return new CopyCommand();

@@ -50,7 +50,6 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_copy() throws Exception {
         assertTrue(parser.parseCommand(CopyCommand.COMMAND_WORD) instanceof CopyCommand);
-        assertTrue(parser.parseCommand(CopyCommand.COMMAND_WORD + " 3") instanceof CopyCommand);
     }
 
     @Test

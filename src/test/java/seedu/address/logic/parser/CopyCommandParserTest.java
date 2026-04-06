@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,8 +10,7 @@ import seedu.address.logic.commands.CopyCommand;
 
 /**
  * As we are only doing white-box testing, our test cases do not cover path variations
- * outside of the CopyCommand code. The CopyCommand takes no arguments, so we test
- * that any input (including empty or with arguments) is successfully parsed.
+ * outside of the CopyCommand code. The CopyCommand takes no arguments.
  */
 public class CopyCommandParserTest {
 
@@ -21,10 +22,10 @@ public class CopyCommandParserTest {
     }
 
     @Test
-    public void parse_withArgs_returnsCopyCommand() {
-        // CopyCommand ignores any arguments since it copies all displayed residents
-        assertParseSuccess(parser, "   ", new CopyCommand());
-        assertParseSuccess(parser, "1 2 3", new CopyCommand());
-        assertParseSuccess(parser, "some random text", new CopyCommand());
+    public void parse_withArgs_throwsParseException() {
+        // CopyCommand does not accept any arguments, including whitespace
+        assertParseFailure(parser, "   ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, CopyCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1 2 3", String.format(MESSAGE_INVALID_COMMAND_FORMAT, CopyCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "some random text", String.format(MESSAGE_INVALID_COMMAND_FORMAT, CopyCommand.MESSAGE_USAGE));
     }
 }
