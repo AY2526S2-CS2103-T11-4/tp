@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.SortCommand.SortField.NAME;
 import static seedu.address.logic.commands.SortCommand.SortField.PHONE;
+import static seedu.address.logic.commands.SortCommand.SortField.ROLE;
 import static seedu.address.logic.commands.SortCommand.SortField.UNIT_NO;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,7 +68,7 @@ public class SortCommandTest {
 
         CommandResult commandResult = sortCommand.execute(model);
 
-        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertEquals(getExpectedSuccessMessage(NAME), commandResult.getFeedbackToUser());
         assertResidentOrder(model.getFilteredResidentList(), amy, mike, zed);
     }
 
@@ -76,8 +78,62 @@ public class SortCommandTest {
 
         CommandResult commandResult = sortCommand.execute(model);
 
-        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertEquals(getExpectedSuccessMessage(PHONE), commandResult.getFeedbackToUser());
         assertResidentOrder(model.getFilteredResidentList(), amy, mike, zed);
+    }
+
+    @Test
+    public void execute_sortByPhone_showsResidentsInPhoneOrderWithLargePhoneNumbers() throws CommandException {
+        Resident largePhoneResident = new ResidentBuilder().withName("Large Phone")
+                .withPhone("999999999999999999999999").withUnitNumber("Gamma Block").build();
+        Resident smallPhoneResident = new ResidentBuilder().withName("Small Phone")
+                .withPhone("123").withUnitNumber("Alpha Block").build();
+        Resident mediumPhoneResident = new ResidentBuilder().withName("Medium Phone")
+                .withPhone("12345678901234567890").withUnitNumber("Beta Block").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(largePhoneResident)
+                .withResident(smallPhoneResident)
+                .withResident(mediumPhoneResident)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(PHONE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(getExpectedSuccessMessage(PHONE), commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                smallPhoneResident,
+                mediumPhoneResident,
+                largePhoneResident);
+    }
+
+    @Test
+    public void execute_sortByPhone_breaksTieWithOriginalPhoneValue() throws CommandException {
+        Resident zeroPaddedPhoneResident = new ResidentBuilder().withName("Zero Padded")
+                .withPhone("00123").withUnitNumber("Gamma Block").build();
+        Resident plainPhoneResident = new ResidentBuilder().withName("Plain")
+                .withPhone("123").withUnitNumber("Alpha Block").build();
+        Resident largerPhoneResident = new ResidentBuilder().withName("Larger")
+                .withPhone("124").withUnitNumber("Beta Block").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(plainPhoneResident)
+                .withResident(largerPhoneResident)
+                .withResident(zeroPaddedPhoneResident)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(PHONE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(getExpectedSuccessMessage(PHONE), commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                zeroPaddedPhoneResident,
+                plainPhoneResident,
+                largerPhoneResident);
     }
 
     @Test
@@ -86,8 +142,121 @@ public class SortCommandTest {
 
         CommandResult commandResult = sortCommand.execute(model);
 
-        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertEquals(getExpectedSuccessMessage(UNIT_NO), commandResult.getFeedbackToUser());
         assertResidentOrder(model.getFilteredResidentList(), amy, mike, zed);
+    }
+
+    @Test
+    public void execute_sortByUnitNumber_showsResidentsInNaturalOrder() throws CommandException {
+        Resident unitTwoResident = new ResidentBuilder().withName("Unit Two")
+                .withPhone("100").withUnitNumber("Block 2").build();
+        Resident unitTenResident = new ResidentBuilder().withName("Unit Ten")
+                .withPhone("200").withUnitNumber("Block 10").build();
+        Resident unitElevenResident = new ResidentBuilder().withName("Unit Eleven")
+                .withPhone("300").withUnitNumber("Block 11").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(unitTenResident)
+                .withResident(unitElevenResident)
+                .withResident(unitTwoResident)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(UNIT_NO);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(getExpectedSuccessMessage(UNIT_NO), commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(), unitTwoResident, unitTenResident, unitElevenResident);
+    }
+
+    @Test
+    public void execute_sortByRole_showsResidentsWithAssignedRolesBeforeResidentsWithoutRoles()
+            throws CommandException {
+        Resident houseAssistant = new ResidentBuilder().withName("House Assistant")
+                .withPhone("200").withUnitNumber("Block 2").withRole("HA").build();
+        Resident floorHead = new ResidentBuilder().withName("Floor Head")
+                .withPhone("300").withUnitNumber("Block 3").withRole("FH").build();
+        Resident residentAssistant = new ResidentBuilder().withName("Resident Assistant")
+                .withPhone("400").withUnitNumber("Block 4").withRole("RA").build();
+        Resident residentWithoutRole = new ResidentBuilder().withName("No Role")
+                .withPhone("100").withUnitNumber("Block 1").withRole("NONE").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(residentWithoutRole)
+                .withResident(residentAssistant)
+                .withResident(houseAssistant)
+                .withResident(floorHead)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(ROLE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(getExpectedSuccessMessage(ROLE), commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                houseAssistant,
+                floorHead,
+                residentAssistant,
+                residentWithoutRole);
+    }
+
+    @Test
+    public void execute_sortByRole_breaksTieWithNameIgnoringCase() throws CommandException {
+        Resident amyHouseAssistant = new ResidentBuilder().withName("amy")
+                .withPhone("200").withUnitNumber("Block 2").withRole("HA").build();
+        Resident zedHouseAssistant = new ResidentBuilder().withName("Zed")
+                .withPhone("100").withUnitNumber("Block 1").withRole("HA").build();
+        Resident noRoleResident = new ResidentBuilder().withName("No Role")
+                .withPhone("300").withUnitNumber("Block 3").withRole("NONE").build();
+
+        AddressBook addressBook = new AddressBookBuilder()
+                .withResident(zedHouseAssistant)
+                .withResident(noRoleResident)
+                .withResident(amyHouseAssistant)
+                .build();
+        model = new ModelManager(addressBook, new UserPrefs());
+
+        SortCommand sortCommand = new SortCommand(ROLE);
+
+        CommandResult commandResult = sortCommand.execute(model);
+
+        assertEquals(getExpectedSuccessMessage(ROLE), commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(),
+                amyHouseAssistant,
+                zedHouseAssistant,
+                noRoleResident);
+    }
+
+    @Test
+    public void compareNaturally_sameDigitRun_continuesWithFollowingCharacters() {
+        assertTrue(invokeCompareNaturally("Block 2B", "Block 2A") > 0);
+    }
+
+    @Test
+    public void compareNaturally_prefixBeforeSuffix_returnsNegativeValue() {
+        assertTrue(invokeCompareNaturally("Block 2", "Block 2A") < 0);
+    }
+
+    @Test
+    public void compareNaturally_suffixAfterPrefix_returnsPositiveValue() {
+        assertTrue(invokeCompareNaturally("Block 2A", "Block 2") > 0);
+    }
+
+    @Test
+    public void compareNaturally_equalIgnoringCase_returnsZero() {
+        assertEquals(0, invokeCompareNaturally("Block 2A", "block 2a"));
+    }
+
+    @Test
+    public void compareNaturally_digitRunWithLeadingZeros_ordersLongerRunAfterShorterRun() {
+        assertTrue(invokeCompareNaturally("Block 002", "Block 2") > 0);
+    }
+
+    @Test
+    public void compareNaturally_digitAndLetterAtSamePosition_comparesAsCharacters() {
+        assertTrue(invokeCompareNaturally("Block 2", "Block A") < 0);
     }
 
     @Test
@@ -115,10 +284,26 @@ public class SortCommandTest {
         assertEquals(Arrays.asList(expectedResidents), actualResidents);
     }
 
+    private String getExpectedSuccessMessage(SortCommand.SortField sortField) {
+        return String.format("Sorted residents by %s in ascending order.", sortField.getDisplayName());
+    }
+
     @Test
     public void toStringMethod() {
         SortCommand sortCommand = new SortCommand(NAME);
         String expected = SortCommand.class.getCanonicalName() + "{sortField=" + NAME + "}";
         assertEquals(expected, sortCommand.toString());
+    }
+
+    private int invokeCompareNaturally(String left, String right) {
+        try {
+            Method compareNaturally = SortCommand
+                    .class
+                    .getDeclaredMethod("compareNaturally", String.class, String.class);
+            compareNaturally.setAccessible(true);
+            return (int) compareNaturally.invoke(null, left, right);
+        } catch (ReflectiveOperationException e) {
+            throw new AssertionError("Failed to invoke SortCommand.compareNaturally", e);
+        }
     }
 }

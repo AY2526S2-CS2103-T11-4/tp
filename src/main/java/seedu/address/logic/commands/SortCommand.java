@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.math.BigInteger;
 import java.util.Comparator;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -14,14 +15,12 @@ import seedu.address.model.resident.Resident;
 public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = "sort";
-
-    public static final String MESSAGE_SUCCESS = "Sorted all residents";
-    public static final String MESSAGE_EMPTY = "No residents found; to add, use the ‘add’ command";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sorts the displayed list of residents by the specified "
             + "field.\n"
-            + "Parameters: FIELD (must be one of: name, phone, unit)\n"
+            + "Parameters: FIELD (must be one of: name, phone, unit, role)\n"
             + "Example: " + COMMAND_WORD + " name";
+    public static final String MESSAGE_EMPTY = "No residents found; to add, use the ‘add’ command";
     private final SortField sortField;
     /**
      * Creates a SortCommand to sort residents by the specified field.
@@ -39,15 +38,111 @@ public class SortCommand extends Command {
         }
 
         model.updateSortedResidentsList(getComparator());
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(getMessageSuccess());
     }
 
     private Comparator<Resident> getComparator() {
         return switch (sortField) {
-        case NAME -> Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
-        case PHONE -> Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
-        case UNIT_NO -> Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
+        case NAME -> Comparator.comparing(resident -> resident.getName().fullName, String.CASE_INSENSITIVE_ORDER);
+        case PHONE -> Comparator.comparing((Resident resident) -> new BigInteger(resident.getPhone().value))
+                .thenComparing(resident -> resident.getPhone().value);
+        case UNIT_NO -> (left, right) -> compareNaturally(
+                left.getUnitNumber().value,
+                right.getUnitNumber().value
+        );
+        case ROLE -> Comparator.comparingInt((Resident resident) -> resident.getRole().getSortRank())
+                .thenComparing(resident -> resident.getName().fullName, String.CASE_INSENSITIVE_ORDER);
         };
+    }
+
+    /**
+     * Compares strings using case-insensitive natural ordering so digit runs are sorted numerically.
+     */
+    private static int compareNaturally(String left, String right) {
+        int leftIndex = 0;
+        int rightIndex = 0;
+
+        while (leftIndex < left.length() && rightIndex < right.length()) {
+            char leftChar = left.charAt(leftIndex);
+            char rightChar = right.charAt(rightIndex);
+
+            if (Character.isDigit(leftChar) && Character.isDigit(rightChar)) {
+                int leftDigitEnd = findDigitRunEnd(left, leftIndex);
+                int rightDigitEnd = findDigitRunEnd(right, rightIndex);
+
+                String leftDigits = left.substring(leftIndex, leftDigitEnd);
+                String rightDigits = right.substring(rightIndex, rightDigitEnd);
+
+                int digitComparison = compareDigitRuns(leftDigits, rightDigits);
+                if (digitComparison != 0) {
+                    return digitComparison;
+                }
+
+                leftIndex = leftDigitEnd;
+                rightIndex = rightDigitEnd;
+                continue;
+            }
+
+            int charComparison = Character.compare(
+                    Character.toLowerCase(leftChar),
+                    Character.toLowerCase(rightChar)
+            );
+            if (charComparison != 0) {
+                return charComparison;
+            }
+
+            leftIndex++;
+            rightIndex++;
+        }
+
+        if (leftIndex < left.length()) {
+            return 1;
+        }
+        if (rightIndex < right.length()) {
+            return -1;
+        }
+        return left.compareToIgnoreCase(right);
+    }
+
+    private static int findDigitRunEnd(String value, int startIndex) {
+        int index = startIndex;
+        while (index < value.length() && Character.isDigit(value.charAt(index))) {
+            index++;
+        }
+        return index;
+    }
+
+    private static int compareDigitRuns(String leftDigits, String rightDigits) {
+        String normalizedLeft = stripLeadingZeros(leftDigits);
+        String normalizedRight = stripLeadingZeros(rightDigits);
+
+        int lengthComparison = Integer.compare(normalizedLeft.length(), normalizedRight.length());
+        if (lengthComparison != 0) {
+            return lengthComparison;
+        }
+
+        int valueComparison = normalizedLeft.compareTo(normalizedRight);
+        if (valueComparison != 0) {
+            return valueComparison;
+        }
+
+        return Integer.compare(leftDigits.length(), rightDigits.length());
+    }
+
+    private static String stripLeadingZeros(String digits) {
+        int index = 0;
+        while (index < digits.length() - 1 && digits.charAt(index) == '0') {
+            index++;
+        }
+        return digits.substring(index);
+    }
+    /**
+     * Returns a String indicating a successful sort
+     * Current sort order for all fields is already in ascending order,
+     * thus we can just state it as such in the string.
+     */
+    private String getMessageSuccess() {
+        return String.format("Sorted residents by %s in ascending order.", sortField.getDisplayName());
     }
 
     @Override
@@ -75,8 +170,22 @@ public class SortCommand extends Command {
      * Represents the fields that the resident list can be sorted by.
      */
     public enum SortField {
-        NAME,
-        PHONE,
-        UNIT_NO
+        NAME("name"),
+        PHONE("phone"),
+        UNIT_NO("unit number"),
+        ROLE("role");
+
+        private final String displayName;
+
+        SortField(String displayName) {
+            this.displayName = displayName;
+        }
+
+        /**
+         * Returns the human-readable name of this sort field for use in user-facing messages.
+         */
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }

@@ -92,7 +92,7 @@ public class LogicManagerTest {
 
         CommandResult result = logic.execute(SortCommand.COMMAND_WORD + " name");
 
-        assertEquals(SortCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+        assertEquals(getExpectedSortSuccessMessage(SortCommand.SortField.NAME), result.getFeedbackToUser());
         assertEquals(Arrays.asList(amy, mike, zed), logic.getFilteredResidentList());
     }
 
@@ -221,5 +221,9 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addResident(expectedResident);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+    }
+
+    private String getExpectedSortSuccessMessage(SortCommand.SortField sortField) {
+        return String.format("Sorted residents by %s in ascending order.", sortField.getDisplayName());
     }
 }

@@ -22,6 +22,7 @@ public class SortCommandParserTest {
         assertParseSuccess(parser, "name", new SortCommand(SortCommand.SortField.NAME));
         assertParseSuccess(parser, " phone ", new SortCommand(SortCommand.SortField.PHONE));
         assertParseSuccess(parser, " \n unit \t", new SortCommand(SortCommand.SortField.UNIT_NO));
+        assertParseSuccess(parser, " role ", new SortCommand(SortCommand.SortField.ROLE));
     }
 
     @Test
