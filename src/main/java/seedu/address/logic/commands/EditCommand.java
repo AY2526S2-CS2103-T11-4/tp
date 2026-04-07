@@ -43,7 +43,9 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_RESIDENT_SUCCESS = "Edited Resident: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_RESIDENT = "This resident already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_RESIDENT = AddCommand.MESSAGE_DUPLICATE_RESIDENT;
+    public static final String MESSAGE_DUPLICATE_PHONE = AddCommand.MESSAGE_DUPLICATE_PHONE;
+    public static final String MESSAGE_DUPLICATE_UNITNUMBER = AddCommand.MESSAGE_DUPLICATE_UNITNUMBER;
 
     private final Index index;
     private final EditResidentDescriptor editResidentDescriptor;
@@ -72,8 +74,21 @@ public class EditCommand extends Command {
         Resident residentToEdit = lastShownList.get(index.getZeroBased());
         Resident editedResident = createEditedResident(residentToEdit, editResidentDescriptor);
 
+        // Overall checking
         if (!residentToEdit.isSameResident(editedResident) && model.hasResident(editedResident)) {
             throw new CommandException(MESSAGE_DUPLICATE_RESIDENT);
+        }
+
+        // Check for duplicate in phone number
+        if (!residentToEdit.getPhone().equals(editedResident.getPhone())
+                && model.hasPhone(editedResident.getPhone())) {
+            throw new CommandException(MESSAGE_DUPLICATE_PHONE);
+        }
+
+        // Check for duplicate in unitNumber
+        if (!residentToEdit.getUnitNumber().equals(editedResident.getUnitNumber())
+                && model.hasUnitNumber(editedResident.getUnitNumber())) {
+            throw new CommandException(MESSAGE_DUPLICATE_UNITNUMBER);
         }
 
         model.setResident(residentToEdit, editedResident);

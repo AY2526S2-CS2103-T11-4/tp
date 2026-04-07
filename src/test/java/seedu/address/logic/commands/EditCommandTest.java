@@ -149,6 +149,32 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_duplicatePhoneOtherResident_failure() {
+        Resident firstResident = model.getFilteredResidentList().get(INDEX_FIRST_RESIDENT.getZeroBased());
+        Resident secondResident = model.getFilteredResidentList().get(INDEX_SECOND_RESIDENT.getZeroBased());
+
+        // Attempt to edit the first resident to have the second resident's phone number
+        EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder(firstResident)
+                .withPhone(secondResident.getPhone().value).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RESIDENT, descriptor);
+
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PHONE);
+    }
+
+    @Test
+    public void execute_duplicateUnitNumberOtherResident_failure() {
+        Resident firstResident = model.getFilteredResidentList().get(INDEX_FIRST_RESIDENT.getZeroBased());
+        Resident secondResident = model.getFilteredResidentList().get(INDEX_SECOND_RESIDENT.getZeroBased());
+
+        // Attempt to edit the first resident to have the second resident's unitNumber
+        EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder(firstResident)
+                .withUnitNumber(secondResident.getUnitNumber().value).build();
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_RESIDENT, descriptor);
+
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_UNITNUMBER);
+    }
+
+    @Test
     public void equals() {
         final EditCommand standardCommand = new EditCommand(INDEX_FIRST_RESIDENT, DESC_AMY);
 
