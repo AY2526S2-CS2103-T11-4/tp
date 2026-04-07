@@ -10,12 +10,12 @@
 <VBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <HBox>
       <children>
-         <Label layoutX="10.0" layoutY="10.0" styleClass="label-header" stylesheets="@DarkTheme.css" text="Residents" textFill="WHITE">
+         <Label layoutX="10.0" layoutY="10.0" styleClass="label-header" stylesheets="@DarkTheme.css" text="Residents" textFill="WHITE" underline="true">
             <font>
                <Font size="32.0" />
             </font>
             <HBox.margin>
-               <Insets left="10.0" />
+               <Insets />
             </HBox.margin>
          </Label>
       </children>

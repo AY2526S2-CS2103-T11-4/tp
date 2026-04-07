@@ -28,6 +28,7 @@ import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
+import seedu.address.ui.FontManager;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -63,6 +64,8 @@ public class MainApp extends Application {
         model = initModelManager(storage, userPrefs);
 
         logic = new LogicManager(model, storage);
+
+        FontManager.loadFonts();
 
         ui = new UiManager(logic);
     }

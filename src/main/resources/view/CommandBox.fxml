@@ -3,6 +3,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane styleClass="stack-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane styleClass="command-box-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
   <TextField fx:id="commandTextField" onAction="#handleCommandEntered" onKeyPressed="#handleKeyPressed" promptText="Enter command here..." stylesheets="@CommandBox.css" />
 </StackPane>
