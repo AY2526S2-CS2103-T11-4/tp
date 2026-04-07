@@ -17,6 +17,7 @@ public class Name {
      * The first character of the unit number must not be a whitespace (Enforced with trim()),
      * otherwise " " (a blank string) becomes a valid input.
      * Allows alphanumeric characters, spaces, and the symbols: , - .
+     * Note: Forward Slash (/) not allowed
      */
     public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ,-.]*";
 
