@@ -111,6 +111,24 @@ public class SortCommandTest {
         assertResidentOrder(model.getFilteredResidentList(), zed, amy, mike);
     }
 
+    //EP: > Long.MAX_VALUE
+    @Test
+    public void execute_sortByPhone_withVeryLongPhones() {
+        Resident shortPhone = new ResidentBuilder().withName("A").withPhone("123").withUnitNumber("A").build();
+        Resident longPhone = new ResidentBuilder().withName("B")
+                .withPhone("9999999999999999999999999999").withUnitNumber("B").build();
+
+        model = new ModelManager(new AddressBookBuilder()
+                .withResident(longPhone)
+                .withResident(shortPhone)
+                .build(), new UserPrefs());
+
+        CommandResult commandResult = new SortCommand(PHONE).execute(model);
+
+        assertEquals(SortCommand.MESSAGE_SUCCESS, commandResult.getFeedbackToUser());
+        assertResidentOrder(model.getFilteredResidentList(), shortPhone, longPhone);
+    }
+
     private void assertResidentOrder(List<Resident> actualResidents, Resident... expectedResidents) {
         assertEquals(Arrays.asList(expectedResidents), actualResidents);
     }

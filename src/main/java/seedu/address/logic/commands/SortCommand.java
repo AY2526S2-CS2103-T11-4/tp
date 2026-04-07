@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.math.BigInteger;
 import java.util.Comparator;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -45,7 +46,8 @@ public class SortCommand extends Command {
     private Comparator<Resident> getComparator() {
         return switch (sortField) {
         case NAME -> Comparator.comparing(resident -> resident.getName().fullName.toLowerCase());
-        case PHONE -> Comparator.comparingLong(resident -> Long.parseLong(resident.getPhone().value));
+        case PHONE -> Comparator.comparing((Resident resident) -> new BigInteger(resident.getPhone().value))
+                .thenComparing(resident -> resident.getPhone().value);
         case UNIT_NO -> Comparator.comparing(resident -> resident.getUnitNumber().value.toLowerCase());
         };
     }
