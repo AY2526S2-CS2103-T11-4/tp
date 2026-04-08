@@ -14,7 +14,7 @@ import seedu.address.commons.util.ToStringBuilder;
  *
  * <p>Matching rules:
  * <ul>
- *     <li>Name keywords are matched as case-insensitive full words.</li>
+ *     <li>Name keywords are matched against case-insensitive full words with one-edit fuzzy matching.</li>
  *     <li>Phone keywords are matched as case-insensitive substrings.</li>
  *     <li>Unit number keywords are matched as case-insensitive substrings.</li>
  *     <li>Multiple keywords within the same field are combined using OR.</li>
@@ -35,7 +35,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     /**
      * Creates a predicate using the given field-specific search keywords.
      *
-     * @param nameKeywords Name keywords to match as full words, case-insensitively.
+     * @param nameKeywords Name keywords to match as full words, case-insensitively, with one-edit tolerance.
      * @param phoneKeywords Phone keywords to match as substrings, case-insensitively.
      * @param unitKeywords Unit number keywords to match as substrings, case-insensitively.
      */
@@ -48,7 +48,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     /**
      * Creates a predicate using the given field-specific search keywords.
      *
-     * @param nameKeywords Name keywords to match as full words, case-insensitively.
+     * @param nameKeywords Name keywords to match as full words, case-insensitively, with one-edit tolerance.
      * @param phoneKeywords Phone keywords to match as substrings, case-insensitively.
      * @param unitKeywords Unit number keywords to match as substrings, case-insensitively.
      * @param roles Roles to match exactly.
@@ -86,7 +86,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
         }
 
         return nameKeywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(resident.getName().fullName, keyword));
+                .anyMatch(keyword -> StringUtil.containsFuzzyWordIgnoreCase(resident.getName().fullName, keyword));
     }
 
     /**

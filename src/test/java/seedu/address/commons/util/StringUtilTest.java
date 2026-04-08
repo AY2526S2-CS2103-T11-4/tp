@@ -123,6 +123,51 @@ public class StringUtilTest {
         assertTrue(StringUtil.containsWordIgnoreCase("AAA bBb ccc  bbb", "bbB"));
     }
 
+    //---------------- Tests for containsFuzzyWordIgnoreCase --------------------------------------
+
+    @Test
+    public void containsFuzzyWordIgnoreCase_nullWord_throwsNullPointerException() {
+        assertThrows(NullPointerException.class,
+                () -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", null));
+    }
+
+    @Test
+    public void containsFuzzyWordIgnoreCase_emptyWord_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, "Word parameter cannot be empty", ()
+                -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "  "));
+    }
+
+    @Test
+    public void containsFuzzyWordIgnoreCase_multipleWords_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, "Word parameter should be a single word", ()
+                -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "aaa BBB"));
+    }
+
+    @Test
+    public void containsFuzzyWordIgnoreCase_nullSentence_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> StringUtil.containsFuzzyWordIgnoreCase(null, "abc"));
+    }
+
+    @Test
+    public void containsFuzzyWordIgnoreCase_validInputs_correctResult() {
+        // Empty sentence
+        assertFalse(StringUtil.containsFuzzyWordIgnoreCase("", "abc"));
+        assertFalse(StringUtil.containsFuzzyWordIgnoreCase("    ", "123"));
+
+        // Exact matches remain valid
+        assertTrue(StringUtil.containsFuzzyWordIgnoreCase("aaa bBb ccc", "Bbb"));
+        assertTrue(StringUtil.containsFuzzyWordIgnoreCase("  AAA   bBb   ccc  ", "aaa"));
+
+        // Single substitution, insertion, and deletion
+        assertTrue(StringUtil.containsFuzzyWordIgnoreCase("Alex Tan", "Alek"));
+        assertTrue(StringUtil.containsFuzzyWordIgnoreCase("Meier Tan", "Meir"));
+        assertTrue(StringUtil.containsFuzzyWordIgnoreCase("Alex Tan", "Alx"));
+
+        // More than one edit should fail
+        assertFalse(StringUtil.containsFuzzyWordIgnoreCase("Alex Tan", "Arik"));
+        assertFalse(StringUtil.containsFuzzyWordIgnoreCase("Meier Tan", "Mayer"));
+    }
+
     //---------------- Tests for getDetails --------------------------------------
 
     /*
