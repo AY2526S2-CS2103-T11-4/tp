@@ -4,22 +4,25 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_MIXED_FIND_SYNTAX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNIT_NUMBER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.resident.NameContainsKeywordsPredicate;
 import seedu.address.model.resident.ResidentMatchesFindPredicate;
+import seedu.address.model.resident.Role;
 
 /**
  * Parses input arguments and creates a new FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
+    private static final Prefix[] SUPPORTED_PREFIXES =
+            new Prefix[] {PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER, PREFIX_ROLE};
 
 
     /**
@@ -34,56 +37,82 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(" " + trimmedArgs, PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER);
-        boolean hasFieldPrefixes = areAnyPrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_UNIT_NUMBER);
-
-        if (hasFieldPrefixes && !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(MESSAGE_MIXED_FIND_SYNTAX);
+        String[] tokens = trimmedArgs.split("\\s+");
+        if (!containsRecognizedPrefix(tokens, 0)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        if (hasFieldPrefixes) {
-            return parseFieldedFind(argMultimap);
-        }
-
-        String[] nameKeywords = trimmedArgs.split("\\s+");
-        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+        return parseFieldedFind(tokens);
     }
 
-    private FindCommand parseFieldedFind(ArgumentMultimap argMultimap) throws ParseException {
-        List<String> nameKeywords = parseNameKeywords(argMultimap.getAllValues(PREFIX_NAME));
-        List<String> phoneKeywords = parseFieldKeywords(argMultimap.getAllValues(PREFIX_PHONE));
-        List<String> unitKeywords = parseFieldKeywords(argMultimap.getAllValues(PREFIX_UNIT_NUMBER));
+    private FindCommand parseFieldedFind(String[] tokens) throws ParseException {
+        List<String> nameKeywords = new ArrayList<>();
+        List<String> phoneKeywords = new ArrayList<>();
+        List<String> unitKeywords = new ArrayList<>();
+        List<Role> roles = new ArrayList<>();
+        boolean hasSeenPrefixedToken = false;
 
-        return new FindCommand(new ResidentMatchesFindPredicate(nameKeywords, phoneKeywords, unitKeywords));
-    }
-
-    private List<String> parseNameKeywords(List<String> values) throws ParseException {
-        List<String> keywords = new ArrayList<>();
-        for (String value : values) {
-            String trimmedValue = value.trim();
-            if (trimmedValue.isEmpty()) {
+        for (int i = 0; i < tokens.length; i++) {
+            String token = tokens[i];
+            Optional<Prefix> matchedPrefix = findMatchingPrefix(token);
+            if (matchedPrefix.isEmpty()) {
+                if (!hasSeenPrefixedToken && !looksLikePrefixedToken(token) && containsRecognizedPrefix(tokens, i + 1)) {
+                    throw new ParseException(MESSAGE_MIXED_FIND_SYNTAX);
+                }
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
-            keywords.addAll(Arrays.asList(trimmedValue.split("\\s+")));
-        }
-        return keywords;
-    }
 
-    private List<String> parseFieldKeywords(List<String> values) throws ParseException {
-        List<String> keywords = new ArrayList<>();
-        for (String value : values) {
-            String trimmedValue = value.trim();
-            if (trimmedValue.isEmpty()) {
+            hasSeenPrefixedToken = true;
+            String value = token.substring(matchedPrefix.get().getPrefix().length()).trim();
+            if (value.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
-            keywords.add(trimmedValue);
+
+            addParsedValue(matchedPrefix.get(), value, nameKeywords, phoneKeywords, unitKeywords, roles);
         }
-        return keywords;
+
+        return new FindCommand(new ResidentMatchesFindPredicate(nameKeywords, phoneKeywords, unitKeywords, roles));
     }
 
-    private static boolean areAnyPrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).anyMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    private void addParsedValue(Prefix prefix, String value, List<String> nameKeywords,
+                                List<String> phoneKeywords, List<String> unitKeywords,
+                                List<Role> roles) throws ParseException {
+        if (prefix.equals(PREFIX_NAME)) {
+            nameKeywords.add(value);
+            return;
+        }
+
+        if (prefix.equals(PREFIX_PHONE)) {
+            phoneKeywords.add(value);
+            return;
+        }
+
+        if (prefix.equals(PREFIX_UNIT_NUMBER)) {
+            unitKeywords.add(value);
+            return;
+        }
+
+        roles.add(ParserUtil.parseRole(value));
+    }
+
+    private Optional<Prefix> findMatchingPrefix(String token) {
+        return Arrays.stream(SUPPORTED_PREFIXES)
+                .filter(prefix -> token.startsWith(prefix.getPrefix()))
+                .findFirst();
+    }
+
+    private boolean containsRecognizedPrefix(String[] tokens, int startIndex) {
+        for (int i = startIndex; i < tokens.length; i++) {
+            if (findMatchingPrefix(tokens[i]).isPresent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean looksLikePrefixedToken(String token) {
+        int separatorIndex = token.indexOf('/');
+        return separatorIndex > 0;
     }
 
 }

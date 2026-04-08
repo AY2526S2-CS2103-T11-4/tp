@@ -26,12 +26,11 @@ edit: Edits an existing resident by index.
 Format: edit INDEX [n/NAME] [p/PHONE] [u/UNIT_NUMBER]
 Example: edit 1 p/91234567 u/03-14
 
-        find: Finds residents using either name keywords or fielded search criteria.
-        Format 1: find KEYWORD [MORE_KEYWORDS]...
-        Format 2: find [n/NAME_KEYWORDS]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]...
-        Note: If any prefix is used, every fielded search term must be prefixed.
-        Example 1: find alex david
-        Example 2: find n/alice n/bob p/9876 u/02-25
+find: Finds residents using prefixed search criteria.
+Format: find [n/NAME_KEYWORD]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...
+Note: Every search term must be prefixed.
+Example 1: find n/alice n/bob
+Example 2: find n/alice p/9876 u/02-25 r/HA
 
 sort: Sorts the displayed list of residents by the specified field.
 Format: sort FIELD

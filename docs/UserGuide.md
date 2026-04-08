@@ -135,39 +135,28 @@ Examples:
 
 ### Locating residents: `find`
 
-Finds residents using either name keywords or fielded search criteria.
+Finds residents using prefixed search criteria.
 
 Format:
-* Name-only search: `find KEYWORD [MORE_KEYWORDS]...`
-* Fielded search: `find [n/NAME]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]...`
+* `find [n/NAME_KEYWORD]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...`
 
-Name-only search:
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched. e.g. `Han` will not match `Hans`
-* Residents matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-
-Fielded search:
-* If any prefix is used, text after a prefix is treated as part of that field until another recognized prefix appears.
+Rules:
+* Every search term must be prefixed.
 * `n/` matches resident names as case-insensitive full words.
 * `p/` matches phone numbers by substring.
 * `u/` matches unit numbers by case-insensitive substring.
+* `r/` matches resident roles exactly.
 * Multiple search terms within the same field are combined using `OR`.
 * Different fields are combined using `AND`.
-* Unprefixed text before the first prefix is invalid.
-  e.g. `find 9876 n/Bob` is not allowed
+* Unprefixed text is invalid.
+  e.g. `find 9876 n/Bob` and `find n/Alex Bob` are not allowed
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find n/John` returns residents whose names contain the full word `John`
 * `find p/9876` returns residents whose phone numbers contain `9876`
 * `find u/02-25` returns residents whose unit numbers contain `02-25`
-* `find n/Alex p/9876 u/02-25` returns residents matching all three field criteria
-* `find n/alex david` or `find n/alex n/david` returns `Alex Yeoh`, `David Li`
-  because `david` is treated as part of the `n/` field until another prefix appears
+* `find r/HA` returns residents whose role is `HA`
+* `find n/Alex p/9876 u/02-25 r/HA` returns residents matching all specified field criteria
 
 ### Deleting a resident : `delete`
 
@@ -259,7 +248,7 @@ Action     | Format, Examples
 **Copy**   | `copy`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]...` or `find [n/NAME]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]...`<br> e.g., `find James Jake`, `find n/James Jake p/2222 u/02-25`
+**Find**   | `find [n/NAME_KEYWORD]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...`<br> e.g., `find n/James n/Jake`, `find n/James p/2222 u/02-25 r/HA`
 **List**   | `list`
 **Help**   | `help`
 **Sort**   | `sort FIELD`<br> e.g., `sort name`

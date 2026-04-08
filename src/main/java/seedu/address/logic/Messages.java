@@ -21,7 +21,7 @@ public class Messages {
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_MIXED_FIND_SYNTAX =
             "Find command cannot mix prefixed and unprefixed search terms. "
-                    + "Use either unprefixed name keywords only, or prefix every search term with n/, p/, or u/.";
+                    + "Prefix every search term with n/, p/, u/, or r/.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
