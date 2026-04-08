@@ -54,6 +54,15 @@ public class ResidentMatchesFindPredicateTest {
     }
 
     @Test
+    public void test_fuzzyNameKeywordWithinSingleEdit_matchesResident() {
+        Resident resident = new ResidentBuilder().withName("Alex Tan").withPhone("98761234")
+                .withUnitNumber("Block B #02-25").build();
+
+        assertTrue(new ResidentMatchesFindPredicate(List.of("Alek"), List.of(), List.of()).test(resident));
+        assertTrue(new ResidentMatchesFindPredicate(List.of("Alx"), List.of(), List.of()).test(resident));
+    }
+
+    @Test
     public void test_nonMatchingFields_returnsFalse() {
         Resident resident = new ResidentBuilder().withName("Alex Tan").withPhone("98761234")
                 .withUnitNumber("Block B #02-25").withRole("HA").build();

@@ -106,6 +106,29 @@ public class FindCommandTest {
     }
 
     @Test
+    public void execute_fuzzyNamePrefix_singleResidentFound() {
+        String expectedMessage = String.format(MESSAGE_RESIDENTS_LISTED_OVERVIEW, 1);
+        FindCommand command = parseFindCommand("n/Karl");
+
+        expectedModel.updateFilteredResidentsList(resident -> resident.equals(CARL));
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.singletonList(CARL), model.getFilteredResidentList());
+    }
+
+    @Test
+    public void execute_fuzzyNamePrefix_multipleResidentsFound() {
+        String expectedMessage = String.format(MESSAGE_RESIDENTS_LISTED_OVERVIEW, 2);
+        FindCommand command = parseFindCommand("n/Meir");
+
+        expectedModel.updateFilteredResidentsList(resident ->
+                resident.equals(BENSON) || resident.equals(DANIEL));
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BENSON, DANIEL), model.getFilteredResidentList());
+    }
+
+    @Test
     public void toStringMethod() {
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList("keyword"));
         FindCommand findCommand = new FindCommand(predicate);
