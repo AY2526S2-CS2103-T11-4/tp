@@ -30,11 +30,12 @@ public class ResidentMatchesFindPredicateTest {
     @Test
     public void test_matchesConfiguredFields_returnsTrue() {
         Resident resident = new ResidentBuilder().withName("Alex Tan").withPhone("98761234")
-                .withUnitNumber("Block B #02-25").build();
+                .withUnitNumber("Block B #02-25").withRole("HA").build();
 
         assertTrue(new ResidentMatchesFindPredicate(List.of("alex"), List.of(), List.of()).test(resident));
         assertTrue(new ResidentMatchesFindPredicate(List.of(), List.of("9876"), List.of()).test(resident));
         assertTrue(new ResidentMatchesFindPredicate(List.of(), List.of(), List.of("02-25")).test(resident));
+        assertTrue(new ResidentMatchesFindPredicate(List.of(), List.of(), List.of(), List.of(Role.HA)).test(resident));
         assertTrue(new ResidentMatchesFindPredicate(List.of("alex"), List.of("9876"), List.of("02-25"))
                 .test(resident));
     }
@@ -55,11 +56,12 @@ public class ResidentMatchesFindPredicateTest {
     @Test
     public void test_nonMatchingFields_returnsFalse() {
         Resident resident = new ResidentBuilder().withName("Alex Tan").withPhone("98761234")
-                .withUnitNumber("Block B #02-25").build();
+                .withUnitNumber("Block B #02-25").withRole("HA").build();
 
         assertFalse(new ResidentMatchesFindPredicate(List.of("brenda"), List.of(), List.of()).test(resident));
         assertFalse(new ResidentMatchesFindPredicate(List.of(), List.of("5555"), List.of()).test(resident));
         assertFalse(new ResidentMatchesFindPredicate(List.of(), List.of(), List.of("03-30")).test(resident));
+        assertFalse(new ResidentMatchesFindPredicate(List.of(), List.of(), List.of(), List.of(Role.FH)).test(resident));
     }
 
     @Test
@@ -98,7 +100,7 @@ public class ResidentMatchesFindPredicateTest {
                 new ResidentMatchesFindPredicate(List.of("alex"), List.of("9876"), List.of("02-25"));
 
         String expected = ResidentMatchesFindPredicate.class.getCanonicalName()
-                + "{nameKeywords=[alex], phoneKeywords=[9876], unitKeywords=[02-25]}";
+                + "{nameKeywords=[alex], phoneKeywords=[9876], unitKeywords=[02-25], roles=[]}";
         assertEquals(expected, predicate.toString());
     }
 }

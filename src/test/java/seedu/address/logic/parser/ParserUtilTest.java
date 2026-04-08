@@ -143,4 +143,9 @@ public class ParserUtilTest {
         assertEquals(expectedRole, ParserUtil.parseRole(roleWithWhitespace));
     }
 
+    @Test
+    public void parseRole_unassignedAlias_returnsNoneRole() throws Exception {
+        assertEquals(Role.NONE, ParserUtil.parseRole("unassigned"));
+    }
+
 }

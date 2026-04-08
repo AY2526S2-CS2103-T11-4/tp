@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_RESIDENTS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalResidents.BENSON;
 import static seedu.address.testutil.TypicalResidents.CARL;
+import static seedu.address.testutil.TypicalResidents.DANIEL;
 import static seedu.address.testutil.TypicalResidents.ELLE;
 import static seedu.address.testutil.TypicalResidents.FIONA;
+import static seedu.address.testutil.TypicalResidents.GEORGE;
 import static seedu.address.testutil.TypicalResidents.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -15,10 +18,14 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.parser.FindCommandParser;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.resident.NameContainsKeywordsPredicate;
+import seedu.address.model.resident.Role;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -75,6 +82,30 @@ public class FindCommandTest {
     }
 
     @Test
+    public void execute_rolePrefix_multipleResidentsFound() {
+        String expectedMessage = String.format(MESSAGE_RESIDENTS_LISTED_OVERVIEW, 4);
+        FindCommand command = parseFindCommand("r/HA");
+
+        expectedModel.updateFilteredResidentsList(resident -> resident.getRole() == Role.HA);
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BENSON, ELLE, FIONA, GEORGE), model.getFilteredResidentList());
+    }
+
+    @Test
+    public void execute_roleAndNamePrefixes_singleResidentFound() {
+        String expectedMessage = String.format(MESSAGE_RESIDENTS_LISTED_OVERVIEW, 1);
+        FindCommand command = parseFindCommand("n/Meier r/FH");
+
+        expectedModel.updateFilteredResidentsList(resident ->
+                resident.getRole() == Role.FH
+                        && StringUtil.containsWordIgnoreCase(resident.getName().fullName, "Meier"));
+
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.singletonList(DANIEL), model.getFilteredResidentList());
+    }
+
+    @Test
     public void toStringMethod() {
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList("keyword"));
         FindCommand findCommand = new FindCommand(predicate);
@@ -87,5 +118,13 @@ public class FindCommandTest {
      */
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
         return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+    }
+
+    private FindCommand parseFindCommand(String userInput) {
+        try {
+            return new FindCommandParser().parse(userInput);
+        } catch (ParseException pe) {
+            throw new AssertionError("FindCommand should have parsed successfully.", pe);
+        }
     }
 }

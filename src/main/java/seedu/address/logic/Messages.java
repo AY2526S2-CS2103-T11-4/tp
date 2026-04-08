@@ -21,7 +21,7 @@ public class Messages {
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_MIXED_FIND_SYNTAX =
             "Find command cannot mix prefixed and unprefixed search terms. "
-                    + "Use either unprefixed name keywords only, or prefix every search term with n/, p/, or u/.";
+                    + "Prefix every search term with n/, p/, u/, or r/.";
 
     // More for AddCommand and EditCommand (since used in both; they are placed here instead)
     public static final String MESSAGE_DUPLICATE_RESIDENT = "This resident already exists in the list";

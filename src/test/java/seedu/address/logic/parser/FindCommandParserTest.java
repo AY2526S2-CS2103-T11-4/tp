@@ -6,12 +6,13 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
-import seedu.address.model.resident.NameContainsKeywordsPredicate;
 import seedu.address.model.resident.ResidentMatchesFindPredicate;
+import seedu.address.model.resident.Role;
 
 public class FindCommandParserTest {
     private FindCommandParser parser = new FindCommandParser();
@@ -22,14 +23,9 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() {
-        // no leading and trailing whitespaces
-        FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
-
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+    public void parse_legacyNameOnlyArgs_throwsParseException() {
+        assertParseFailure(parser, "Alice Bob",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -37,12 +33,30 @@ public class FindCommandParserTest {
         FindCommand expectedFindCommand = new FindCommand(new ResidentMatchesFindPredicate(
                 Arrays.asList("Alice", "Bob"), Arrays.asList("9876"), Arrays.asList("02-25")));
 
-        assertParseSuccess(parser, "n/Alice Bob p/9876 u/02-25", expectedFindCommand);
+        assertParseSuccess(parser, "n/Alice n/Bob p/9876 u/02-25", expectedFindCommand);
     }
 
     @Test
     public void parse_mixedPrefixedAndUnprefixedArgs_throwsParseException() {
         assertParseFailure(parser, "9876 n/Bob", MESSAGE_MIXED_FIND_SYNTAX);
+    }
+
+    @Test
+    public void parse_unprefixedSearchTermWithinField_throwsParseException() {
+        assertParseFailure(parser, "n/Alice Bob p/9876",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidPrefix_throwsParseException() {
+        assertParseFailure(parser, "x/Alice",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidPrefixBeforeValidField_throwsParseException() {
+        assertParseFailure(parser, "x/Alice n/Bob",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -61,6 +75,25 @@ public class FindCommandParserTest {
     public void parse_emptyUnitField_throwsParseException() {
         assertParseFailure(parser, "u/",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_emptyRoleField_throwsParseException() {
+        assertParseFailure(parser, "r/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidRoleField_throwsParseException() {
+        assertParseFailure(parser, "r/INVALID-ROLE", Role.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_unassignedRoleAlias_returnsFindCommand() {
+        FindCommand expectedFindCommand = new FindCommand(new ResidentMatchesFindPredicate(
+                List.of(), List.of(), List.of(), List.of(Role.NONE)));
+
+        assertParseSuccess(parser, "r/unassigned", expectedFindCommand);
     }
 
 }

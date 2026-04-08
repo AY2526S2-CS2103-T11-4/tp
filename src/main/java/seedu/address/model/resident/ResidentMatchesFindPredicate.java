@@ -30,6 +30,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     private final List<String> nameKeywords;
     private final List<String> phoneKeywords;
     private final List<String> unitKeywords;
+    private final List<Role> roles;
 
     /**
      * Creates a predicate using the given field-specific search keywords.
@@ -41,12 +42,29 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     public ResidentMatchesFindPredicate(List<String> nameKeywords,
                                         List<String> phoneKeywords,
                                         List<String> unitKeywords) {
+        this(nameKeywords, phoneKeywords, unitKeywords, List.of());
+    }
+
+    /**
+     * Creates a predicate using the given field-specific search keywords.
+     *
+     * @param nameKeywords Name keywords to match as full words, case-insensitively.
+     * @param phoneKeywords Phone keywords to match as substrings, case-insensitively.
+     * @param unitKeywords Unit number keywords to match as substrings, case-insensitively.
+     * @param roles Roles to match exactly.
+     */
+    public ResidentMatchesFindPredicate(List<String> nameKeywords,
+                                        List<String> phoneKeywords,
+                                        List<String> unitKeywords,
+                                        List<Role> roles) {
         requireNonNull(nameKeywords);
         requireNonNull(phoneKeywords);
         requireNonNull(unitKeywords);
+        requireNonNull(roles);
         this.nameKeywords = List.copyOf(nameKeywords);
         this.phoneKeywords = List.copyOf(phoneKeywords);
         this.unitKeywords = List.copyOf(unitKeywords);
+        this.roles = List.copyOf(roles);
     }
 
     /**
@@ -55,7 +73,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     @Override
     public boolean test(Resident resident) {
         requireNonNull(resident);
-        return matchesName(resident) && matchesPhone(resident) && matchesUnit(resident);
+        return matchesName(resident) && matchesPhone(resident) && matchesUnit(resident) && matchesRole(resident);
     }
 
     /**
@@ -98,6 +116,18 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
     }
 
     /**
+     * Returns {@code true} if the resident's role matches at least one configured role,
+     * or if no roles were provided.
+     */
+    private boolean matchesRole(Resident resident) {
+        if (roles.isEmpty()) {
+            return true;
+        }
+
+        return roles.contains(resident.getRole());
+    }
+
+    /**
      * Returns {@code true} if {@code value} contains {@code keyword}, ignoring case.
      */
     private boolean containsIgnoreCase(String value, String keyword) {
@@ -117,7 +147,8 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
         ResidentMatchesFindPredicate otherPredicate = (ResidentMatchesFindPredicate) other;
         return nameKeywords.equals(otherPredicate.nameKeywords)
                 && phoneKeywords.equals(otherPredicate.phoneKeywords)
-                && unitKeywords.equals(otherPredicate.unitKeywords);
+                && unitKeywords.equals(otherPredicate.unitKeywords)
+                && roles.equals(otherPredicate.roles);
     }
 
     @Override
@@ -126,6 +157,7 @@ public class ResidentMatchesFindPredicate implements Predicate<Resident> {
                 .add("nameKeywords", nameKeywords)
                 .add("phoneKeywords", phoneKeywords)
                 .add("unitKeywords", unitKeywords)
+                .add("roles", roles)
                 .toString();
     }
 }

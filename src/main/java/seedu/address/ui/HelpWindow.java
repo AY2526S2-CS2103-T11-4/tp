@@ -44,11 +44,9 @@ edit: Edits an existing resident by index.
     edit 1 p/91234567 u/03-14
 
 find: Finds residents using either name keywords or fielded criteria.
-  Format 1:
-    find KEYWORD [MORE_KEYWORDS]...
-  Format 2:
-    find [n/NAME_KEYWORDS]... [p/PHONE_NUMBER]...
-         [u/UNIT_NUMBER]...
+  Format:
+    find [n/NAME]... [p/PHONE_NUMBER]...
+         [u/UNIT_NUMBER]...[r/ROLE]
   Note:
     Once you use a prefix, every search term must be prefixed.
   Examples:
