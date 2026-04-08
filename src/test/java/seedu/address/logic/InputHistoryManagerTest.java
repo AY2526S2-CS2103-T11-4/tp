@@ -15,7 +15,14 @@ public class InputHistoryManagerTest {
     }
 
     @Test
-    public void retrieveEarlierPastInput_hasHistory_stopsAtEarliestInput() {
+    public void retrieveLaterPastInput_emptyHistory_returnsNull() {
+        InputHistoryManager historyManager = new InputHistoryManager();
+
+        assertNull(historyManager.retrieveLaterPastInput());
+    }
+
+    @Test
+    public void retrieveEarlierPastInput_hasHistory_returnsNullPastEarliestInput() {
         InputHistoryManager historyManager = new InputHistoryManager();
         historyManager.addToHistory("first");
         historyManager.addToHistory("second");
@@ -24,11 +31,11 @@ public class InputHistoryManagerTest {
         assertEquals("third", historyManager.retrieveEarlierPastInput());
         assertEquals("second", historyManager.retrieveEarlierPastInput());
         assertEquals("first", historyManager.retrieveEarlierPastInput());
-        assertEquals("first", historyManager.retrieveEarlierPastInput());
+        assertNull(historyManager.retrieveEarlierPastInput());
     }
 
     @Test
-    public void retrieveLaterPastInput_withHistory_returnsNullAtPresentInput() {
+    public void retrieveLaterPastInput_withHistory_returnsEmptyThenNullAtPresentInput() {
         InputHistoryManager historyManager = new InputHistoryManager();
         historyManager.addToHistory("first");
         historyManager.addToHistory("second");
@@ -40,7 +47,7 @@ public class InputHistoryManagerTest {
 
         assertEquals("second", historyManager.retrieveLaterPastInput());
         assertEquals("third", historyManager.retrieveLaterPastInput());
-        assertNull(historyManager.retrieveLaterPastInput());
+        assertEquals("", historyManager.retrieveLaterPastInput());
         assertNull(historyManager.retrieveLaterPastInput());
     }
 
@@ -51,12 +58,13 @@ public class InputHistoryManagerTest {
         historyManager.addToHistory("list");
 
         assertEquals("list", historyManager.retrieveEarlierPastInput());
-        assertNull(historyManager.retrieveLaterPastInput());
+        assertEquals("", historyManager.retrieveLaterPastInput());
 
         historyManager.addToHistory("list 123");
         historyManager.addToHistory("list 123");
 
         assertEquals("list 123", historyManager.retrieveEarlierPastInput());
+        assertEquals("list", historyManager.retrieveEarlierPastInput());
 
         historyManager.addToHistory("add first");
         historyManager.addToHistory("add first ");
@@ -81,4 +89,21 @@ public class InputHistoryManagerTest {
 
         assertEquals("find c", historyManager.retrieveEarlierPastInput());
     }
+
+    @Test
+    public void exitHistoryMode_afterNavigating_resetsIndexToLatestInput() {
+        InputHistoryManager historyManager = new InputHistoryManager();
+        historyManager.addToHistory("find a");
+        historyManager.addToHistory("find b");
+        historyManager.addToHistory("find c");
+
+        // Navigating through history
+        assertEquals("find c", historyManager.retrieveEarlierPastInput());
+        assertEquals("find b", historyManager.retrieveEarlierPastInput());
+
+        // Mimicking complete clearing of input (e.g. ctrl+a > backspace, or executing a new input
+        historyManager.exitHistoryMode();
+        assertEquals("find c", historyManager.retrieveEarlierPastInput());
+    }
+
 }

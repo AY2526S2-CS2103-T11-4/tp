@@ -34,7 +34,12 @@ public class CommandBox extends UiPart<Region> {
         this.commandExecutor = commandExecutor;
 
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        commandTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                inputHistoryManager.exitHistoryMode();
+            }
+            setStyleToDefault();
+        });
     }
 
     /**
@@ -76,7 +81,13 @@ public class CommandBox extends UiPart<Region> {
      * Handles event passing for the up arrow key pressed event.
      */
     private void onUpArrowPressed() {
-        commandTextField.setText(inputHistoryManager.retrieveEarlierPastInput());
+        String prevInput = inputHistoryManager.retrieveEarlierPastInput();
+
+        if (prevInput == null) {
+            return;
+        }
+
+        commandTextField.setText(prevInput);
         formatInHistoryInputField();
     }
 
@@ -85,11 +96,13 @@ public class CommandBox extends UiPart<Region> {
      */
     private void onDownArrowPressed() {
         String input = inputHistoryManager.retrieveLaterPastInput();
-        commandTextField.setText(input);
         if (input == null) {
             setStyleToDefault();
         } else {
-            formatInHistoryInputField();
+            commandTextField.setText(input);
+            if (!input.isEmpty()) {
+                formatInHistoryInputField();
+            }
         }
     }
 

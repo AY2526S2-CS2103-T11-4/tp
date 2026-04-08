@@ -12,14 +12,19 @@ public class InputHistoryManager {
 
     /**
      * Returns an earlier past input than the current past input, if possible.
-     * "Earlier" here means further back in time. If attempting to retrieve an
-     * earlier input would exceed the bounds of the input history, the current
-     * past input is returned instead.
+     * "Earlier" here means further back in time.
+     * If attempting to retrieve an earlier input would exceed the bounds of
+     * the input history, null is returned instead.
      *
      * @return The earlier past input, if it exists.
      */
     public String retrieveEarlierPastInput() {
+        int prevIndex = currentIndex;
         currentIndex = Math.max(0, currentIndex - 1);
+
+        if (prevIndex == currentIndex) {
+            return null;
+        }
 
         if (currentIndex == inputHistory.size()) {
             return null;
@@ -30,17 +35,25 @@ public class InputHistoryManager {
 
     /**
      * Returns a later past input than the current past input, if possible.
-     * "Later" here means closer to the present. If attempting to retrieve a
-     * later input would bring the user back to the present (i.e. empty input)
-     * or the user is already at the present, null is returned instead.
+     * "Later" here means closer to the present.
+     * If attempting to retrieve a later input would bring the user back to
+     * the present (i.e. empty input) an empty string is returned instead.
+     * If the user is already at the present, null is returned instead.
      *
      * @return The later past input, if it exists.
      */
     public String retrieveLaterPastInput() {
+        int prevIndex = currentIndex;
         currentIndex = Math.min(inputHistory.size(), currentIndex + 1);
 
-        if (currentIndex == inputHistory.size()) {
+        // Stays in non-input history retrieval mode
+        if (prevIndex == currentIndex) {
             return null;
+        }
+
+        // Otherwise, exit input-history retrieval mode
+        if (currentIndex == inputHistory.size()) {
+            return "";
         }
 
         return inputHistory.get(currentIndex);
@@ -58,6 +71,14 @@ public class InputHistoryManager {
         if (inputHistory.isEmpty() || !input.equals(inputHistory.get(inputHistory.size() - 1))) {
             inputHistory.add(input);
         }
+        exitHistoryMode();
+    }
+
+    /**
+     * Resets the current index to the end of the input history, indicating
+     * that user is not navigating through input history.
+     */
+    public void exitHistoryMode() {
         currentIndex = inputHistory.size();
     }
 
