@@ -60,6 +60,12 @@
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
+        "listing-residents": "Listing residents",
+        "adding-a-resident": "Adding a resident",
+        "finding-residents": "Finding residents",
+        "sorting-residents": "Sorting residents",
+        "command-history-navigation": "Command history navigation",
+        "case-insensitive-commands": "Case-insensitive commands",
         "deleting-a-resident": "Deleting a resident",
         "copying-resident-information": "Copying resident information",
         "saving-data": "Saving data"
