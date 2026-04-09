@@ -8,9 +8,12 @@ start
 
 :Retrieve earlier input;
 
-:Display earlier input;
-
-:Style input field to current input is from history;
+if () then ([earlier input does not exist])
+    :No changes;
+else ([else])
+    :Display earlier input;
+    :Style input field to show current input is from history;
+endif
 
 stop
 @enduml

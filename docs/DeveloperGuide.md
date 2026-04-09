@@ -462,8 +462,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-* 1b. User is already at the latest input.
+* 1b. User is already at the latest input in history.
     * 1b1. System exits input history navigation.
+
+      Use case ends.
+
+* 1c. User is already at the present input (i.e. not navigating history).
+    * 1c1. Nothing changes.
 
       Use case ends.
 
@@ -483,7 +488,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 9. The application shall be packaged into a single executable JAR file.
 10. The final packaged application shall not exceed 100MB in size.
 11.  The system shall function without depending on a remote server
-12. The application shall not requre users to install additional software dependencies
+12. The application shall not require users to install additional software dependencies
 13. The User Guide and Developer Guide shall be PDF-friendly and avoid interactive elements such as expandable panels or embedded videos.
 
 *{More to be added}*
@@ -496,9 +501,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Resident**: A resident whose record is managed by the application.
 * **Resident Assistants (RAs)**: The primary target user of the application, responsible for resident welfare and administrative follow-up.
 * **Command**: A text instruction entered by the user to perform an action in the app.
-* **Contact Information**: Personal communication details of a resident, such as phone number and email address.
-* **Room Location**: The dormitory room or unit assigned to a resident.
-* **Emergency Contact**: A contact resident who should be reached in urgent situations; may refer to the next-of-kin or another designated resident.
+* **Phone Number**: The mobile phone number of the resident.
+* **Unit Number**: The dormitory room assigned to the resident.
+* **Role**: The special dormitory-related position of the resident, if any. Only valid values for this app are "HA", "FH", "RA", or none at all.
+* **Command Box**: The UI component where users type their commands.
+* **Result Display**: The UI component that shows the result of executing a command, such as success messages, error messages.
+* **Resident List Panel**: The UI component that displays the resident information.
+* **Input History**: A feature that allows users to navigate through their previous command inputs.
 
 --------------------------------------------------------------------------------------------------------------------
 
