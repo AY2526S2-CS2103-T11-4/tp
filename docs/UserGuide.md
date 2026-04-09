@@ -256,6 +256,7 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **After editing a resident displayed in a filtered list view**, the list will reset to the default view (i.e. no filters) instead of maintaining the filtered view. This bug was raised for fixing in the v1.5 milestone's development timeline, but was ultimately not achievable within the time constraints given the priorities of other bugs and the workload constraints of the team, and has thus been classified as "Out of Scope" as advised [here](https://nus-cs2103-ay2526-s2.github.io/website/schedule/week11/project.html?cv-highlight=tpMustWeFixAllBugs).
 
 --------------------------------------------------------------------------------------------------------------------
 
