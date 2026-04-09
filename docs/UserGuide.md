@@ -8,7 +8,7 @@
 
 **QuickLookup** is a desktop application for managing a list of residents, optimized for users who prefer fast keyboard input via a **Command Line Interface (CLI)** while still providing a **Graphical User Interface (GUI)** for visual feedback.
 
-It allows users to quickly **add, remove, and view residents** in a locally stored list.
+It allows users to quickly **view and manage residents** in a locally stored list while providing **useful features** to quicken this process.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -227,7 +227,15 @@ QuickLookup tracks your current session's command history for quick retrieval us
 
 While the command box is focused, press:
 - Up Arrow Key (`↑`) to display earlier commands.
+  - If you are already at the earliest command or there is no history, the Up Arrow Key brings the cursor to the front of the Command Box
 - Down Arrow Key (`↓`) to display more recent commands.
+  - If you are already at the latest command in history, the Down Arrow Key clears the Command Box.
+  - If you are already at the present, the Down Arrow Key brings the cursor to the end of the Command Box.
+
+While editing the currently displayed past input:
+- Navigation position in history is maintained. That is, despite editing, pressing:
+  - Up Arrow Key (`↑`) will still navigate to the command directly earlier (if available).
+  - Down Arrow Key (`↓`) will still navigate to the command directly more recent (if available).
 
 ### Archiving data files `[coming in v2.0]`
 

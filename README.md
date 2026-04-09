@@ -6,7 +6,7 @@
 
 **QuickLookup** is a desktop application for managing a list of residents, optimized for users who prefer fast keyboard input via a **Command Line Interface (CLI)** while still providing a **Graphical User Interface (GUI)** for visual feedback.
 
-It allows users to quickly **add, remove, and view residents** in a locally stored list.
+It allows users to quickly **view and manage residents** in a locally stored list while providing **useful features** to quicken this process
 
 ---
 

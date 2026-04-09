@@ -8,12 +8,16 @@ start
 
 :Retrieve later input;
 
-:Display later input;
-
-if () then ([later input does not exist])
+if () then ([user is already at present])
     :Apply normal styling to input field;
 else ([else])
-    :Style input field to show current input is from history;
+    if () then ([user is navigating back to present])
+        :Display empty input;
+    else ([else])
+        :Display later input;
+        :Style input field to show current input is from history;
+    endif
 endif
+
 stop
 @enduml
