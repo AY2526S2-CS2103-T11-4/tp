@@ -592,13 +592,13 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 1. _{ more test cases …​ }_
@@ -612,25 +612,25 @@ Prerequisites for all test cases below: Launch the application with the sample d
    1. Test case: `list`<br>
       Expected: All residents are displayed in the resident list. A success message is shown.
 <br><br>
-1. Listing all residents after applying a search filter
+2. Listing all residents after applying a search filter
 
    1. Prerequisites: Enter `find n/Alex` so that only matching residents are shown.
 
-   1. Test case: `list`<br>
+   2. Test case: `list`<br>
       Expected: The search filter is cleared and all residents are displayed again in the resident list.
       <br><br>
-1. Listing all residents after sorting the displayed list
+3. Listing all residents after sorting the displayed list
 
    1. Prerequisites: Enter `sort unit` so that the currently displayed list is no longer in its default order.
 
-   1. Test case: `list`<br>
+   2. Test case: `list`<br>
       Expected: All residents are displayed again in the default list order.
       <br><br>
-1. Listing residents when the address book is empty
+4. Listing residents when the address book is empty
 
    1. Prerequisites: Enter `clear`.
 
-   1. Test case: `list`<br>
+   2. Test case: `list`<br>
       Expected: No residents are displayed. A message indicating that no residents were found is shown.
 <box type="important" seamless>
 
@@ -648,37 +648,37 @@ Prerequisites for all test cases below: Launch the application with the sample d
       Expected: A new resident is added to the resident list. A success message is shown.
    <br><br>
 
-1. Adding a resident with an explicit role
+2. Adding a resident with an explicit role
 
    1. Test case: `add n/Jane Tan p/95551235 u/12/1/B r/FH`<br>
       Expected: A new resident is added to the resident list with role `FH`. A success message is shown.
       <br><br>
 
-1. Adding a resident with a missing required field
+3. Adding a resident with a missing required field
 
    1. Test case: `add n/John Doe p/95551236`<br>
       Expected: No resident is added. Error details for invalid command format are shown.
       <br><br>
 
-1. Adding a resident with an invalid role
+4. Adding a resident with an invalid role
 
    1. Test case: `add n/John Doe p/95551236 u/12/1/C r/INVALID`<br>
       Expected: No resident is added. Error details for invalid role are shown.
       <br><br>
 
-1. Adding a resident with a duplicate phone number
+5. Adding a resident with a duplicate phone number
 
    1. Test case: `add n/John Doe p/87438807 u/12/1/D`<br>
       Expected: No resident is added. Error details indicating a duplicate phone number are shown.
       <br><br>
 
-1. Adding a resident with a duplicate unit number
+6. Adding a resident with a duplicate unit number
 
    1. Test case: `add n/John Doe p/95551237 u/30/1/A`<br>
       Expected: No resident is added. Error details indicating a duplicate unit number are shown.
       <br><br>
 
-1. Adding a resident that duplicates an existing resident
+7. Adding a resident that duplicates an existing resident
 
    1. Test case: `add n/Alex Yeoh p/87438807 u/99/9/Z`<br>
       Expected: No resident is added. Error details indicating that the resident already exists are shown.
@@ -692,49 +692,172 @@ Prerequisites for all test cases below: Launch the application with the sample d
    1. Test case: `find n/Alex`<br>
       Expected: Only `Alex Yeoh` is displayed in the resident list.
       <br><br>
-1. Finding residents by phone number substring
+2. Finding residents by phone number substring
 
    1. Test case: `find p/388`<br>
       Expected: Only `Alex Yeoh` is displayed in the resident list.
       <br><br>
-1. Finding residents by unit number substring
+3. Finding residents by unit number substring
 
    1. Test case: `find u/20/7`<br>
       Expected: Only `Bernice Yu` is displayed in the resident list.
       <br><br>
-1. Finding residents by role
+4. Finding residents by role
 
    1. Test case: `find r/RA`<br>
       Expected: Only `Charlotte Oliveiro` is displayed in the resident list.
       <br><br>
-1. Finding residents by unassigned role
+5. Finding residents by unassigned role
 
    1. Test case: `find r/unassigned`<br>
       Expected: Only residents without an assigned role are displayed. `David Li`, `Irfan Ibrahim`, and
       `Roy Balakrishnan` are shown in the resident list.
       <br><br>
-1. Finding residents using multiple criteria
+6. Finding residents using multiple criteria
 
    1. Test case: `find n/Alex r/HA`<br>
       Expected: Only residents matching all specified criteria are displayed. `Alex Yeoh` is shown in the
       resident list.
       <br><br>
-1. Finding residents with invalid unprefixed input
+7. Finding residents with invalid unprefixed input
 
    1. Test case: `find Alex`<br>
       Expected: No filtering is applied. Error details for invalid command format are shown.
       <br><br>
-1. Finding residents with mixed prefixed and unprefixed input
+8. Finding residents with mixed prefixed and unprefixed input
 
    1. Test case: `find 388 n/Alex`<br>
       Expected: No filtering is applied. Error details indicating that prefixed and unprefixed terms cannot be
       mixed are shown.
       <br><br>
-1. Finding residents with no matches
+9. Finding residents with no matches
 
    1. Test case: `find n/ZZZ`<br>
       Expected: No residents are displayed. A message indicating that `0` residents were listed is shown.
       <br><br>
+
+### Sorting residents
+
+Prerequisites for all test cases below: Launch the application with the sample data loaded.
+
+1. Sorting residents by name
+
+   1. Prerequisites: Enter `sort unit` so that the list is not already in name order.
+
+   2. Test case: `sort name`<br>
+      Expected: Residents are displayed in ascending alphabetical order by name: `Alex Yeoh`, `Bernice Yu`,
+      `Charlotte Oliveiro`, `David Li`, `Irfan Ibrahim`, `Roy Balakrishnan`.
+2. Sorting residents by phone number
+
+   1. Test case: `sort phone`<br>
+      Expected: Residents are displayed in ascending order by phone number: `Alex Yeoh`, `David Li`,
+      `Irfan Ibrahim`, `Roy Balakrishnan`, `Charlotte Oliveiro`, `Bernice Yu`.
+      <br><br>
+
+3. Sorting residents by unit number
+
+   1. Test case: `sort unit`<br>
+      Expected: Residents are displayed in ascending natural order by unit number: `Irfan Ibrahim`,
+      `Charlotte Oliveiro`, `Bernice Yu`, `David Li`, `Roy Balakrishnan`, `Alex Yeoh`.
+      <br><br>
+
+4. Sorting residents by role
+
+   1. Prerequisites: Enter `sort phone` so that the list is not already in role order.
+
+   2. Test case: `sort role`<br>
+      Expected: Residents are displayed in ascending role order, with assigned roles shown before unassigned
+      residents: `Alex Yeoh`, `Bernice Yu`, `Charlotte Oliveiro`, `David Li`, `Irfan Ibrahim`,
+      `Roy Balakrishnan`.
+      <br><br>
+
+5. Sorting a filtered resident list
+
+   1. Prerequisites: Enter `find r/unassigned` so that only unassigned residents are shown.
+
+   2. Test case: `sort unit`<br>
+      Expected: Only the filtered residents remain displayed, sorted by unit number: `Irfan Ibrahim`,
+      `David Li`, `Roy Balakrishnan`.
+
+6. Sorting residents with an invalid field
+
+   1. Test case: `sort invalid`<br>
+      Expected: No sorting is applied. Error details for invalid command format are shown.
+      <br><br>
+
+7. Sorting residents when the list is empty
+
+   1. Prerequisites: Enter `clear`.
+
+   2. Test case: `sort unit`<br>
+      Expected: No residents are displayed. A message indicating that there are no residents to sort is shown.
+
+<box type="important" seamless>
+
+**Note:** The `clear` command is destructive and will wipe the data stored. This is intentional. Upon restart, the address book will remain empty. To get back the sample residents, delete the `addressbook.json` and restart the application.
+
+</box>
+
+### Command history navigation
+
+Prerequisites for test cases 1-5 below: Launch the application with the sample data loaded. Ensure the command box
+is focused. Execute `list`, then `find n/Alex`, then `sort name` in that order.
+
+1. Navigating to the most recent earlier input
+
+   1. Test case: Press the Up Arrow Key (`↑`) once.<br>
+      Expected: `sort name` is shown in the command box.
+      <br><br>
+
+2. Navigating through multiple earlier inputs
+
+   1. Test case: Press the Up Arrow Key (`↑`) three times.<br>
+      Expected: The command box shows `sort name`, then `find n/Alex`, then `list`.
+      <br><br>
+
+3. Navigating past the earliest input
+
+   1. Prerequisites: Press the Up Arrow Key (`↑`) until `list` is shown in the command box.
+
+   2. Test case: Press the Up Arrow Key (`↑`) once more.<br>
+      Expected: The command box remains as `list`.
+4. Navigating to a later input
+
+   1. Prerequisites: Press the Up Arrow Key (`↑`) twice so that `find n/Alex` is shown in the command box.
+
+   2. Test case: Press the Down Arrow Key (`↓`) once.<br>
+      Expected: `sort name` is shown in the command box.
+
+5. Exiting command history navigation at the latest input
+
+   1. Prerequisites: Press the Up Arrow Key (`↑`) once so that `sort name` is shown in the command box.
+
+   2. Test case: Press the Down Arrow Key (`↓`) once.<br>
+      Expected: The command box becomes empty.
+
+6. Navigating when input history is empty
+
+   1. Prerequisites: Launch the application with the sample data loaded. Do not execute any commands. Ensure the
+      command box is focused.
+
+   2. Test case: Press the Up Arrow Key (`↑`) or the Down Arrow Key (`↓`).<br>
+      Expected: Nothing changes. The command box remains empty.
+
+### Case-insensitive commands
+
+Prerequisites for all test cases below: Launch the application with the sample data loaded.
+
+1. Executing a command word in uppercase
+
+   1. Test case: `LIST`<br>
+      Expected: The command is accepted. All residents are displayed in the resident list.
+      <br><br>
+
+1. Executing a command word in mixed case
+
+   1. Test case: `FiNd n/Alex`<br>
+      Expected: The command is accepted. Only `Alex Yeoh` is displayed in the resident list.
+
 ### Deleting a resident
 
 1. Deleting a resident while all residents are being shown
@@ -771,8 +894,24 @@ Prerequisites for all test cases below: Launch the application with the sample d
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Saving data after modifying the address book
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Prerequisites: Launch the application with the sample data loaded.
 
-1. _{ more test cases …​ }_
+   1. Test case: `add n/John Doe p/95551234 u/12/1/A`, then close and reopen the application.<br>
+      Expected: `John Doe` is still present in the resident list after reopening the application.
+
+1. Starting the application with a missing data file
+
+   1. Prerequisites: Close the application. Delete `data/addressbook.json` from the application folder.
+
+   1. Test case: Launch the application.<br>
+      Expected: The application starts with the sample residents shown in the resident list.
+
+1. Starting the application with a corrupted data file
+
+   1. Prerequisites: Close the application. Open `data/addressbook.json` and replace its contents with invalid JSON
+      such as `not json`.
+
+   1. Test case: Launch the application.<br>
+      Expected: The application starts with an empty address book.
