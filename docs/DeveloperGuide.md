@@ -503,7 +503,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Command**: A text instruction entered by the user to perform an action in the app.
 * **Phone Number**: The mobile phone number of the resident.
 * **Unit Number**: The dormitory room assigned to the resident.
-* **Role**: The special dormitory-related position of the resident, if any. Only valid values for this app are "HA", "FH", "RA", or none at all.
+* **Role**: The special dormitory-related position held by a resident. To maintain data consistency, every resident has a role; if no special appointment is held, the attribute defaults to None. 
+
+    Valid roles include:
+
+  * _None: Default status for residents without specific appointment._
+  * HA: House Assistant
+  * FH: Floor Head
+  * RA: Resident Assistant
 * **Command Box**: The UI component where users type their commands.
 * **Result Display**: The UI component that shows the result of executing a command, such as success messages, error messages.
 * **Resident List Panel**: The UI component that displays the resident information.
