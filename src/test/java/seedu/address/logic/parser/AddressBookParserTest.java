@@ -103,28 +103,46 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_caseInsensitiveCommandWords() throws Exception {
+    public void parseCommand_caseInsensitiveCommandWords_allDetected() throws Exception {
         Resident resident = new ResidentBuilder().build();
         EditCommand.EditResidentDescriptor descriptor = new EditResidentDescriptorBuilder(resident).build();
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
 
-        assertEquals(new AddCommand(resident),
-                parser.parseCommand("AdD " + ResidentUtil.getResidentDetails(resident)));
+        String addResidentDetails = ResidentUtil.getResidentDetails(resident);
+        String editResidentDetails = ResidentUtil.getEditResidentDescriptorDetails(descriptor);
+        String findArguments = keywords.stream()
+                .map(keyword -> "n/" + keyword)
+                .collect(Collectors.joining(" "));
+
+        String addCommandString = "AdD " + addResidentDetails;
+        String deleteCommandString = "DeLeTe " + INDEX_FIRST_RESIDENT.getOneBased();
+        String editCommandString = "EdIt " + INDEX_FIRST_RESIDENT.getOneBased() + " " + editResidentDetails;
+        String findCommandString = "FiNd " + findArguments;
+        String sortCommandString = "SoRt name";
+
+        AddCommand expectedAddCommand = new AddCommand(resident);
+        DeleteCommand expectedDeleteCommand = new DeleteCommand(INDEX_FIRST_RESIDENT);
+        EditCommand expectedEditCommand = new EditCommand(INDEX_FIRST_RESIDENT, descriptor);
+        FindCommand expectedFindCommand =
+                new FindCommand(new ResidentMatchesFindPredicate(keywords, List.of(), List.of()));
+        SortCommand expectedSortCommand = new SortCommand(SortCommand.SortField.NAME);
+
+        //Case-insensitive add command
+        assertEquals(expectedAddCommand, parser.parseCommand(addCommandString));
+        //Case-insensitive delete command
+        assertEquals(expectedDeleteCommand, parser.parseCommand(deleteCommandString));
+        //Case-insensitive edit command
+        assertEquals(expectedEditCommand, parser.parseCommand(editCommandString));
+        //Case-insensitive find command
+        assertEquals(expectedFindCommand, parser.parseCommand(findCommandString));
+        //Case-insensitive sort command
+        assertEquals(expectedSortCommand, parser.parseCommand(sortCommandString));
+        //No-arg case-insensitive commands
         assertTrue(parser.parseCommand("ClEaR") instanceof ClearCommand);
         assertTrue(parser.parseCommand("CoPy") instanceof CopyCommand);
-        assertEquals(new DeleteCommand(INDEX_FIRST_RESIDENT),
-                parser.parseCommand("DeLeTe " + INDEX_FIRST_RESIDENT.getOneBased()));
-        assertEquals(new EditCommand(INDEX_FIRST_RESIDENT, descriptor),
-                parser.parseCommand("EdIt " + INDEX_FIRST_RESIDENT.getOneBased() + " "
-                        + ResidentUtil.getEditResidentDescriptorDetails(descriptor)));
-        assertTrue(parser.parseCommand("ExIt") instanceof ExitCommand);
-        assertEquals(new FindCommand(new ResidentMatchesFindPredicate(keywords, List.of(), List.of())),
-                parser.parseCommand("FiNd "
-                        + keywords.stream().map(keyword -> "n/" + keyword).collect(Collectors.joining(" "))));
         assertTrue(parser.parseCommand("HeLp") instanceof HelpCommand);
         assertTrue(parser.parseCommand("LiSt") instanceof ListCommand);
-        assertEquals(new SortCommand(SortCommand.SortField.NAME),
-                parser.parseCommand("SoRt name"));
+        assertTrue(parser.parseCommand("ExIt") instanceof ExitCommand);
     }
 
     @Test
