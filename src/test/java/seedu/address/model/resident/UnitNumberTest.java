@@ -27,9 +27,15 @@ public class UnitNumberTest {
         // invalid addresses
         assertFalse(UnitNumber.isValidUnitNumber("")); // empty string
         assertFalse(UnitNumber.isValidUnitNumber(" ")); // spaces only
+        assertFalse(UnitNumber.isValidUnitNumber("/")); // forward slash (NOT allowed; since part of valid prefix)
+        assertFalse(UnitNumber.isValidUnitNumber("/ ")); // forward slash (with space)
+        assertFalse(UnitNumber.isValidUnitNumber("/ ")); // forward slash (with space)
+        assertFalse(UnitNumber.isValidUnitNumber(" / ")); // forward slash (with space)
+        assertFalse(UnitNumber.isValidUnitNumber("28/3/E")); // forward slash
 
         // valid addresses
         assertTrue(UnitNumber.isValidUnitNumber("Blk 456, Den Road, #01-355"));
+        assertTrue(UnitNumber.isValidUnitNumber("28-3-E"));
         assertTrue(UnitNumber.isValidUnitNumber("-")); // one character
         assertTrue(UnitNumber.isValidUnitNumber("- ")); // one character with space
         assertTrue(UnitNumber.isValidUnitNumber(" -")); // one character with space

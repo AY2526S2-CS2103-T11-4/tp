@@ -9,13 +9,15 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class UnitNumber {
 
-    public static final String MESSAGE_CONSTRAINTS = "Unit Numbers can take any values, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "Unit Numbers can take any values, it should not be blank "
+             + "and cannot contain the forward slash (/) character";
 
     /*
-     * The first character of the unit number must not be a whitespace,
+     * The first character of the unit number must not be a whitespace (done via trim()),
      * otherwise " " (a blank string) becomes a valid input.
+     * Also, no forward slash (/) is allowed - used as valid prefix
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = "^[^/]+$";
 
     public final String value;
 

@@ -16,7 +16,7 @@ public class ResidentBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_ADDRESS = "28/3/E";
+    public static final String DEFAULT_ADDRESS = "28-3-E";
     public static final Role DEFAULT_ROLE = Role.HA;
 
     private Name name;
