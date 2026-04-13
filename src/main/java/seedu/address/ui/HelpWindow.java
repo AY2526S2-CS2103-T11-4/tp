@@ -46,7 +46,7 @@ edit: Edits an existing resident by index.
 find: Finds residents using prefixed search criteria.
   Format:
     find [n/NAME]... [p/PHONE_NUMBER]...
-         [u/UNIT_NUMBER]...[r/ROLE]
+         [u/UNIT_NUMBER]...[r/ROLE]...
   Note:
     Every search term must be prefixed.
     n/ matches name words case-insensitively using partial matching.
