@@ -63,7 +63,7 @@ It allows users to quickly **view and manage residents** in a locally stored lis
   e.g. in the fielded form of `find`, `[n/NAME]...` can be omitted entirely, used once as
   `find n/Alex`, or repeated as `find n/Alex n/David`.
 
-* Parameters can be in any order.<br>
+* Prefixed fields in `add`, `edit`, and `find` can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER u/UNIT_NUMBER`,
   `u/UNIT_NUMBER p/PHONE_NUMBER n/NAME` is also acceptable.
 
