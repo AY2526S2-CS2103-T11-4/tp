@@ -245,10 +245,6 @@ While editing the currently displayed past input:
   - Up Arrow Key (`↑`) will still navigate to the command directly earlier (if available).
   - Down Arrow Key (`↓`) will still navigate to the command directly more recent (if available).
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
