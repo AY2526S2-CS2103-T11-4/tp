@@ -738,9 +738,9 @@ Prerequisites for all test cases below: Launch the application with the sample d
    1. Test case: `find r/RA`<br>
       Expected: Only `Charlotte Oliveiro` is displayed in the resident list.
       <br><br>
-5. Finding residents by unassigned role
+5. Finding residents by NONE role
 
-   1. Test case: `find r/unassigned`<br>
+   1. Test case: `find r/NONE`<br>
       Expected: Only residents without an assigned role are displayed. `David Li`, `Irfan Ibrahim`, and
       `Roy Balakrishnan` are shown in the resident list.
       <br><br>
@@ -804,7 +804,7 @@ Prerequisites for all test cases below: Launch the application with the sample d
 
 5. Sorting a filtered resident list
 
-   1. Prerequisites: Enter `find r/unassigned` so that only unassigned residents are shown.
+   1. Prerequisites: Enter `find r/NONE` so that only unassigned residents are shown.
 
    2. Test case: `sort unit`<br>
       Expected: Only the filtered residents remain displayed, sorted by unit number: `Irfan Ibrahim`,

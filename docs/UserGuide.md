@@ -136,12 +136,12 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [u/UNIT_NUMBER] [r/ROLE]`
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * The updated `PHONE` and `UNIT_NUMBER` must not duplicate another resident's values.
-* If `ROLE` is provided, it must be one of `HA`, `FH`, or `RA`.
-* Use `r/unassigned` to remove an assigned role.
+* If `ROLE` is provided, it must be one of `HA`, `FH`, `RA`, or `NONE`.
+  * If `NONE` is provided, it will unassign roles from the resident.
 
 Examples:
 * `edit 1 p/91234567 u/03-14` edits the phone number and unit number of the 1st resident.
-* `edit 2 n/Jane Tan r/unassigned` edits the name of the 2nd resident and removes the resident's assigned role.
+* `edit 2 n/Jane Tan r/NONE` edits the name of the 2nd resident and removes the resident's assigned role.
 
 ### Locating residents: `find`
 
@@ -157,7 +157,7 @@ Rules:
 * `p/` matches phone numbers by substring.
 * `u/` matches unit numbers by case-insensitive substring.
 * `r/` matches resident roles exactly.
-* Use `r/unassigned` to match residents with no role.
+* Use `r/NONE` to match residents with no role.
 * Multiple search terms within the same field are combined using `OR`.
 * Different fields are combined using `AND`.
 * Each `n/` search term can contain only one word; `find n/John Doe` is invalid.
@@ -172,7 +172,7 @@ Examples:
 * `find p/9876` returns residents whose phone numbers contain `9876`
 * `find u/02-25` returns residents whose unit numbers contain `02-25`
 * `find r/HA` returns residents whose role is `HA`
-* `find r/unassigned` returns residents with no role assigned
+* `find r/NONE` returns residents with no role assigned
 * `find n/Alex p/9876 u/02-25 r/HA` returns residents matching all specified field criteria
 
 ### Deleting a resident : `delete`
@@ -274,7 +274,7 @@ Action     | Format, Examples
 **Copy**   | `copy`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [u/UNIT_NUMBER] [r/ROLE] …​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find [n/NAME]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...`<br> e.g., `find n/James n/Jake`, `find n/James p/2222 u/02-25 r/HA`, `find r/unassigned`
+**Find**   | `find [n/NAME]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...`<br> e.g., `find n/James n/Jake`, `find n/James p/2222 u/02-25 r/HA`, `find r/NONE`
 **List**   | `list`
 **Help**   | `help`
 **Sort**   | `sort FIELD`<br> e.g., `sort role`
