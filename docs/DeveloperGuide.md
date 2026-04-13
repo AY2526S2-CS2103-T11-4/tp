@@ -419,7 +419,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 1. User requests for the list of Residents (UC2).
 2. User requests to copy resident information.
-3. System copies all displayed residents' information (names, phone numbers, emails, addresses, tags) to the device's clipboard.
+3. System copies all displayed residents' information (names, phone numbers, unit numbers, roles) to the device's clipboard.
 4. System displays a confirmation message.
 
    Use case ends.
