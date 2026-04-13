@@ -481,6 +481,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
        Use case ends.
 
+* 1c. User is already at the present input (i.e. not navigating history).
+    * 1c1. Nothing changes.
+
+      Use case ends.
+
 <br>
 
 **Use Case: UC8 - Find Residents by Criteria**
@@ -539,12 +544,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3b1. System prompts User with a message indicating that there are no Residents to sort.
 
       Use case ends.
-
-* 1c. User is already at the present input (i.e. not navigating history).
-    * 1c1. Nothing changes.
-
-      Use case ends.
-
 
 *{More to be added}*
 
