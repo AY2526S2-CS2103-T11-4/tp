@@ -151,6 +151,7 @@ Format:
 * `find [n/NAME]... [p/PHONE_NUMBER]... [u/UNIT_NUMBER]... [r/ROLE]...`
 
 Rules:
+* At least one prefixed search term must be provided.
 * Every search term must be prefixed.
 * `n/` matches resident names word-by-word, case-insensitively, using partial matching.
 * `n/` also tolerates up to one insertion, deletion, or substitution in a name word.
