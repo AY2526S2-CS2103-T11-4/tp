@@ -77,7 +77,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ResidentListPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103-T11-4/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103-T11-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFX UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103-T11-4/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103-T11-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -187,7 +187,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | cautious user                        | backup resident data to a file on the local device                              | restore app data through the backup file as in case of emergencies                                                             |
 | `* *`    | forgetful/busy/concerned user        | set reminders linked to a specific individual                                   | get the system to remind me to check in on them (e.g. Residents that may require counselling)                                  |
 | `* *`    | frequent user                        | add categories to residents and search by categories                            | easily narrow down specific groups or individuals through categories                                                           |
-| `* *`    | frequent user                        | access the app data from the previous sessions when i used the app              | access and modify app data through various sessions of using the app.                                                          |
+| `* *`    | frequent user                        | access the app data from the previous sessions when I used the app              | access and modify app data through various sessions of using the app.                                                          |
 | `* *`    | frequent user                        | autocomplete certain commands                                                   | save time on typing things out fully                                                                                           |
 | `* *`    | frequent user                        | quickly retrieve my previous inputs                                             | quickly correct a wrong input, or modify a previous input and execute it without having to spend time retyping everything      |
 | `* *`    | new user                             | access a comprehensive guide for a specific command                             | learn how to use each specific command in-depth                                                                                |
