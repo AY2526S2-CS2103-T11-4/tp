@@ -171,8 +171,9 @@ Format:
 Rules:
 * At least one prefixed search term must be provided.
 * Every search term must be prefixed.
-* `n/` matches resident names word-by-word, case-insensitively, using partial matching.
-* `n/` also tolerates up to one insertion, deletion, or substitution in a name word.
+* `n/` matches resident names word-by-word, case-insensitively.
+* A name word matches if it contains the `n/` search term, or if the whole name word differs from the search term by at most one single-character edit: one insertion, deletion, or substitution.
+* The one-edit rule does not treat the search term as a wildcard. For example, `find n/A` can match a resident named `C`, but not a resident named `CC`, because changing `A` into `CC` needs more than one edit.
 * `p/` matches phone numbers by substring.
 * `u/` matches unit numbers by case-insensitive substring.
 * `r/` matches resident roles exactly.
