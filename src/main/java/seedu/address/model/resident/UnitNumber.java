@@ -8,9 +8,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidUnitNumber(String)}
  */
 public class UnitNumber {
-
-    public static final String MESSAGE_CONSTRAINTS = "Unit Numbers can take any values, it should not be blank "
-             + "and cannot contain the forward slash (/) character";
+    public static final int MAX_LENGTH = 100;
+    public static final String MESSAGE_CONSTRAINTS = "Unit Numbers can take any values, it should not be blank, "
+            + "cannot contain forward slash (/) and must not exceed " + MAX_LENGTH + " characters.";
 
     /*
      * The first character of the unit number must not be a whitespace (done via trim()),
@@ -30,7 +30,19 @@ public class UnitNumber {
         requireNonNull(unitNumber);
         checkArgument(isValidUnitNumber(unitNumber), MESSAGE_CONSTRAINTS);
         // remove leading and trailing space
-        value = unitNumber.trim();
+        value = formatUnitNumber(unitNumber);
+    }
+
+    private static String formatUnitNumber(String unitNumber) {
+        String[] words = unitNumber.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1).toLowerCase())
+                        .append(" ");
+            }
+        }
+        return sb.toString().trim();
     }
 
     /**
@@ -38,7 +50,7 @@ public class UnitNumber {
      */
     public static boolean isValidUnitNumber(String test) {
         // test after removing leading and trailing spaces
-        return test.trim().matches(VALIDATION_REGEX);
+        return test.trim().matches(VALIDATION_REGEX) && formatUnitNumber(test.trim()).length() <= MAX_LENGTH;
     }
 
     @Override

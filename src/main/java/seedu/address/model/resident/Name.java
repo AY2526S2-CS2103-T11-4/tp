@@ -9,9 +9,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Name {
 
+    public static final int MAX_LENGTH = 100;
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain alphanumeric characters, hyphens, commas, periods and spaces, "
-                    + "and it should not be blank";
+            "Names must start with alphanumeric character and may only contain alphanumeric characters, spaces, hyphens"
+            + ", periods and commas. It must not be blank and must not exceed " + MAX_LENGTH + " characters.";
 
     /*
      * The first character of the unit number must not be a whitespace (Enforced with trim()),
@@ -41,7 +42,7 @@ public class Name {
      * @param name Name given by user via input.
      * @return Name that is being formatted correctly.
      */
-    private String formatName(String name) {
+    private static String formatName(String name) {
         // name should not be empty at this point!
 
         String[] words = name.split("\\s+");
@@ -64,7 +65,7 @@ public class Name {
      */
     public static boolean isValidName(String test) {
         // trim first
-        return test.trim().matches(VALIDATION_REGEX);
+        return test.trim().matches(VALIDATION_REGEX) && formatName(test.trim()).length() <= 100;
     }
 
 
