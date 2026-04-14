@@ -129,7 +129,7 @@ The `Model` component,
 
 * stores the address book data i.e., all `Resident` objects (which are contained in a `UniqueResidentList` object).
 * stores the currently 'selected' `Resident` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Resident>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores a `UserPrefs` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 ### Storage component
@@ -140,7 +140,7 @@ The `Model` component,
 
 The `Storage` component,
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* inherits from both `AddressBookStorage` and `UserPrefsStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
@@ -448,7 +448,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 residents without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  The GUI shall function correctly on screen resolutions **1920x1080 and above at 100% and 125% scaling** and remain usuable on screen resolutions **1280x720 and above at 150% scaling**, although the user experience may not be optimal. 
+4.  The GUI shall function correctly on screen resolutions **1920x1080 and above at 100% and 125% scaling** and remain usable on screen resolutions **1280x720 and above at 150% scaling**, although the user experience may not be optimal. 
 5.  All application data shall be stored locally in human-editable text files.
 6.  The system shall not use a DBMS for data storage.
 7.  The system shall primarily follow the object-oriented programming paradigm.
@@ -462,11 +462,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **GUI**: A visual interface that allows users to interact with the application using graphical elements such as windows, buttons, icons, and menus instead of typing commands.
+* **CLI**: A text-based interface that allows users to interact with the application by typing commands.
 * **JAR file**: A packaged file format used to distribute Java applications. It bundles compiled Java classes and resources into a single executable file.
 * **Object-Oriented Programming**: A programming paradigm based on organizing code into objects that contain data and behavior.
 * **Resident**: A resident whose record is managed by the application.
 * **Resident Assistants (RAs)**: The primary target user of the application, responsible for resident welfare and administrative follow-up.
 * **Command**: A text instruction entered by the user to perform an action in the app.
+* **Command Word**: The first word in a command that identifies the action to execute, such as `add`, `find`, or `sort`.
+* **Prefix**: A marker placed before a command argument to identify the field being supplied, such as `n/` for name, `p/` for phone number, `u/` for unit number, and `r/` for role.
 * **Phone Number**: The mobile phone number of the resident.
 * **Unit Number**: The dormitory room assigned to the resident.
 * **Role**: The special dormitory-related position held by a resident. To maintain data consistency, every resident has a role; if no special appointment is held, the attribute defaults to None. 
@@ -480,6 +483,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Command Box**: The UI component where users type their commands.
 * **Result Display**: The UI component that shows the result of executing a command, such as success messages, error messages.
 * **Resident List Panel**: The UI component that displays the resident information.
+* **Displayed Resident List**: The current list of residents shown to the user in the resident list panel.
+* **Filtered Resident List**: The subset of residents shown after a command such as `find` applies search criteria.
+* **Sort Field**: The resident field used to order the displayed resident list, such as name, phone number, unit number, or role.
+* **Natural Ordering**: A sorting method that compares digit sequences by their numeric value instead of comparing each digit as a separate character.
+* **Clipboard**: The operating system's temporary storage area for copied text, used by the `copy` command.
+* **Data File**: The local file used to store resident data between application sessions. The current default data file is `data/addressbook.json`.
 * **Input History**: A feature that allows users to navigate through their previous command inputs.
 
 --------------------------------------------------------------------------------------------------------------------
