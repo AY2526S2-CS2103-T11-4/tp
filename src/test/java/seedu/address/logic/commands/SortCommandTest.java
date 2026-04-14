@@ -85,7 +85,7 @@ public class SortCommandTest {
     @Test
     public void execute_sortByPhone_showsResidentsInPhoneOrderWithLargePhoneNumbers() throws CommandException {
         Resident largePhoneResident = new ResidentBuilder().withName("Large Phone")
-                .withPhone("999999999999999999999999").withUnitNumber("Gamma Block").build();
+                .withPhone("99999999999999999999").withUnitNumber("Gamma Block").build();
         Resident smallPhoneResident = new ResidentBuilder().withName("Small Phone")
                 .withPhone("123").withUnitNumber("Alpha Block").build();
         Resident mediumPhoneResident = new ResidentBuilder().withName("Medium Phone")
