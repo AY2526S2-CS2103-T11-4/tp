@@ -24,7 +24,7 @@
           </minWidth>
         </Label>
         <Label fx:id="name" styleClass="resident-card-name" text="\$name" />
-        <Label fx:id="role" minWidth="65.0" style="-fx-background-color: #ebe4e4;                         -fx-text-fill: black;                         -fx-padding: 1 20 1 20;                         -fx-border-radius: 100;                         -fx-background-radius: 50;" styleClass="resident-card-role" textAlignment="CENTER" textOverrun="CLIP">
+        <Label fx:id="role" minWidth="70.0" style="-fx-background-color: #ebe4e4;                         -fx-text-fill: black;                         -fx-padding: 1 20 1 20;                         -fx-border-radius: 100;                         -fx-background-radius: 50;" styleClass="resident-card-role" textAlignment="CENTER" textOverrun="CLIP">
           <HBox.margin>
               <Insets left="15" />  <!-- Add left margin 3e7b91-->
           </HBox.margin>
