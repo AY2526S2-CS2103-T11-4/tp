@@ -69,8 +69,11 @@ It allows users to quickly **view and manage residents** in a locally stored lis
 
 * The name field `n/`'s value must start with an alphanumeric character, and may only contain alphanumeric characters, spaces, hyphens, periods and commas. It must not be blank and must not exceed 100 characters.
 
-* Roles use the `r/` prefix. Valid role values are `HA`, `FH`, `RA`, and `NONE`.<br>
-  `NONE` is especially useful with `edit` when you want to remove an assigned role.
+* Roles use the `r/` prefix. Valid role values are
+    * `HA`
+    * `FH`
+    * `RA`
+    * `NONE` (_default option; explicitly not needed_); useful with `edit` when you want to remove an assigned role.
 
 * Extraneous parameters for `help`, `list`, `exit`, and `clear` are ignored.<br>
   e.g. `help 123` is interpreted as `help`.
@@ -155,7 +158,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [u/UNIT_NUMBER] [r/ROLE]`
 * Existing values will be updated to the input values.
 * The updated `PHONE` and `UNIT_NUMBER` must not duplicate another resident's values.
 * If `ROLE` is provided, it must be one of `HA`, `FH`, `RA`, or `NONE`.
-  * If `NONE` is provided, it will unassign roles from the resident.
+  * If `NONE` is provided, it will unassign any assigned role (i.e., `HA`, `FH` or `RA`) from the resident.
 
 Examples:
 * `edit 1 p/91234567 u/03-14` edits the phone number and unit number of the 1st resident.
